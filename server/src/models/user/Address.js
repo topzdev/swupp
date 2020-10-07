@@ -1,15 +1,20 @@
-import { Schema, model } from "mongoose";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../config/sequelize");
 
-const addressSchema = new Schema({
-  fullname: String,
-  phoneNumber: String,
-  postalCode: String,
-  province: String,
-  region: String,
-  city: String,
-  barangay: String,
-  buildingNo: String,
-  isDefaultAddress: Boolean,
-});
+const Address = sequelize.define(
+  "Address",
+  {
+    fullname: DataTypes.STRING,
+    phoneNumber: DataTypes.STRING,
+    postalCode: DataTypes.STRING,
+    province: DataTypes.STRING,
+    region: DataTypes.STRING,
+    city: DataTypes.STRING,
+    barangay: DataTypes.STRING,
+    buildingNo: DataTypes.STRING,
+    isDefaultAddress: Boolean,
+  },
+  { timestamps: true, freezeTableName: true }
+);
 
-export default model("Address", addressSchema);
+module.exports = Address;

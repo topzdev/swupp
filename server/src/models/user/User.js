@@ -1,15 +1,23 @@
-import { model, Schema } from "mongoose";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../config/sequelize");
 
-const userSchema = new Schema(
+const User = sequelize.define(
+  "User",
   {
-    email: String,
-    recoveryEmail: String,
-    password: String,
-    phoneNumber: String,
-    isActive: Boolean,
-    isReported: Boolean,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    recoveryEmail: DataTypes.STRING,
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phoneNumber: DataTypes.STRING,
+    isActive: DataTypes.BOOLEAN,
+    isReported: DataTypes.BOOLEAN,
   },
-  { timestamps: true }
+  { timestamps: true, freezeTableName: true }
 );
 
-export default model("User", userSchema);
+module.exports = User;

@@ -1,14 +1,16 @@
-import { Schema, model } from "mongoose";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../config/sequelize");
 
-const userReviewSchema = new Schema(
+const UserReview = sequelize.define(
+  "UserReview",
   {
-    star: Number,
     userId: String,
+    star: { type: DataTypes.NUMBER, allowNull: false },
     criticId: String,
-    title: String,
-    content: String,
+    title: { type: DataTypes.STRING, allowNull: false },
+    content: { type: DataTypes.STRING, allowNull: false },
   },
-  { timestamps: true }
+  { timestamps: true, freezeTableName: true }
 );
 
-export default model("UserReview", userReviewSchema);
+module.exports = UserReview;

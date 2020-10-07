@@ -1,17 +1,38 @@
-import { Schema, model } from "mongoose";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../config/sequelize");
 
-const postSchema = new Schema(
+const Post = sequelize.define(
+  "Post",
   {
-    userId: String,
-    title: String,
-    price: Number,
-    categoryId: String,
-    qualityId: String,
-    conditionId: String,
-    description: String,
-    prefered: String,
+    userId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.DECIMAL(2),
+      allowNull: false,
+    },
+    categoryId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    qualityId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    conditionId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    prefered: {
+      type: DataTypes.STRING,
+    },
   },
-  { timestamps: true }
+  { timestamps: true, freezeTableName: true }
 );
 
-export default model("Post", postSchema);
+module.exports = Post;

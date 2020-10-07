@@ -1,20 +1,21 @@
-import { Schema, model } from "mongoose";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../config/sequelize");
 
-const profileSchema = new Schema(
+const Profile = sequelize.define(
+  "Profile",
   {
-    userId: String, // shoud be is from User model will change it after i study the relaitionship in mongodb
-    firstname: String,
-    lastname: String,
-    username: String,
-    profilePhotoId: String,
-    coverPhotoId: String,
-    birthdate: String,
-    twitterUrl: String,
-    fbUrl: String,
-    instaUrl: String,
-    websiteUrl: String,
+    firstname: { type: DataTypes.STRING, allowNull: false },
+    lastname: { type: DataTypes.STRING, allowNull: false },
+    username: { type: DataTypes.STRING, allowNull: false },
+    profilePhotoId: { type: DataTypes.STRING },
+    coverPhotoId: { type: DataTypes.STRING },
+    birthdate: { type: DataTypes.STRING },
+    twitterUrl: { type: DataTypes.STRING },
+    fbUrl: { type: DataTypes.STRING },
+    instaUrl: { type: DataTypes.STRING },
+    websiteUrl: { type: DataTypes.STRING },
   },
-  { timestamps: true }
+  { timestamps: true, freezeTableName: true }
 );
 
-export default model("Profile", profileSchema);
+module.exports = Profile;
