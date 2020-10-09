@@ -8,14 +8,17 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     recoveryEmail: DataTypes.STRING,
     password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     phoneNumber: DataTypes.STRING,
-    isActive: DataTypes.BOOLEAN,
-    isReported: DataTypes.BOOLEAN,
+    isActive: { type: DataTypes.BOOLEAN, defaultValue: true },
   },
   { timestamps: true, freezeTableName: true }
 );
