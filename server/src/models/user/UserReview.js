@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/sequelize");
 
 const UserReview = sequelize.define(
-  "UserReview",
+  "userReview",
   {
     userId: String,
     star: { type: DataTypes.NUMBER, allowNull: false },

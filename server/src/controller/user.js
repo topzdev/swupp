@@ -6,10 +6,11 @@ const Profile = require("../models/user/Profile");
 const sequelize = require("../config/sequelize");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../constants");
+const { Op, where } = require("sequelize");
 const ms = require("ms");
 const { validateUsername } = require("../helpers/username");
 
-exports.register = async (req, res) => {
+exports.register = async (req) => {
   const t = await sequelize.transaction();
   const {
     email,
@@ -19,6 +20,7 @@ exports.register = async (req, res) => {
     lastname,
     phoneNumber,
     username,
+    birthdate,
   } = req.body;
 
   console.log(req.body);
@@ -53,17 +55,19 @@ exports.register = async (req, res) => {
     }
 
     // hashing the password for securiry
-    const hashedPassword = argon.hash(password);
+    const hashedPassword = await argon.hash(password);
 
     /* saving the information user table and some field to profile table
         also use transaction from posgres to commit and rollback queires
      */
+
+    console.log(hashedPassword);
     const user = await User.create(
       { email, password: hashedPassword, phoneNumber, username },
       { transaction: t }
     );
     const profile = await Profile.create(
-      { firstname, lastname, birthdate },
+      { firstname, lastname, birthdate, userId: user.id },
       { transaction: t }
     );
 
@@ -73,6 +77,8 @@ exports.register = async (req, res) => {
     const token = jwt.sign({ id: user.id }, JWT_SECRET, {
       expiresIn: ms("7d"),
     });
+
+    req.session.userId = user.id;
 
     return {
       data: {
@@ -84,4 +90,46 @@ exports.register = async (req, res) => {
     console.log(error);
     // throw Error(error);
   }
+};
+
+exports.login = async (req) => {
+  const { usernameOrEmail, password, rememberMe } = req.body;
+
+  const user = await User.findOne({
+    where: {
+      [Op.or]: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+    },
+  });
+
+  if (!user) return returnError("usernameOrEmail", "User not exist");
+
+  if (!(await argon.verify(user.password, password)))
+    return returnError("password", "password not match");
+
+  const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: ms("1w") });
+
+  req.session.userId = user.id;
+
+  return {
+    data: {
+      token,
+    },
+  };
+};
+
+exports.me = async (req) => {
+  const userId = req.session.userId;
+
+  console.log(userId);
+  if (!userId) return null;
+
+  let user = await User.findByPk(userId, { include: ["username", "isActive"] });
+
+  delete user.password;
+
+  return {
+    data: {
+      user,
+    },
+  };
 };

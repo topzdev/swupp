@@ -16,19 +16,11 @@ exports.validatePassword = (password, username) => {
   }
 
   //   check if the password contains username
-  if (this.passContainsUsername(password, username))
+  if (password.toLowerCase().includes(username.toLowerCase()))
     return {
       error:
-        "your password contains your other credentials such as email address",
+        "we cannot accept your password because its contains your username",
     };
 
   return false;
-};
-
-exports.passContainsUsername = (password, username) => {
-  return password
-    .match(/[a-z]+/gi)
-    .filter((a) => a.length > 4 && username.includes(a)).length > 0
-    ? true
-    : false;
 };

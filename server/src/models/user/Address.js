@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/sequelize");
 
 const Address = sequelize.define(
-  "Address",
+  "address",
   {
     fullname: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
