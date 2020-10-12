@@ -1,7 +1,14 @@
-<template></template>
+<template>
+  <div class="container">
+    <register-form />
+  </div>
+</template>
 
 <script>
-export default {};
+import RegisterForm from "@/components/forms/RegisterForm";
+export default {
+  components: { RegisterForm },
+};
 </script>
 
 <style>

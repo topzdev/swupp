@@ -12,8 +12,8 @@ const Post = sequelize.define(
       type: DataTypes.DECIMAL(2),
       allowNull: false,
     },
-    categoryId: {
-      type: DataTypes.STRING,
+    category: {
+      type: DataTypes.ENUM(['']),
       allowNull: false,
     },
     qualityId: {

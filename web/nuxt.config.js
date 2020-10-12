@@ -8,12 +8,15 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {  rel: 'stylesheet', href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"}
     ]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    "@/assets/css/material-grid.min.css",
+    "@/assets/sass/main.scss"
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
@@ -34,7 +37,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-  '@nuxtjs/auth'
+    '@nuxtjs/auth'
   ],
 
   auth: {

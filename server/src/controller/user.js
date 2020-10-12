@@ -133,3 +133,8 @@ exports.me = async (req) => {
     },
   };
 };
+
+
+exports.logout = async (req) => {
+  
+}
