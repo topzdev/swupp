@@ -6,10 +6,11 @@
 
 body,
 html {
-  font-family: var(--font-regular);
+  font-family: "Poppins", sans-serif;
+  // font-family: var(--font-regular);
   font-weight: 400;
   font-size: 100% !important;
-  background-color: rgba(var(--base-color), 1);
+  background-color: var(--base-color);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -21,6 +22,7 @@ button {
   background: none;
   outline: none !important;
   border: none;
+  cursor: pointer;
 }
 
 p {
@@ -38,8 +40,11 @@ h6 {
 }
 
 input,
-button {
+button,
+select,
+label {
   font: inherit;
+  outline: none;
 }
 
 input[type="number"] {

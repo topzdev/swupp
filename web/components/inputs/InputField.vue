@@ -37,7 +37,7 @@ export default {
     id: String,
     placeholder: {
       type: String,
-      default: "Placeholder here",
+      // default: "Placeholder here",
     },
     leftIcon: String,
     rightIcon: String,

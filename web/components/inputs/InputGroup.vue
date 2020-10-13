@@ -9,7 +9,6 @@
     </div>
   </validate-provider>
 </template>
-
 <script>
 import { ValidationProvider } from "vee-validate";
 import InputField from "./InputField";

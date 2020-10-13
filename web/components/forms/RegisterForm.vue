@@ -20,6 +20,10 @@
       <div class="card--form__action">
         <button-primary label="Next" />
       </div>
+
+      <p class="card--form__have-account">
+        have an account? <a href="">Sign in</a>
+      </p>
     </div>
   </form>
 </template>

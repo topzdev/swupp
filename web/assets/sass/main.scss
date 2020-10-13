@@ -4,6 +4,7 @@
 @import "abstracts/mixins";
 @import "abstracts/placeholder";
 @import "abstracts/variables";
+@import "abstracts/background";
 
 //Layout
 @import "layout/footer";
@@ -43,7 +44,5 @@
 @import "components/previewer";
 @import "components/icons";
 
-//Base
-@import "base/base";
-
 //Page
+@import "pages/register";

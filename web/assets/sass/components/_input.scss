@@ -1,10 +1,47 @@
+.card {
+  &__header {
+  }
+
+  &__body {
+  }
+
+  &__action {
+  }
+
+  &__action-button {
+  }
+
+  &--small {
+    height: 20px;
+  }
+
+  &--big {
+    height: 69px;
+  }
+}
+
+.card {
+}
+
+.card--big {
+}
+
+.card__header {
+}
+
+.card__body {
+}
+
+.card__action {
+}
+
 .inp-group {
   display: flex;
   margin-bottom: 15px;
   flex-direction: column;
+
   &__label {
     display: block;
-    font-weight: 400;
     margin-bottom: 5px;
   }
 
@@ -21,7 +58,7 @@
   }
 
   input {
-    border: 1px solid rgba(var(--primary-color), 1);
+    border: 1px solid var(--color-primary);
     padding: 14px 20px;
     width: 100%;
     border-radius: 8px;

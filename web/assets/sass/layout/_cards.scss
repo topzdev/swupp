@@ -1,18 +1,65 @@
 .card {
   &--form {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 500px;
+    padding: 40px 50px 60px 50px;
+    border-radius: 20px;
+    z-index: 1;
+
+    & > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background: var(--color-white);
+      border-radius: inherit;
+      border: 1px solid var(--color-primary);
+    }
+
+    &::before {
+      bottom: -15px;
+      right: -15px;
+      z-index: 0;
+      background: var(--color-primary);
+    }
+
+    &::after {
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
 
     &__header {
       display: flex;
       width: 100%;
+      padding: 10px;
+      margin-bottom: 30px;
     }
 
     &__logo {
       height: 80px;
+      margin: 0 auto;
       img {
         height: 100%;
+      }
+    }
+
+    &__have-account {
+      font-size: 16px;
+      text-align: center;
+      margin-top: 20px;
+
+      a {
+        color: var(--color-blue);
+        text-decoration: none;
       }
     }
   }
