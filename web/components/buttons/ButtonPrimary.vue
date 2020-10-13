@@ -1,5 +1,5 @@
 <template>
-  <button class="btn--primary">
+  <button v-bind="$attrs" :type="type" class="btn--primary">
     {{ label }}
   </button>
 </template>
@@ -9,6 +9,7 @@ export default {
   inheritAttrs: true,
   props: {
     label: String,
+    type: String,
   },
 };
 </script>

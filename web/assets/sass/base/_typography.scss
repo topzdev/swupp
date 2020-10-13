@@ -1,31 +1,31 @@
 .heading {
   &--primary {
-    font-size: 3.5rem;
+    font-size: 35px;
     letter-spacing: -1px;
     color: rgba(var(--base-text-color), 0.9);
 
     @include respond(mobile-lg) {
-      font-size: 3rem;
+      font-size: 30px;
     }
 
     @include respond(mobile-m) {
-      font-size: 2.8rem;
+      font-size: 28px;
     }
 
     @include respond(mobile-s) {
-      font-size: 2.2rem;
+      font-size: 22px;
     }
   }
 
   &--secondary {
-    font-size: 1.7rem;
+    font-size: 17px;
     font-family: var(--font-regular);
     font-weight: 700;
     opacity: 0.9;
     color: rgba(var(--base-text-color), 1);
 
     @include respond(mobile-lg) {
-      font-size: 1.5rem;
+      font-size: 15px;
     }
   }
 }
@@ -33,25 +33,25 @@
 .paragraph {
   &--primary {
     font-family: var(--font-regular);
-    font-size: 1.7rem;
+    font-size: 17px;
     line-height: 1.6;
     font-weight: 400;
     opacity: 1;
 
     @include respond(laptop) {
-      font-size: 1.6rem;
+      font-size: 16px;
     }
 
     @include respond(tab-port) {
-      font-size: 1.5rem;
+      font-size: 15px;
     }
 
     @include respond(mobile-m) {
-      font-size: 1.4rem;
+      font-size: 14px;
     }
 
     @include respond(mobile-m) {
-      font-size: 1.3rem;
+      font-size: 13px;
     }
   }
 }

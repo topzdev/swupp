@@ -1,7 +1,7 @@
 :root {
   //Font
   --font-regular: "Open Sans", sans-serif;
-  --font-heading: "Montserrat", sans-serif;
+  --font-heading: "Poppins", sans-serif;
 
   //Componet Sizes
   --navbar-height: 70px;
@@ -128,6 +128,4 @@
 }
 
 ::selection {
-  background-color: rgba(var(--color-primary), 1);
-  color: rgba(var(--primary-text-color), 1);
 }

@@ -9,13 +9,13 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {  rel: 'stylesheet', href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"}
+      {  rel: 'stylesheet', href: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;1,300;1,400&family=Poppins:wght@400;600;700&display=swap"}
     ]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    "@/assets/css/material-grid.min.css",
+    "@/assets/css/bootstrap-grid.min.css",
     "@/assets/sass/main.scss"
   ],
 
