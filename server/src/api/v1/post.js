@@ -1,24 +1,24 @@
 const express = require("express");
 const router = express.Router();
+const postController = require("../../controller/post");
 
-router.get("/create", (req, res) => {
-  res.send("Create Post");
+router.get("/", async (req, res) => {
+  res.json(await postController.getPosts(req));
+});
+router.get("/get/:id", async (req, res) => {
+  res.json(await postController.createPost(req));
 });
 
-router.get("/get/:id", (req, res) => {
-  res.send("Get Single Post ");
+router.post("/create", async (req, res) => {
+  res.json(await postController.careatePost(req));
 });
 
-router.get("/getAll", (req, res) => {
-  res.send("Get All Post by Condition");
+router.put("/update", async (req, res) => {
+  res.json(await postController.createPost(req));
 });
 
-router.put("/update", (req, res) => {
-  res.send("Update Post");
-});
-
-router.delete("/delete", (req, res) => {
-  res.send("Update Post");
+router.delete("/delete", async (req, res) => {
+  res.json(await postController.createPost(req));
 });
 
 module.exports = router;

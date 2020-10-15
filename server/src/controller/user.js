@@ -63,7 +63,9 @@ exports.register = async (req) => {
 
     console.log(hashedPassword);
     const user = await User.create(
-      { email, password: hashedPassword, phoneNumber, username },
+      { email, password: hashedPassword, phoneNumber, username, profile: {
+
+      } },
       { transaction: t }
     );
     const profile = await Profile.create(
@@ -123,7 +125,7 @@ exports.me = async (req) => {
   console.log(userId);
   if (!userId) return null;
 
-  let user = await User.findByPk(userId, { include: ["username", "isActive"] });
+  let user = await User.findByPk(userId, {attributes: {exclude: ['username']}, include: {model: Profile, attributes: ['firstname', 'lastname']}});
 
   delete user.password;
 

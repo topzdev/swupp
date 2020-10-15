@@ -8,21 +8,24 @@ const Post = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    body: {
+      type: DataTypes.STRING,
+    },
     price: {
-      type: DataTypes.DECIMAL(2),
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
-    category: {
-      type: DataTypes.ENUM(['']),
-      allowNull: false,
+    categoryId: {
+      type: DataTypes.INTEGER(2),
+      defaultValue: 1,
     },
     qualityId: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.INTEGER(2),
+      defaultValue: 1,
     },
     conditionId: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.INTEGER(2),
+      defaultValue: 1,
     },
     prefered: {
       type: DataTypes.STRING,

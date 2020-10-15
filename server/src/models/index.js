@@ -1,7 +1,6 @@
 const Post = require("./post/Post");
 const User = require("./user/User");
 const Profile = require("./user/Profile");
-const { model } = require("../config/sequelize");
 
 const drop = async () => {
   await Post.drop();
@@ -11,7 +10,7 @@ const drop = async () => {
 
 const create = async () => {
   await User.sync();
-  await Post.sync();
+  await Post.sync({ alter: true });
   await Profile.sync();
 };
 
@@ -32,5 +31,5 @@ module.exports = async () => {
   sync();
   associations();
 
-  //   drop();
+  // drop();
 };
