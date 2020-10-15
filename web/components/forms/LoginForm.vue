@@ -9,7 +9,11 @@
     <div class="card--form__body mb-3">
       <div class="row">
         <div class="col-12">
-          <input-group label="Username" id="username" v-model="username" />
+          <input-group
+            label="Username"
+            id="username"
+            v-model="usernameOrEmail"
+          />
         </div>
         <div class="col-12">
           <input-group label="Password" id="password" v-model="password" />
@@ -30,7 +34,7 @@
 <script>
 export default {
   data() {
-    return {};
+    return { usernameOrEmail: "", password: "" };
   },
 };
 </script>
