@@ -11,6 +11,12 @@
   &__tip {
   }
 
+  &__error {
+    color: var(--color-accent);
+    font-size: 13px;
+    margin-top: 5px;
+  }
+
   &:not(:last-child) {
     margin-bottom: 10px;
   }
@@ -30,5 +36,12 @@
   }
 
   &__right-icon {
+  }
+}
+
+.is-error {
+  input,
+  select {
+    border-color: var(--color-accent);
   }
 }

@@ -63,15 +63,20 @@ exports.register = async (req) => {
 
     console.log(hashedPassword);
     const user = await User.create(
-      { email, password: hashedPassword, phoneNumber, username, profile: {
-
-      } },
-      { transaction: t }
+      {
+        email,
+        password: hashedPassword,
+        phoneNumber,
+        username,
+        profile: {
+          firstname,
+          lastname,
+          birthdate,
+        },
+      },
+      { transaction: t, include: Profile }
     );
-    const profile = await Profile.create(
-      { firstname, lastname, birthdate, userId: user.id },
-      { transaction: t }
-    );
+    // const profile = await Profile.create({}, { transaction: t });
 
     await t.commit();
 
@@ -125,7 +130,10 @@ exports.me = async (req) => {
   console.log(userId);
   if (!userId) return null;
 
-  let user = await User.findByPk(userId, {attributes: {exclude: ['username']}, include: {model: Profile, attributes: ['firstname', 'lastname']}});
+  let user = await User.findByPk(userId, {
+    attributes: { exclude: ["username"] },
+    include: { model: Profile, attributes: ["firstname", "lastname"] },
+  });
 
   delete user.password;
 
@@ -136,7 +144,4 @@ exports.me = async (req) => {
   };
 };
 
-
-exports.logout = async (req) => {
-  
-}
+exports.logout = async (req) => {};

@@ -3,7 +3,7 @@
     <div v-if="!!leftIcon" class="inp-field__left-icon"></div>
     <input
       v-if="textarea"
-      type="text"
+      :type="type"
       :placeholder="placeholder"
       :value="value"
       @input="$emit('input', $event.target.value)"
@@ -25,6 +25,7 @@
 <script>
 export default {
   inheritAttrs: false,
+
   props: {
     value: String,
     name: String,
@@ -32,6 +33,7 @@ export default {
       type: Boolean,
       default: true,
     },
+    type: String,
     id: String,
     placeholder: {
       type: String,
