@@ -1,18 +1,15 @@
-const Post = require("../models/post/Post");
-const Profile = require("../models/user/Profile");
-const User = require("../models/user/User");
+const Post = require("./models/Post");
+const User = require("../user/models/User");
 
-exports.createPost = async (req) => {
+exports.createPost = async ({
+  title,
+  price,
+  categoryId,
+  qualityId,
+  conditionId,
+  prefered,
+}) => {
   const userId = 1;
-  const {
-    title,
-    price,
-    categoryId,
-    qualityId,
-    conditionId,
-    prefered,
-  } = req.body;
-
   const post = await Post.create({
     title,
     price,
@@ -22,8 +19,6 @@ exports.createPost = async (req) => {
     prefered,
     userId,
   });
-
-  console.log(post);
 
   return {
     data: {

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const postController = require("../../controller/post");
+const postController = require("./controller");
 
 router.get("/", async (req, res) => {
   res.json(await postController.getPosts(req));

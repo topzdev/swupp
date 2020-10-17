@@ -1,6 +1,6 @@
-const Post = require("./post/Post");
-const User = require("./user/User");
-const Profile = require("./user/Profile");
+const Post = require("./components/post/models/Post");
+const User = require("./components/user/models/User");
+const Profile = require("./components/user/models/Profile");
 
 const drop = async () => {
   await Post.drop();
@@ -9,9 +9,9 @@ const drop = async () => {
 };
 
 const create = async () => {
-  await User.sync();
+  await User.sync({ alter: true });
   await Post.sync({ alter: true });
-  await Profile.sync();
+  await Profile.sync({ alter: true });
 };
 
 const associations = () => {
@@ -30,6 +30,5 @@ const sync = async () => {
 module.exports = async () => {
   sync();
   associations();
-
   // drop();
 };

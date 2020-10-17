@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/sequelize");
+const sequelize = require("../../../config/sequelize");
 
 const Post = sequelize.define(
   "post",
@@ -16,15 +16,15 @@ const Post = sequelize.define(
       allowNull: false,
     },
     categoryId: {
-      type: DataTypes.INTEGER(2),
+      type: DataTypes.INTEGER,
       defaultValue: 1,
     },
     qualityId: {
-      type: DataTypes.INTEGER(2),
+      type: DataTypes.INTEGER,
       defaultValue: 1,
     },
     conditionId: {
-      type: DataTypes.INTEGER(2),
+      type: DataTypes.INTEGER,
       defaultValue: 1,
     },
     prefered: {

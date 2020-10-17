@@ -5,6 +5,7 @@
         <app-logo />
       </div>
     </div>
+    {{ loading ? "loading..." : "" }}
     <validation-observer ref="form" v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSubmit)">
         <div class="card--form__body mb-3">
@@ -191,22 +192,35 @@ export default {
   methods: {
     async onSubmit() {
       if (this.currentStep === 2) {
-        const { bdMonth, bdDay, bdYear } = this.bd;
-        this.loading = true;
-        const data = await this.$auth.register({
-          ...this.user,
-          birthdate: dayjs(`${bdMonth}/${bdDay}/${bdYear}`).format(
-            "YYYY-MM-DD"
-          ),
-        });
-        this.loading = false;
-        console.log(data);
+        const data = await this.register();
       }
 
       this.gotoStep(this.currentStep + 1);
     },
     gotoStep(step) {
       this.currentStep = step;
+    },
+
+    async register() {
+      try {
+        const { bdMonth, bdDay, bdYear } = this.bd;
+        this.loading = true;
+        const res = await this.$axios.$post(
+          "http://localhost:5000/api/v1/auth/register",
+          {
+            ...this.user,
+            birthdate: dayjs(`${bdMonth}/${bdDay}/${bdYear}`).format(
+              "YYYY-MM-DD"
+            ),
+          }
+        );
+        this.loading = false;
+        console.log(res);
+
+        return res;
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
