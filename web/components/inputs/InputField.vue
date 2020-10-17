@@ -1,24 +1,22 @@
 <template>
-  <div class="inp">
+  <div class="inp--primary">
     <div v-if="!!leftIcon" class="inp-field__left-icon"></div>
     <input
       v-if="textarea"
-      type="text"
-      :value="value"
-      v-bind="$attrs"
+      :type="type"
       :placeholder="placeholder"
+      :value="value"
       @input="$emit('input', $event.target.value)"
     />
     <textarea
       v-else
       :name="name"
-      :value="value"
       :id="id"
-      v-bind="$attrs"
       :placeholder="placeholder"
-      @input="$emit('input', $event.target.value)"
       cols="30"
       rows="10"
+      :value="value"
+      @input="$emit('input', $event.target.value)"
     ></textarea>
     <div v-if="!!rightIcon" class="inp-field__left-icon"></div>
   </div>
@@ -27,6 +25,7 @@
 <script>
 export default {
   inheritAttrs: false,
+
   props: {
     value: String,
     name: String,
@@ -34,6 +33,7 @@ export default {
       type: Boolean,
       default: true,
     },
+    type: String,
     id: String,
     placeholder: {
       type: String,

@@ -11,6 +11,12 @@
   &__tip {
   }
 
+  &__error {
+    color: var(--color-accent);
+    font-size: 13px;
+    margin-top: 5px;
+  }
+
   &:not(:last-child) {
     margin-bottom: 10px;
   }
@@ -19,14 +25,23 @@
 .inp {
   &__left-icon {
   }
-
-  input {
-    border: 1px solid var(--color-primary);
-    padding: 14px 20px;
-    width: 100%;
-    border-radius: 8px;
+  &--primary {
+    input,
+    select {
+      border: 1px solid var(--color-primary);
+      padding: 14px 20px;
+      width: 100%;
+      border-radius: 8px;
+    }
   }
 
   &__right-icon {
+  }
+}
+
+.is-error {
+  input,
+  select {
+    border-color: var(--color-accent);
   }
 }

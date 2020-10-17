@@ -10,6 +10,10 @@ export default {
   props: {
     label: String,
     type: String,
+    loading: {
+      type: Boolean,
+      default: true,
+    },
   },
 };
 </script>
