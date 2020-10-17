@@ -46,22 +46,31 @@ export default {
           login: { url: "/api/v1/auth/login", method: "post" },
           logout: { url: "/api/v1/auth/logout", method: "post" },
           user: {
-            url: "/api/v1/auth/user",
+            url: "/api/v1/auth/me",
             method: "get",
-            propertyName: "user"
-          },
-          register: { url: "/api/v1/auth/register", method: "post" }
+            propertyName: "data.user"
+          }
         }
       }
     }
   },
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseUrl: "http://localhost:5000"
+    baseURL: "http://localhost:5000"
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-    transpile: ["vee-validate/dist/rules"]
+    transpile: ["vee-validate/dist/rules"],
+    extend: config => {
+      const svgRule = config.module.rules.find(rule => rule.test.test(".svg"));
+
+      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
+
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: ["babel-loader", "vue-svg-loader"]
+      });
+    }
   }
 };

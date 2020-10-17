@@ -1,5 +1,6 @@
 <template>
   <div class="card--form">
+    <!-- <alert type="info"> Product not available </alert> -->
     <div class="card--form__header">
       <div class="card--form__logo">
         <app-logo />
@@ -16,6 +17,7 @@
                   :rules="rules.username"
                   label="Username"
                   id="username"
+                  vid="username"
                 >
                   <input-field v-model="user.username"></input-field>
                 </input-group>
@@ -123,7 +125,11 @@
         </div>
 
         <div class="card--form__action">
-          <button-primary :label="buttonText" type="submit" />
+          <button-primary
+            :label="buttonText"
+            :loading="loading"
+            type="submit"
+          />
         </div>
       </form>
     </validation-observer>
@@ -138,9 +144,33 @@
 </template>
 
 <script>
-import { ValidationObserver, extend } from "vee-validate";
+import { debounce } from "debounce";
+import { ValidationObserver, extend, validate } from "vee-validate";
 import isEmptyFields from "@/utils/isEmptyFields";
 import dayjs from "dayjs";
+import axios from "axios";
+
+extend("username_exist", {
+  validate: async function (value) {
+    let exist = await axios.get(
+      "http://localhost:5000/api/v1/user/is-exist/" + value
+    );
+    return !exist.data;
+  },
+
+  message: "Username already taken",
+});
+
+extend("email_exist", {
+  validate: async function (value) {
+    let exist = await axios.get(
+      "http://localhost:5000/api/v1/user/is-exist/" + value
+    );
+    return !exist.data;
+  },
+
+  message: "Email Address already taken",
+});
 
 export default {
   components: {
@@ -148,15 +178,15 @@ export default {
   },
   data() {
     return {
-      currentStep: 2,
+      currentStep: 1,
       loading: false,
       rules: {
-        username: "required|min:8|max:15|no_white_space",
+        username: "required|min:8|max:15|no_white_space|username_exist",
         password: `required|min:8|max:128|no_white_space|alpha_num_special|`,
         confirmPassword: `required|confirm_password:@password`,
         firstname: "required",
         lastname: "required",
-        email: "required|email",
+        email: "required|email|email_exist",
         bdDay: "required",
         bdMonth: "required",
         bdYear: "required",
@@ -167,12 +197,12 @@ export default {
         bdMonth: "January",
       },
       user: {
-        username: "topzdev123",
+        username: "topzdev" + Math.floor(Math.random() * 90) + 1,
         password: "123456hello@",
         confirmPassword: "123456hello@",
         firstname: "Christian",
         lastname: "Lugod",
-        email: "christianlugod05@gmail.com",
+        email: `christianlugod${Math.round(Math.random() * 90) + 1}@gmail.com`,
         mobileNumber: "2559069",
       },
       options: {
@@ -189,37 +219,47 @@ export default {
     },
   },
 
+  watch: {
+    // ["user.username"]: async function (newValue) {
+    //   if (newValue.length >= 8) {
+    //     console.log("Helo");
+    //     await this.isExist(newValue, "username");
+    //   }
+    // },
+  },
+
   methods: {
     async onSubmit() {
       if (this.currentStep === 2) {
-        const data = await this.register();
+        await this.register();
+      } else {
+        this.gotoStep(this.currentStep + 1);
       }
-
-      this.gotoStep(this.currentStep + 1);
     },
     gotoStep(step) {
       this.currentStep = step;
     },
 
     async register() {
+      this.loading = true;
       try {
         const { bdMonth, bdDay, bdYear } = this.bd;
-        this.loading = true;
-        const res = await this.$axios.$post(
-          "http://localhost:5000/api/v1/auth/register",
-          {
-            ...this.user,
-            birthdate: dayjs(`${bdMonth}/${bdDay}/${bdYear}`).format(
-              "YYYY-MM-DD"
-            ),
-          }
-        );
-        this.loading = false;
-        console.log(res);
+        const res = await this.$axios.$post("/api/v1/auth/sign-up", {
+          ...this.user,
+          birthdate: dayjs(`${bdMonth}/${bdDay}/${bdYear}`).format(
+            "YYYY-MM-DD"
+          ),
+        });
 
-        return res;
+        console.log(res.data.token);
+
+        this.$auth.setUserToken(res.data.token);
+        this.$router.push("/profile");
+        this.loading = false;
+        alert("Success");
       } catch (error) {
-        console.error(error);
+        // console.error(error.response.data);
+        this.loading = false;
       }
     },
   },
