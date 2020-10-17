@@ -1,0 +1,40 @@
+@mixin alertColor($name, $color) {
+  &--#{$name} {
+    color: $color;
+    border-color: var$color;
+    fill: $color;
+  }
+  &--#{$name} &__exit {
+    fill: $color;
+  }
+}
+
+.alert {
+  display: flex;
+  padding: 15px 15px;
+  font-size: 15px;
+  // background: var(--color-light-gray);
+  border: 1px solid var(--color-dark-gray);
+  margin-bottom: 10px;
+  border-radius: 10px;
+  align-items: center;
+
+  svg {
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+    margin-right: 10px;
+  }
+
+  &__message {
+    margin-right: auto;
+    font-weight: 400;
+  }
+
+  @include alertColor(info, var(--color-blue));
+  @include alertColor(error, var(--color-accent));
+  @include alertColor(warning, var(--color-yellow));
+  @include alertColor(sucess, var(--color-green));
+}

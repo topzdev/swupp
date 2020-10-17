@@ -1,6 +1,6 @@
 <template>
   <button v-bind="$attrs" :type="type" class="btn--primary">
-    {{ label }}
+    {{ loading ? "loading..." : label }}
   </button>
 </template>
 
@@ -12,7 +12,7 @@ export default {
     type: String,
     loading: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
 };
