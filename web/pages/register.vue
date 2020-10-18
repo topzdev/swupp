@@ -23,6 +23,7 @@
 import RegisterForm from "@/components/forms/RegisterForm";
 export default {
   middleware: "auth",
+  auth: "guest",
   components: { RegisterForm },
 };
 </script>

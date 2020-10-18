@@ -170,7 +170,7 @@ export default {
   },
   data() {
     return {
-      currentStep: 2,
+      currentStep: 1,
       loading: false,
       rules: {
         username: "required|min:8|max:15|no_white_space|username_exist",
@@ -190,13 +190,13 @@ export default {
         bdMonth: "January",
       },
       user: {
-        username: "topzdev" + Math.floor(Math.random() * 90) + 1,
-        password: "123456hello@",
-        confirmPassword: "123456hello@",
-        firstname: "Christian",
-        lastname: "Lugod",
-        email: `christianlugod${Math.round(Math.random() * 90) + 1}@gmail.com`,
-        mobileNumber: "2559069",
+        username: "",
+        password: "",
+        confirmPassword: "",
+        firstname: "",
+        lastname: "",
+        email: "",
+        mobileNumber: "",
       },
       options: {
         months: ["January", "February", "March"],
