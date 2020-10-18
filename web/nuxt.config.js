@@ -43,8 +43,15 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: "/api/v1/auth/login", method: "post" },
-          logout: { url: "/api/v1/auth/logout", method: "post" },
+          login: {
+            url: "/api/v1/auth/sign-in",
+            method: "post",
+            propertyName: "data.token"
+          },
+          logout: {
+            url: "/api/v1/auth/logout",
+            method: "post"
+          },
           user: {
             url: "/api/v1/auth/me",
             method: "get",

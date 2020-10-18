@@ -1,5 +1,13 @@
 <template>
-  <div>Hello, User!</div>
+  <div class="container">
+    <h1>Hello, {{ $auth.user.username }}</h1>
+
+    <button-primary
+      class=""
+      label="Logout"
+      @click.native="$auth.logout()"
+    ></button-primary>
+  </div>
 </template>
 
 <script>

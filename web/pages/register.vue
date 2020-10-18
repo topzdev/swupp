@@ -22,6 +22,7 @@
 <script>
 import RegisterForm from "@/components/forms/RegisterForm";
 export default {
+  middleware: "auth",
   components: { RegisterForm },
 };
 </script>

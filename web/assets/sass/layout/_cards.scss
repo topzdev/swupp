@@ -56,11 +56,15 @@
       font-size: 16px;
       text-align: center;
       margin-top: 20px;
+    }
 
-      a {
-        color: var(--color-blue);
-        text-decoration: none;
-      }
+    &__forgot {
+      text-align: center;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    &__agreement {
     }
   }
 }

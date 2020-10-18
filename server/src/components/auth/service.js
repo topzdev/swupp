@@ -16,11 +16,10 @@ exports.signUp = async ({
   username,
   birthdate,
 }) => {
-  const t = await sequelize.transaction();
   const isExist = await User.findOne({ where: { username } });
 
   if (isExist) {
-    throw returnError("username", "Username has been used");
+    return returnError("username", "Username has been used");
   }
   console.log("Hello, Wolrd!!!!!");
 
@@ -28,19 +27,19 @@ exports.signUp = async ({
   const hasUsernameError = authHelpers.validateUsername(username);
 
   if (hasUsernameError) {
-    throw returnError("username", hasUsernameError.error);
+    return returnError("username", hasUsernameError.error);
   }
 
   // check the limitations in Password (8-12 characters alphanumeric, detects if the password is same sa namefield and username)
   const hasPassError = authHelpers.validatePassword(password, username);
 
   if (hasPassError) {
-    throw returnError("password", hasPassError.error);
+    return returnError("password", hasPassError.error);
   }
 
   // check if the given password match the confirmPassword provided.
   if (password !== confirmPassword) {
-    throw returnError(
+    return returnError(
       "confirmPassword",
       "Password not match with confirm password."
     );
@@ -68,7 +67,7 @@ exports.signUp = async ({
     { include: { model: Profile } }
   );
 
-  await t.commit();
+  console.log("User Created", user.toJSON());
 
   /* tokenized user */
   const token = authHelpers.signToken(user.id);
@@ -89,7 +88,7 @@ exports.signIn = async ({ usernameOrEmail, password, rememberMe }) => {
 
   if (!user) return returnError("usernameOrEmail", "User not exist");
   if (!(await authHelpers.verifyPassword(password, user.password)))
-    throw returnError("password", "password not match");
+    return returnError("password", "password not match");
 
   const token = authHelpers.signToken(user.id);
 
@@ -103,12 +102,12 @@ exports.signIn = async ({ usernameOrEmail, password, rememberMe }) => {
 exports.me = async (userId) => {
   if (!userId) return null;
 
+  console.log(userId);
+
   let user = await User.findByPk(userId, {
-    attributes: { exclude: ["username"] },
+    attributes: { exclude: ["password"] },
     include: { model: Profile, attributes: ["firstname", "lastname"] },
   });
-
-  delete user.password;
 
   return {
     data: {
