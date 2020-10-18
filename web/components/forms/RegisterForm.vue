@@ -1,127 +1,121 @@
 <template>
-  <div class="card--form">
+  <div class="card card--form">
     <!-- <alert type="info"> Product not available </alert> -->
     <div class="card--form__header">
       <div class="card--form__logo">
         <app-logo />
       </div>
     </div>
-    {{ loading ? "loading..." : "" }}
     <validation-observer ref="form" v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSubmit)">
-        <div class="card--form__body mb-3">
+        <div class="card--form__body mb-2">
           <validation-observer v-if="currentStep === 1">
             <div class="row">
-              <div class="col-12">
-                <input-group
+              <div class="col-12 mb-2">
+                <input-field
+                  v-model="user.username"
                   :rules="rules.username"
                   label="Username"
                   id="username"
-                  vid="username"
-                >
-                  <input-field v-model="user.username"></input-field>
-                </input-group>
+                />
               </div>
-              <div class="col-12">
-                <input-group
-                  vid="password"
+              <div class="col-12 mb-2">
+                <input-field
+                  type="password"
+                  v-model="user.password"
                   :rules="rules.password"
                   label="Password"
                   id="password"
-                >
-                  <input-field
-                    type="password"
-                    v-model="user.password"
-                  ></input-field>
-                </input-group>
+                />
               </div>
 
-              <div class="col-12">
-                <input-group
+              <div class="col-12 mb-2">
+                <input-field
+                  type="password"
+                  v-model="user.confirmPassword"
                   :rules="rules.confirmPassword"
                   label="Confirm Password"
                   id="confirmPassword"
-                >
-                  <input-field
-                    type="password"
-                    v-model="user.confirmPassword"
-                  ></input-field>
-                </input-group>
+                />
               </div>
             </div>
           </validation-observer>
 
           <validation-observer v-if="currentStep === 2">
             <div class="row align-items-start">
-              <div class="col-6">
-                <input-group
+              <div class="col-6 mb-2">
+                <input-field
+                  v-model="user.firstname"
                   :rules="rules.firstname"
                   label="First Name"
                   id="firstname"
-                >
-                  <input-field v-model="user.firstname"></input-field>
-                </input-group>
+                ></input-field>
               </div>
-              <div class="col-6">
-                <input-group
+              <div class="col-6 mb-2">
+                <input-field
+                  v-model="user.lastname"
                   :rules="rules.lastname"
                   label="Last Name"
                   id="lastname"
-                >
-                  <input-field v-model="user.lastname"></input-field>
-                </input-group>
+                ></input-field>
               </div>
-              <div class="col-12">
-                <input-group
+              <div class="col-12 mb-2">
+                <input-field
+                  v-model="user.email"
                   :rules="rules.email"
                   label="Email Address"
                   id="email"
-                >
-                  <input-field v-model="user.email"></input-field>
-                </input-group>
+                ></input-field>
               </div>
-              <div class="col-5">
-                <input-group
+              <div class="col-5 mb-2">
+                <select-field
+                  v-model="bd.bdMonth"
+                  placeholder="Select Month"
+                  :options="options.months"
                   :rules="rules.bdMonth"
                   id="bd-month"
                   label="Birth Date"
                   :show-err-mes="false"
-                >
-                  <select-field
-                    v-model="bd.bdMonth"
-                    placeholder="Select Month"
-                    :options="options.months"
-                  ></select-field>
-                </input-group>
+                ></select-field>
               </div>
-              <div class="col-3">
-                <input-group
+              <div class="col-3 mb-2">
+                <select-field
                   :rules="rules.bdMonth"
-                  :show-err-mes="false"
+                  v-model="bd.bdDay"
                   id="bd-day"
-                >
-                  <select-field
-                    v-model="bd.bdDay"
-                    placeholder="Select Day"
-                    :options="options.days"
-                  ></select-field>
-                </input-group>
+                  placeholder="Select Day"
+                  :options="options.days"
+                  :show-err-mes="false"
+                ></select-field>
               </div>
-              <div class="col-4">
-                <input-group
+              <div class="col-4 mb-2">
+                <select-field
+                  v-model="bd.bdYear"
+                  placeholder="Select Year"
+                  :options="options.year"
                   :rules="rules.bdMonth"
                   id="bd-year"
                   :show-err-mes="false"
-                >
-                  <select-field
-                    v-model="bd.bdYear"
-                    placeholder="Select Year"
-                    :options="options.year"
-                  ></select-field>
-                </input-group>
+                ></select-field>
               </div>
             </div>
           </validation-observer>
+        </div>
+
+        <div v-if="currentStep === 2" class="row">
+          <div class="col-12 mb-2">
+            <checkbox-field
+              type="checkbox"
+              id="agree"
+              :rules="rules.agree"
+              v-model="agree"
+              name="agreement"
+            >
+              I agree to the
+              <a target="_blank" href="/terms-and-agreement">Terms</a> and
+              <a target="_blank" href="/privacy-policy">Privacy Policy</a>
+            </checkbox-field>
+          </div>
         </div>
 
         <div class="card--form__action">
@@ -150,25 +144,23 @@ import isEmptyFields from "@/utils/isEmptyFields";
 import dayjs from "dayjs";
 import axios from "axios";
 
+const usernameOrEmailExist = async (value) => {
+  return (
+    await fetch("http://localhost:5000/api/v1/user/is-exist/" + value)
+  ).json();
+};
+
 extend("username_exist", {
   validate: async function (value) {
-    let exist = await axios.get(
-      "http://localhost:5000/api/v1/user/is-exist/" + value
-    );
-    return !exist.data;
+    return !(await usernameOrEmailExist(value));
   },
-
   message: "Username already taken",
 });
 
 extend("email_exist", {
   validate: async function (value) {
-    let exist = await axios.get(
-      "http://localhost:5000/api/v1/user/is-exist/" + value
-    );
-    return !exist.data;
+    return !(await usernameOrEmailExist(value));
   },
-
   message: "Email Address already taken",
 });
 
@@ -178,7 +170,7 @@ export default {
   },
   data() {
     return {
-      currentStep: 1,
+      currentStep: 2,
       loading: false,
       rules: {
         username: "required|min:8|max:15|no_white_space|username_exist",
@@ -190,6 +182,7 @@ export default {
         bdDay: "required",
         bdMonth: "required",
         bdYear: "required",
+        agree: "required",
       },
       bd: {
         bdYear: "2020",
@@ -215,28 +208,20 @@ export default {
   },
   computed: {
     buttonText() {
-      return !this.isNext ? "Next" : "Sign Me Up!";
+      return this.currentStep === 1 ? "Next" : "Sign Up";
     },
-  },
-
-  watch: {
-    // ["user.username"]: async function (newValue) {
-    //   if (newValue.length >= 8) {
-    //     console.log("Helo");
-    //     await this.isExist(newValue, "username");
-    //   }
-    // },
   },
 
   methods: {
     async onSubmit() {
-      if (this.currentStep === 2) {
+      if (this.currentStep === 2 && this.agree) {
         await this.register();
       } else {
         this.gotoStep(this.currentStep + 1);
       }
     },
     gotoStep(step) {
+      if (step === 3) return;
       this.currentStep = step;
     },
 

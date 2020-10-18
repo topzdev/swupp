@@ -1,8 +1,9 @@
+const { verify } = require("argon2");
 const express = require("express");
 const router = express.Router();
 const authController = require("../auth/controller");
-
-router.get("/me", authController.me);
+const { auth } = require("../../middleware");
+router.get("/me", auth, authController.me);
 
 router.post("/sign-in", authController.signIn);
 

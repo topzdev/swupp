@@ -10,4 +10,11 @@ button {
     border-radius: 10px;
     font-weight: 600;
   }
+
+  &--links {
+    font: inherit;
+    color: var(--color-blue);
+    text-decoration: underline;
+    font-weight: 500;
+  }
 }
