@@ -9,30 +9,23 @@
       <label v-if="!!label" :for="id" class="inp__label">{{ label }}</label>
 
       <div class="inp__field">
-        <div v-if="!!leftIcon" class="inp__left-icon"></div>
         <input
-          v-if="textarea"
-          :type="type"
+          :type="inputType"
           :name="name"
           :id="id"
           :placeholder="placeholder"
           :value="value"
           @input="$emit('input', $event.target.value)"
         />
-        <textarea
-          v-else
-          :name="name"
-          :id="id"
-          :placeholder="placeholder"
-          cols="30"
-          rows="10"
-          :value="value"
-          @input="$emit('input', $event.target.value)"
-        ></textarea>
-        <div v-if="!!rightIcon" class="inp__left-icon"></div>
+        <button
+          v-if="visibleToggle"
+          type="button"
+          class="inp__pass-toggle"
+          @click="toggleEye = !toggleEye"
+        >
+          <app-icon type="mdi" :path="toggleEye ? icons.eye : icons.eyeOff" />
+        </button>
       </div>
-
-      <div v-if="!!tip" class="inp__tip">{{ tip }}</div>
 
       <p v-if="showErrMes && !!errors[0]" class="inp__error">
         {{ errors[0] }}
@@ -43,26 +36,33 @@
 
 <script>
 import { ValidationProvider } from "vee-validate";
+import { mdiEye, mdiEyeOff, mdiAbTesting } from "@mdi/js";
 export default {
   components: { ValidationProvider },
+  data() {
+    return {
+      icons: {
+        eye: mdiEye,
+        eyeOff: mdiEyeOff,
+      },
+      toggleEye: false,
+    };
+  },
 
   props: {
     value: String,
     name: String,
-    textarea: {
+    showToggle: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     label: String,
-    type: String,
     id: String,
     tip: String,
     placeholder: {
       type: String,
       // default: "Placeholder here",
     },
-    leftIcon: String,
-    rightIcon: String,
     showErrMes: {
       type: Boolean,
       default: true,
@@ -72,6 +72,14 @@ export default {
     mode: {
       type: String,
       default: "eager",
+    },
+  },
+  computed: {
+    visibleToggle() {
+      return this.value.length > 0 && this.showToggle;
+    },
+    inputType() {
+      return this.toggleEye ? "text" : "password";
     },
   },
 };

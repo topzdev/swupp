@@ -68,16 +68,16 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-    transpile: ["vee-validate/dist/rules"],
-    extend: config => {
-      const svgRule = config.module.rules.find(rule => rule.test.test(".svg"));
+    transpile: ["vee-validate/dist/rules"]
+    // extend: config => {
+    //   const svgRule = config.module.rules.find(rule => rule.test.test(".svg"));
 
-      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
+    //   svgRule.test = /\.(png|jpe?g|gif|webp)$/;
 
-      config.module.rules.push({
-        test: /\.svg$/,
-        use: ["babel-loader", "vue-svg-loader"]
-      });
-    }
+    //   config.module.rules.push({
+    //     test: /\.svg$/,
+    //     use: ["babel-loader", "vue-svg-loader"]
+    //   });
+    // }
   }
 };

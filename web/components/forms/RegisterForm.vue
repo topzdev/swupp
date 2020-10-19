@@ -20,7 +20,7 @@
                 />
               </div>
               <div class="col-12 mb-2">
-                <input-field
+                <password-field
                   type="password"
                   v-model="user.password"
                   :rules="rules.password"
@@ -30,7 +30,7 @@
               </div>
 
               <div class="col-12 mb-2">
-                <input-field
+                <password-field
                   type="password"
                   v-model="user.confirmPassword"
                   :rules="rules.confirmPassword"

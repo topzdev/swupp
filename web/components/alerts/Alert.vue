@@ -8,20 +8,21 @@
       <slot></slot>
     </div>
 
-    <button class="alert__exit"><cross-icon /></button>
+    <button class="alert__exit"><app-icon type="mdi" path="" /></button>
   </div>
 </template>
 
 <script>
-import AlertIcon from "@/assets/icons/alert-circle-outline.svg";
-import InfoIcon from "@/assets/icons/information-outline.svg";
-import CrossIcon from "@/assets/icons/close.svg";
-
+import { mdiInformation } from "@mdi/js";
 export default {
-  components: {
-    AlertIcon,
-    InfoIcon,
-    CrossIcon,
+  data() {
+    return {
+      icons: {
+        info: mdiInformation,
+        InfoIcon,
+        CrossIcon,
+      },
+    };
   },
   props: {
     type: {

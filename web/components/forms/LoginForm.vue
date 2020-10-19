@@ -18,13 +18,13 @@
               ></input-field>
             </div>
             <div class="col-12 mb-2">
-              <input-field
-                type="password"
+              <password-field
+                :show-toggle="true"
                 v-model="credential.password"
                 :rules="rules.password"
                 label="Password"
                 id="password"
-              ></input-field>
+              ></password-field>
             </div>
             <div class="col-12">
               <checkbox-field
