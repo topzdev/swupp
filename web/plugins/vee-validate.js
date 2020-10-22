@@ -48,3 +48,12 @@ extend("confirm_password", {
   params: ["target"],
   message: "Password confirmation does not match"
 });
+
+extend("includes", {
+  validate: (value, { target }) => {
+    console.log("Includes", value, target);
+    return !value.toLowerCase().includes(target.toLowerCase());
+  },
+  params: ["target"],
+  message: "Password contains your username"
+});

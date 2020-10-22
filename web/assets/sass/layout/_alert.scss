@@ -1,12 +1,13 @@
 @mixin alertColor($name, $color) {
   &--#{$name} {
-    color: $color;
-    border-color: var$color;
-    fill: $color;
+    color: var(--color-white);
+    border-color: $color;
+    background-color: $color;
+    fill: var(--color-white);
   }
-  &--#{$name} &__exit {
-    fill: $color;
-  }
+  // &--#{$name} &__exit svg {
+  //   fill: $color !important;
+  // }
 }
 
 .alert {
@@ -36,5 +37,5 @@
   @include alertColor(info, var(--color-blue));
   @include alertColor(error, var(--color-accent));
   @include alertColor(warning, var(--color-yellow));
-  @include alertColor(sucess, var(--color-green));
+  @include alertColor(success, var(--color-green));
 }

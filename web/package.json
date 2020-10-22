@@ -9,12 +9,10 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@jamescoyle/vue-icon": "^0.1.0",
     "@mdi/js": "^5.7.55",
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/pwa": "^3.0.2",
-    "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "dayjs": "^1.9.3",
     "debounce": "^1.2.0",
@@ -23,8 +21,6 @@
   },
   "devDependencies": {
     "node-sass": "^4.14.1",
-    "sass-loader": "^10.0.3",
-    "vue-svg-loader": "^0.16.0",
-    "vue-template-compiler": "^2.6.12"
+    "sass-loader": "^10.0.3"
   }
 }

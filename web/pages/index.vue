@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <div class="contributors mt-5">
+      <!-- <div class="contributors mt-5">
         <h3 class="mb-1">Contributors</h3>
 
         <ul>
@@ -49,7 +49,7 @@
             </a>
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -62,10 +62,10 @@ export default {
     };
   },
   async created() {
-    const response = await fetch(
-      "https://api.github.com/repos/topzdev/swupp/contributors"
-    );
-    this.contributors = await response.json();
+    // const response = await fetch(
+    //   "https://api.github.com/repos/topzdev/swupp/contributors"
+    // );
+    // this.contributors = await response.json();
     // console.log("Response...", await response.json());
   },
 };

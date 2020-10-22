@@ -53,13 +53,55 @@
   }
 
   &--checkbox {
+    position: relative;
     user-select: none;
     a {
       color: var(--color-blue);
     }
 
-    input[type="checkbox"] {
-      font-size: 50px;
+    input {
+      margin-left: 10px;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    input:checked {
+      & ~ .checkmark {
+        background-color: var(--color-primary);
+      }
+
+      & ~ .checkmark:after {
+        visibility: unset;
+        transform: translate(-50%, -50%) rotate(45deg) scale(1);
+      }
+    }
+
+    .checkmark {
+      position: absolute;
+      left: 0;
+      display: inline-block;
+      height: 22px;
+      width: 22px;
+      border-radius: 5px;
+      background-color: var(--color-light-gray);
+      transition: all 300ms ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+
+      &:after {
+        transition: all 300ms ease;
+        content: "";
+        position: absolute;
+        display: block;
+        left: 50%;
+        top: 40%;
+        visibility: hidden;
+        width: 7px;
+        height: 12px;
+        border: solid var(--color-white);
+        border-width: 0 3px 3px 0;
+        transform: translate(-50%, -50%) rotate(0) scale(0);
+      }
     }
   }
 
@@ -76,7 +118,8 @@
 
 .is-error {
   input,
-  select {
+  select,
+  .checkmark {
     border-color: var(--color-accent);
   }
 }

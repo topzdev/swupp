@@ -5,6 +5,7 @@
         <app-logo />
       </div>
     </div>
+    <alert type="error" :alert.sync="alert" class="mb-2"></alert>
     <validation-observer ref="form" v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSubmit)">
         <div class="card--form__body mb-3">
@@ -26,13 +27,13 @@
                 id="password"
               ></password-field>
             </div>
-            <div class="col-12">
+            <!-- <div class="col-12">
               <checkbox-field
                 v-model="credential.rememberMe"
                 label="Remember me"
                 id="rememberMe"
               ></checkbox-field>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -69,9 +70,13 @@ export default {
         password: "required",
       },
       credential: {
-        usernameOrEmail: "",
-        password: "",
-        rememberMe: false,
+        usernameOrEmail: "topzdev@31",
+        password: "1416465465465",
+        // rememberMe: false,
+      },
+      alert: {
+        message: null,
+        show: false,
       },
     };
   },
@@ -81,9 +86,16 @@ export default {
         const response = await this.$auth.loginWith("local", {
           data: this.credential,
         });
+
         this.$router.push("/profile");
       } catch (error) {
-        console.error(error);
+        const data = error.response.data;
+        if (data === undefined) return;
+        console.log(data.error.message);
+        this.alert = {
+          message: data.error.message,
+          show: true,
+        };
       }
     },
   },

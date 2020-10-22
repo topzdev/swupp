@@ -38,7 +38,7 @@ import { ValidationProvider } from "vee-validate";
 export default {
   components: { ValidationProvider },
   props: {
-    value: String,
+    value: [String, Number],
     name: String,
     textarea: {
       type: Boolean,
