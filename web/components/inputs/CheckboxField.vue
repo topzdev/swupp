@@ -15,6 +15,7 @@
             @input="$emit('input', $event.target.checked)"
             name="agreement"
           />
+          <span class="checkmark"></span>
           <slot> {{ label }} </slot>
         </label>
       </div>

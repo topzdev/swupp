@@ -23,7 +23,7 @@
                 <password-field
                   type="password"
                   v-model="user.password"
-                  :rules="rules.password"
+                  :rules="passwordRules"
                   label="Password"
                   id="password"
                 />
@@ -92,7 +92,7 @@
                 <select-field
                   v-model="bd.bdYear"
                   placeholder="Select Year"
-                  :options="options.year"
+                  :options="options.years"
                   :rules="rules.bdMonth"
                   id="bd-year"
                   :show-err-mes="false"
@@ -103,19 +103,20 @@
         </div>
 
         <div v-if="currentStep === 2" class="row">
-          <div class="col-12 mb-2">
-            <checkbox-field
-              type="checkbox"
-              id="agree"
-              :rules="rules.agree"
-              v-model="agree"
-              name="agreement"
-            >
-              I agree to the
-              <a target="_blank" href="/terms-and-agreement">Terms</a> and
-              <a target="_blank" href="/privacy-policy">Privacy Policy</a>
-            </checkbox-field>
-          </div>
+          <validation-observer>
+            <div class="col-12 mb-2">
+              <checkbox-field
+                type="checkbox"
+                id="agree"
+                v-model="agree"
+                name="agreement"
+              >
+                I agree to the
+                <a target="_blank" href="/terms-and-agreement">Terms</a> and
+                <a target="_blank" href="/privacy-policy">Privacy Policy</a>
+              </checkbox-field>
+            </div>
+          </validation-observer>
         </div>
 
         <div class="card--form__action">
@@ -138,11 +139,11 @@
 </template>
 
 <script>
-import { debounce } from "debounce";
-import { ValidationObserver, extend, validate } from "vee-validate";
-import isEmptyFields from "@/utils/isEmptyFields";
 import dayjs from "dayjs";
-import axios from "axios";
+import { debounce } from "debounce";
+import isEmptyFields from "@/utils/isEmptyFields";
+import { ValidationObserver, extend, validate } from "vee-validate";
+import { CURRENT_DATE, DAYS, MONTHS, YEARS } from "@/constants";
 
 const usernameOrEmailExist = async (value) => {
   return (
@@ -174,7 +175,7 @@ export default {
       loading: false,
       rules: {
         username: "required|min:8|max:15|no_white_space|username_exist",
-        password: `required|min:8|max:128|no_white_space|alpha_num_special|`,
+        password: `required|min:8|max:128|no_white_space|alpha_num_special`,
         confirmPassword: `required|confirm_password:@password`,
         firstname: "required",
         lastname: "required",
@@ -185,9 +186,9 @@ export default {
         agree: "required",
       },
       bd: {
-        bdYear: "2020",
-        bdDay: "1",
-        bdMonth: "January",
+        bdYear: CURRENT_DATE.year,
+        bdDay: CURRENT_DATE.day,
+        bdMonth: CURRENT_DATE.month,
       },
       user: {
         username: "",
@@ -199,9 +200,9 @@ export default {
         mobileNumber: "",
       },
       options: {
-        months: ["January", "February", "March"],
-        days: [1, 2, 3, 4, 5, 6, 7],
-        year: [2020, 2019, 2018, 2017, 2016],
+        months: MONTHS,
+        days: DAYS,
+        years: YEARS,
       },
       agree: false,
     };
@@ -210,12 +211,23 @@ export default {
     buttonText() {
       return this.currentStep === 1 ? "Next" : "Sign Up";
     },
+    passwordRules() {
+      const rules = this.rules.password;
+      if (this.user.username) return rules + "|includes:@username";
+      return rules;
+    },
   },
 
   methods: {
     async onSubmit() {
-      if (this.currentStep === 2 && this.agree) {
-        await this.register();
+      if (this.currentStep === 2) {
+        if (this.agree) {
+          await this.register();
+        } else {
+          this.$refs.form.setErrors({
+            agree: "error",
+          });
+        }
       } else {
         this.gotoStep(this.currentStep + 1);
       }
@@ -236,12 +248,9 @@ export default {
           ),
         });
 
-        console.log(res.data.token);
-
         this.$auth.setUserToken(res.data.token);
         this.$router.push("/profile");
         this.loading = false;
-        alert("Success");
       } catch (error) {
         // console.error(error.response.data);
         this.loading = false;

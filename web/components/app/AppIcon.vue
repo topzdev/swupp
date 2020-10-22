@@ -62,7 +62,4 @@ export default {
 svg {
   transform: rotate(var(--r, 0deg)) scale(var(--sx, 1), var(--sy, 1));
 }
-path {
-  fill: currentColor;
-}
 </style>
