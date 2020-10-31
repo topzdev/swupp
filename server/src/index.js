@@ -8,6 +8,10 @@ const Redis = require("ioredis");
 const connectRedis = require("connect-redis");
 const { COOKIE_NAME, SESSION_SECRET, __prod__ } = require("./constants");
 const models = require("./models");
+const fileUpload = require("express-fileupload");
+
+// globally import cloudinary
+require("./config/cloudinary");
 
 const main = async () => {
   try {
@@ -42,9 +46,14 @@ const main = async () => {
   );
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(
+    fileUpload({
+      useTempFiles: true,
+      tempFileDir: "/tmp/",
+    })
+  );
 
   app.use("/api/v1", apis);
-
   app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
   });
