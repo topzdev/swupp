@@ -1,11 +1,12 @@
 <template>
+  <!--  -->
   <div class="card--form">
     <div class="card--form__header">
       <div class="card--form__logo">
         <app-logo />
       </div>
     </div>
-    <alert type="error" :alert.sync="alert" class="mb-2"></alert>
+    <app-alert type="error" :alert.sync="alert" class="mb-2"></app-alert>
     <validation-observer ref="form" v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(onSubmit)">
         <div class="card--form__body mb-3">

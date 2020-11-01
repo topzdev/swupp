@@ -40,26 +40,26 @@ export default {
 
   auth: {
     // Options
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: "/api/v1/auth/sign-in",
-            method: "post",
-            propertyName: "data.token"
-          },
-          logout: {
-            url: "/api/v1/auth/logout",
-            method: "post"
-          },
-          user: {
-            url: "/api/v1/auth/me",
-            method: "get",
-            propertyName: "data.user"
-          }
-        }
-      }
-    }
+    // strategies: {
+    //   local: {
+    //     endpoints: {
+    //       login: {
+    //         url: "/api/v1/auth/sign-in",
+    //         method: "post",
+    //         propertyName: "data.token"
+    //       },
+    //       logout: {
+    //         url: "/api/v1/auth/logout",
+    //         method: "post"
+    //       },
+    //       user: {
+    //         url: "/api/v1/auth/me",
+    //         method: "get",
+    //         propertyName: "data.user"
+    //       }
+    //     }
+    //   }
+    // }
   },
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
@@ -69,15 +69,5 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     transpile: ["vee-validate/dist/rules"]
-    // extend: config => {
-    //   const svgRule = config.module.rules.find(rule => rule.test.test(".svg"));
-
-    //   svgRule.test = /\.(png|jpe?g|gif|webp)$/;
-
-    //   config.module.rules.push({
-    //     test: /\.svg$/,
-    //     use: ["babel-loader", "vue-svg-loader"]
-    //   });
-    // }
   }
 };
