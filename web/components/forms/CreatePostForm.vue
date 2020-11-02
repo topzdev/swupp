@@ -1,6 +1,10 @@
 <template>
   <div class="card--post">
-    <h1>Post G!!!</h1>
+    <dropzone
+      name="photos"
+      :value="post.photos"
+      @input="onChange('photos', $event)"
+    />
     <div>
       <label for="">Title</label>
       <input
@@ -22,11 +26,6 @@
         @input="onChange('price', $event.target.value)"
       />
     </div>
-    <dropzone
-      name="photos"
-      :value="post.photos"
-      @input="onChange('photos', $event)"
-    />
 
     <button @click="onPost">Post</button>
   </div>

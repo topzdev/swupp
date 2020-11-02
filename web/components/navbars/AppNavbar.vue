@@ -12,7 +12,7 @@
       <div class="navbar__actions">
         <button-icon :icon="icons.notif" />
 
-        <div class="navbar__profile">
+        <nuxt-link to="/profile" class="navbar__profile">
           <p class="navbar__profile-name">Christian</p>
 
           <div class="navbar__profile-photo">
@@ -21,7 +21,7 @@
               alt="Christian Lugod Profile"
             />
           </div>
-        </div>
+        </nuxt-link>
       </div>
     </div>
   </nav>

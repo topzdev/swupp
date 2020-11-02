@@ -1,14 +1,20 @@
 <template>
   <div class="dropzone">
     <input
-      class="dropzone___input"
+      class="dropzone__base"
       type="file"
       @change="onUploadPhotos($event)"
       multiple
       accept="image/*"
     />
-
-    <div class="dropzone__thumbnails">
+    <div class="dropzone__body">
+      <h2>Drag photos or click to upload</h2>
+      <p>
+        Upload 2 or more photos here, product photo is the best way to barter
+        your product
+      </p>
+    </div>
+    <div class="dropzone__uploaded">
       <dropzone-thumbnail
         v-for="(item, idx) in value"
         :key="idx"
@@ -31,6 +37,12 @@ export default {
     value: Array,
   },
 
+  computed: {
+    activePhoto() {
+      return;
+    },
+  },
+
   methods: {
     async onUploadPhotos(event) {
       const rawPhotos = event.target.files;
@@ -46,6 +58,15 @@ export default {
       });
 
       this.$emit("input", [...this.value, ...parsedPhotos]);
+    },
+
+    initialActive() {
+      this.$emit(
+        "input",
+        this.value.map((item, idx) => {
+          idx === 1 ? { ...item, isActive: true } : item;
+        })
+      );
     },
 
     remove(index) {
