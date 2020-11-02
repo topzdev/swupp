@@ -1,15 +1,15 @@
 <template>
   <div v-if="photo" style="display: block">
     <img :src="photo" alt="" height="100" />
-    <input type="checkbox" :checked="item.isCover" @change="isCover(id)" />
+    <input type="checkbox" :checked="item.isCover" @change="isCover(index)" />
     <input
       type="text"
       :value="item.caption"
-      @input="changeCaption(id, $event.target.value)"
+      @input="changeCaption(index, $event.target.value)"
       placeholder="Enter Caption"
     />
 
-    <button @click="remove(idx)">X = id = {{ id }}</button>
+    <button @click="remove(index)">X</button>
   </div>
 </template>
 
@@ -23,8 +23,7 @@ export default {
   },
 
   props: {
-    id: String,
-    idx: Number,
+    index: Number,
     item: Object,
     remove: Function,
     changeCaption: Function,
@@ -38,8 +37,8 @@ export default {
   },
 
   watch: {
-    item: async function (newValue) {
-      await this.loadPhoto(newValue.photo);
+    item: function (newValue) {
+      this.loadPhoto(newValue.photo);
     },
   },
 

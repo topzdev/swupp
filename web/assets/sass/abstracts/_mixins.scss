@@ -48,3 +48,13 @@
     }
   }
 }
+
+@mixin flex-middle() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin transition() {
+  transition: all 200ms ease;
+}

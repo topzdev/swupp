@@ -1,7 +1,35 @@
-<template></template>
+<template>
+  <div>
+    <header>
+      <app-navbar />
+    </header>
+
+    <main>
+      <slot></slot>
+    </main>
+  </div>
+</template>
 
 <script>
-export default {};
+import AppNavbar from "@/components/navbars/AppNavbar";
+export default {
+  props: {
+    title: {
+      type: String,
+      default: "Swupp",
+    },
+    description: String,
+  },
+  head() {
+    return {
+      title: this.title,
+      titleTemplate: "%s - Swupp",
+    };
+  },
+  components: {
+    AppNavbar,
+  },
+};
 </script>
 
 <style>

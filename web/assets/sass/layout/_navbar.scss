@@ -1,0 +1,49 @@
+.navbar {
+  .container {
+    display: flex;
+    align-items: center;
+    height: 100px;
+    position: relative;
+  }
+  &__logo {
+    img {
+      height: 50px;
+    }
+  }
+  &__search {
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 550px;
+  }
+  &__actions {
+    display: flex;
+    margin-left: auto;
+  }
+
+  &__profile {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+
+  &__profile-name {
+    font-weight: 600;
+  }
+
+  &__profile-photo {
+    display: flex;
+    height: 50px;
+    width: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 100%;
+    overflow: hidden;
+    margin-left: 10px;
+    img {
+      height: 100%;
+    }
+  }
+}

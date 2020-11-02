@@ -12,10 +12,9 @@
       <dropzone-thumbnail
         v-for="(item, idx) in value"
         :key="idx"
-        :idx="idx"
-        :id="item.id"
+        :index="idx"
         :item="item"
-        :remove="removePhoto"
+        :remove="remove"
         :change-caption="changeCaption"
         :is-cover="isCover"
       />
@@ -40,7 +39,6 @@ export default {
       let self = this;
       rawPhotos.forEach((item) => {
         parsedPhotos.push({
-          id: uuidv4(),
           photo: item,
           caption: "",
           isCover: false,
@@ -50,33 +48,31 @@ export default {
       this.$emit("input", [...this.value, ...parsedPhotos]);
     },
 
-    removePhoto(id) {
-      const newArray = this.value.filter((item, idx) => {
-        console.log(idx, id);
-        return idx !== id;
-      });
-
-      this.$emit("input", newArray);
-    },
-
-    changeCaption(id, value) {
+    remove(index) {
       this.$emit(
         "input",
-        this.value.map((item) =>
-          item.id === id ? { ...item, caption: value } : item
+        this.value.filter((_, idx) => idx !== index)
+      );
+    },
+
+    changeCaption(index, value) {
+      this.$emit(
+        "input",
+        this.value.map((item, idx) =>
+          idx === index ? { ...item, caption: value } : item
         )
       );
     },
 
-    isCover(id) {
+    isCover(index) {
       let temp = this.value;
 
       // false all isCover on list
       temp = temp.map((item) => ({ ...item, isCover: false }));
 
       // assigned isCover to list using the idx as id
-      temp = temp.map((item) =>
-        item.id === id ? { ...item, isCover: true } : item
+      temp = temp.map((item, idx) =>
+        idx === index ? { ...item, isCover: true } : item
       );
       this.$emit("input", temp);
     },

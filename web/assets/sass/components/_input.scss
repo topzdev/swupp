@@ -9,6 +9,9 @@
 }
 
 .inp {
+  border: none;
+  background: none;
+  font: inherit;
   &__left-icon {
   }
   &--primary {
@@ -30,6 +33,63 @@
       background-position-y: 50%;
     }
   }
+
+  &--search {
+    $search-height: 55px;
+    display: flex;
+    position: relative;
+    height: $search-height;
+    width: 100%;
+    &__inp {
+      background: var(--color-light-gray);
+      height: 100%;
+      width: 100%;
+      padding: 20px;
+      border-radius: 100px;
+    }
+
+    &__placeholder {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      color: var(--color-main);
+      pointer-events: none;
+
+      .p-default {
+        font-size: 15px;
+        font-family: var(--font-regular);
+        color: var(--color-gray);
+      }
+
+      .p-dynamic {
+        font-weight: 600;
+        font-family: var(--font-heading);
+      }
+    }
+
+    &__btn {
+      position: absolute;
+      height: 100%;
+      width: $search-height;
+      border-radius: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 0;
+      @include flex-middle();
+      @include transition();
+
+      &:hover {
+        background-color: var(--color-primary);
+      }
+    }
+
+    // &:focus-within &__placeholder {
+    //   opacity: 0;
+    // }
+  }
+
+  // inpout style properties
 
   &__right-icon {
   }
