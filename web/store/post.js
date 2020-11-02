@@ -45,6 +45,8 @@ export const state = () => ({
   }
 });
 
+export const getters = {};
+
 export const mutations = {
   [types.mutations.POST_UPDATE_CURRENT](state, { key, value }) {
     state.current[key] = value;

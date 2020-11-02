@@ -3,7 +3,7 @@
     <input
       class="dropzone___input"
       type="file"
-      @change="onUploadPhotos"
+      @change="onUploadPhotos($event)"
       multiple
       accept="image/*"
     />
@@ -12,6 +12,7 @@
       <dropzone-thumbnail
         v-for="(item, idx) in value"
         :key="idx"
+        :idx="idx"
         :id="item.id"
         :item="item"
         :remove="removePhoto"
@@ -50,16 +51,12 @@ export default {
     },
 
     removePhoto(id) {
-      console.clear();
-      console.log("Given: ", id);
+      const newArray = this.value.filter((item, idx) => {
+        console.log(idx, id);
+        return idx !== id;
+      });
 
-      this.$emit(
-        "input",
-        this.value.filter((item) => {
-          console.log(item.id, id, item.id === id);
-          return item.id !== id;
-        })
-      );
+      this.$emit("input", newArray);
     },
 
     changeCaption(id, value) {
