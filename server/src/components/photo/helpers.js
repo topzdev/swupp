@@ -25,7 +25,7 @@ const isValidWhere = (where) => {
 exports.multiUploadToCloud = (where, photos) => {
   if (!isValidWhere(where)) throw Error("Invalid folder to store");
 
-  if (!photo.length) throw Error("No photo provided");
+  if (!photos.length) throw Error("No photo provided");
 
   console.log("Helpers", photos);
 
@@ -45,17 +45,22 @@ exports.multiUploadToCloud = (where, photos) => {
           folder: folders[where],
         },
         (error, result) => {
-          if (error) reject(error);
+          if (error) return reject(error);
+
+          console.log("Result", result);
 
           uploadResponse.push(parseResult(result));
 
-          if (uploadResponse.length === photoLength) resolve(uploadResponse);
+          if (uploadResponse.length === photoLength)
+            return resolve(uploadResponse);
         }
       );
     }
   })
     .then((result) => result)
-    .catch((error) => error);
+    .catch((error) => {
+      throw error;
+    });
 };
 
 exports.singleUploadToCloud = (where, photo) => {
@@ -80,5 +85,7 @@ exports.singleUploadToCloud = (where, photo) => {
     );
   })
     .then((result) => result)
-    .catch((error) => error);
+    .catch((error) => {
+      throw error;
+    });
 };

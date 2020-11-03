@@ -12,12 +12,16 @@ const PostPhoto = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
+    caption: {
       type: DataTypes.STRING,
     },
     publicId: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    isCover: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   { timestamps: true, freezeTableName: true }

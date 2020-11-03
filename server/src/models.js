@@ -23,6 +23,9 @@ const associations = () => {
 
   User.hasMany(Post, { foreignKey: "userId" });
   Post.belongsTo(User);
+
+  Post.hasMany(PostPhoto, { foreignKey: "postId" });
+  PostPhoto.belongsTo(Post);
 };
 
 const sync = async () => {

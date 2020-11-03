@@ -19,16 +19,20 @@ const Post = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 1,
     },
-    qualityId: {
-      type: DataTypes.INTEGER,
-      defaultValue: 1,
-    },
     conditionId: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
     },
     prefered: {
       type: DataTypes.STRING,
+    },
+    isDraft: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    isPriceHidden: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   { timestamps: true, freezeTableName: true }

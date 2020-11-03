@@ -1,12 +1,30 @@
 const returnError = require("../../utils/returnError");
 const photoHelpers = require("./helpers");
+const PostPhotoModel = require("../post/models/PostPhoto");
 
-exports.uploadPostPhoto = async (postId, photos) => {
+exports.uploadPostPhotos = async (postId, photos) => {
   if (!photos.length) return returnError("photos", "Photo is not provided");
 
-  const result = await photoHelpers.multiUploadToCloud("post", photos);
+  let photoResult = await photoHelpers.multiUploadToCloud(
+    "post",
+    photos.map((item) => item.photo)
+  );
+
+  // add error handling here..
+  photoResult = photoResult.map((item, idx) => {
+    const { isCover, caption } = photos[idx];
+    return { ...item, isCover: isCover, caption: caption, postId };
+  });
+
+  const dbResult = await PostPhotoModel.bulkCreate(photoResult, {
+    returning: true,
+  });
+
   return {
-    data: result,
+    data: dbResult.map((item) => {
+      const { id, publicId } = item.dataValues;
+      return { id, publicId };
+    }),
     message: "Photo successfully uploaded",
   };
 };

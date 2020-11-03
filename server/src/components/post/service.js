@@ -4,22 +4,33 @@ const User = require("../user/models/User");
 exports.createPost = async ({
   title,
   price,
+  body,
+  isPriceHidden,
   categoryId,
-  qualityId,
   conditionId,
   prefered,
+  userId,
+  isDraft,
+  photos,
 }) => {
-  const userId = 1;
+  // insert post to database
   const post = await Post.create({
     title,
     price,
-    // categoryId,
-    // qualityId,
-    // conditionId,
+    body,
+    isPriceHidden,
+    categoryId,
+    conditionId,
     prefered,
     userId,
+    isDraft,
   });
 
+  // upload photo to image storage
+
+  // save photo details on database
+
+  // return id and success message to frontendt
   return {
     data: {
       message: "Post successfully added",
