@@ -1,7 +1,6 @@
 <template>
   <div v-if="photo" class="dropzone__thumbnail" :class="coverClass">
-    <img class="thumb-blur" :src="photo" alt="" height="100" />
-    <img class="thumb-img" :src="photo" alt="" height="100" />
+    <app-image :src="photo" />
     <input
       class="thumb-checkbox"
       type="checkbox"

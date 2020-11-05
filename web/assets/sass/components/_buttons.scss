@@ -5,10 +5,29 @@ button {
 .btn {
   &--primary {
     background: var(--color-primary);
-    padding: 18px 20px;
-    width: 100%;
     border-radius: 10px;
     font-weight: 600;
+    color: var(--color-white);
+    text-align: center;
+  }
+
+  &--small {
+    font-size: 14px;
+    padding: 10px 50px;
+  }
+
+  &--medium {
+    font-size: 16px;
+    padding: 14px 70px;
+  }
+
+  &--large {
+    font-size: 18px;
+    padding: 18px 50px;
+  }
+
+  &--full-width {
+    width: 100%;
   }
 
   &--links {

@@ -38,3 +38,37 @@ export const CURRENT_DATE = (function() {
     month: MONTHS[date.getMonth()]
   };
 })();
+
+export const CONDITIONS = [
+  {
+    id: "nw",
+    value: "new"
+  },
+  {
+    id: "ln",
+    value: "like new"
+  },
+  {
+    id: "ex",
+    value: "excellent"
+  },
+  {
+    id: "gd",
+    value: "good"
+  },
+  {
+    id: "fr",
+    value: "fair"
+  },
+  {
+    id: "sv",
+    value: "salvage"
+  }
+];
+
+export const CATEGORIES = [
+  { id: "cr", value: "Car" },
+  { id: "dm", value: "Dummy" },
+  { id: "d3", value: "DUMMY 3" },
+  { id: "d4", value: "DUMMY 4" }
+];

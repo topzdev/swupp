@@ -1,0 +1,26 @@
+.app-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+
+  &__blur {
+    position: absolute;
+    height: 120%;
+    width: 120%;
+    object-fit: cover;
+    left: 0;
+    right: 0;
+    filter: blur(5px);
+    z-index: 0;
+  }
+
+  &__main {
+    display: block;
+    position: relative;
+    height: 100%;
+    margin: 0 auto;
+  }
+}

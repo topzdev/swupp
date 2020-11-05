@@ -9,12 +9,16 @@
         <template v-if="!$auth.loggedIn">
           <div class="col-4">
             <nuxt-link to="/login">
-              <button-primary label="Login" />
+              <button-primary label="Login" :is-full-width="true" size="lg" />
             </nuxt-link>
           </div>
           <div class="col-4">
             <nuxt-link to="/register">
-              <button-primary label="Register" />
+              <button-primary
+                label="Register"
+                :is-full-width="true"
+                size="lg"
+              />
             </nuxt-link>
           </div>
         </template>
@@ -23,6 +27,8 @@
             class=""
             label="Logout"
             @click.native="$auth.logout()"
+            :is-full-width="true"
+            size="lg"
           />
         </div>
         <div class="col-4">
@@ -30,7 +36,7 @@
             href="https://github.com/topzdev/swupp"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn--primary"
+            class="btn--primary btn--large btn--full-width"
           >
             GitHub
           </a>

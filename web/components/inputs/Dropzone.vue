@@ -7,6 +7,7 @@
       multiple
       accept="image/*"
     />
+    <!-- <app-image v-if="coverPhoto" :src="coverPhoto" /> -->
     <div class="dropzone__body">
       <h2>Drag photos or click to upload</h2>
       <p>
@@ -30,7 +31,7 @@
 
 <script>
 import DropzoneThumbnail from "./dropzone/DropzoneThumbnail";
-import { v4 as uuidv4 } from "uuid";
+import parseBlobToData from "@/utils/parseBlobToData";
 export default {
   components: { DropzoneThumbnail },
   props: {
@@ -38,8 +39,14 @@ export default {
   },
 
   computed: {
-    activePhoto() {
-      return;
+    async coverPhoto() {
+      if (!this.value) return;
+      const rawPhoto = this.value.filter((item) => item.isCover === true)[0];
+      const photo = this.loadPhoto(rawPhoto);
+      return (
+        this.loadPhoto(this.value.filter((item) => item.isCover === true)[0]) ||
+        null
+      );
     },
   },
 
@@ -57,9 +64,11 @@ export default {
         });
       });
 
-      this.$emit("input", [...this.value, ...parsedPhotos]);
+      this.$emit("input", [...parsedPhotos, ...this.value]);
     },
-
+    async loadPhoto(photo) {
+      return await parseBlobToData(photo);
+    },
     initialActive() {
       this.$emit(
         "input",

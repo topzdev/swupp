@@ -17,7 +17,7 @@
                   :rules="rules.username"
                   label="Username"
                   id="username"
-                />
+                />``
               </div>
               <div class="col-12 mb-2">
                 <password-field
@@ -123,6 +123,8 @@
           <button-primary
             :label="buttonText"
             :loading="loading"
+            :is-full-width="true"
+            size="md"
             type="submit"
           />
         </div>

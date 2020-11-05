@@ -4,45 +4,17 @@ export const namespaced = false;
 
 export const state = () => ({
   current: {
-    title: "3131",
+    title: "Hello Test",
     price: 0,
-    categoryId: "1",
-    qualityId: "1",
-    conditionId: "1",
-    description: "1",
-    prefered: "",
-    photos: []
+    categoryId: "bruh",
+    conditionId: "tea",
+    body: "2",
+    prefered: "Myself :)",
+    photos: [],
+    isPriceHidden: false,
+    isDraft: false
   },
-  options: {
-    categories: [{ id: 1, value: "Car" }],
-    qualities: [{}],
-    conditions: [
-      {
-        id: 1,
-        value: "new"
-      },
-      {
-        id: 2,
-        value: "like new"
-      },
-      {
-        id: 3,
-        value: "excellent"
-      },
-      {
-        id: 4,
-        value: "good"
-      },
-      {
-        id: 5,
-        value: "fair"
-      },
-      {
-        id: 6,
-        value: "salvage"
-      }
-    ]
-  }
+  options: {}
 });
 
 export const getters = {};
@@ -59,18 +31,68 @@ export const actions = {
       const formData = new FormData();
       const post = state.current;
 
-      post.photos.forEach(item => {
-        formData.append("photos.photo", item.photo);
-        formData.append("photos.description", item.description);
+      /* 
+      to send data 
+      {
+        {
+          title: String,
+          price: Number,
+          categoryId: String,
+          qualityId: String,
+          conditionId: String,
+          body: String,
+          prefered: String,
+          photos: [{
+            photo: File
+            isCover: Boolean,
+            caption: String
+          }]
+        }
+      }
+      */
+
+      for (let property in post) {
+        if (post.hasOwnProperty(property) && property !== "photos") {
+          formData.append(property, post[property]);
+        }
+      }
+      console.log(post.photos.map(item => item.caption));
+
+      post.photos.forEach((item, idx) => {
+        formData.append("photos.photo" + idx, item.photo);
+        formData.append("photos.caption" + idx, item.caption);
+        formData.append("photos.isCover" + idx, item.isCover);
+        console.log("Created", item);
       });
 
-      const result = await this.$axios.$post("/api/v1/photo/test", formData, {
+      const result = await this.$axios.$post("/api/v1/post/create", formData, {
         headers: {
           "Content-type": "multipart/form-data"
         }
       });
 
       console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async [types.actions.POST_UPDATE]({ commit, state }) {
+    try {
+      /* 
+        Database needs 
+
+        post information like id, title etc..
+        newPhotos - new uploaded photos on update
+        deletedPhotoIds - all remove photo public_ids
+
+      */
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async [types.actions.POST_REMOVE]({ commit, state }) {
+    try {
     } catch (error) {
       console.error(error);
     }

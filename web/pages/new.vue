@@ -1,7 +1,7 @@
 <template>
   <AuthLayout title="Create Post">
     <div class="container">
-      <div class="new-post">
+      <div class="new-post mb-5">
         <create-post-form />
       </div>
     </div>
@@ -10,7 +10,7 @@
 
 
 <script>
-import AuthLayout from "@/layouts/AuthLayout";
+import AuthLayout from "@/components/layouts/AuthLayout";
 export default {
   components: {
     AuthLayout,
