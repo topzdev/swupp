@@ -1,12 +1,16 @@
 <template>
-  <button
-    v-bind="$attrs"
-    :type="type"
-    class="btn--primary"
-    :class="[sizeClass, fullWidth]"
-  >
-    {{ loading ? "loading..." : label }}
-  </button>
+  <div>
+    <component
+      :is="!to ? 'button' : 'nuxt-link'"
+      v-bind="$attrs"
+      :type="type"
+      class="btn--primary"
+      :to="to"
+      :class="[sizeClass, fullWidth]"
+    >
+      {{ loading ? "loading..." : label }}
+    </component>
+  </div>
 </template>
 
 <script>
@@ -19,6 +23,10 @@ const sizes = {
 export default {
   inheritAttrs: true,
   props: {
+    to: {
+      type: String,
+      default: "",
+    },
     label: String,
     type: String,
     loading: {

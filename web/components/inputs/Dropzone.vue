@@ -1,13 +1,16 @@
 <template>
-  <div class="dropzone">
+  <div class="dropzone" :class="[activeClass, dragClass]">
     <input
       class="dropzone__base"
       type="file"
       @change="onUploadPhotos($event)"
       multiple
       accept="image/*"
+      ref="dropzone"
+      @dragover="dragging = true"
+      @drop="dragging = false"
+      @dragleave="dragging = false"
     />
-    <!-- <app-image v-if="coverPhoto" :src="coverPhoto" /> -->
     <div class="dropzone__body">
       <h2>Drag photos or click to upload</h2>
       <p>
@@ -15,9 +18,10 @@
         your product
       </p>
     </div>
+    <app-image v-if="activePhoto" :src="activePhoto" />
     <div class="dropzone__uploaded">
       <dropzone-thumbnail
-        v-for="(item, idx) in value"
+        v-for="(item, idx) in value.slice(0, 5)"
         :key="idx"
         :index="idx"
         :item="item"
@@ -25,6 +29,9 @@
         :change-caption="changeCaption"
         :is-cover="isCover"
       />
+    </div>
+    <div v-if="hasItem" class="dropzone__edit">
+      <button-primary label="Edit photos" to="/new/photos" />
     </div>
   </div>
 </template>
@@ -38,6 +45,13 @@ export default {
     value: Array,
   },
 
+  data() {
+    return {
+      activePhoto: null,
+      dragging: false,
+    };
+  },
+
   computed: {
     async coverPhoto() {
       if (!this.value) return;
@@ -48,11 +62,34 @@ export default {
         null
       );
     },
+    hasItem() {
+      return this.value.length;
+    },
+    coverPhoto() {
+      return this.$store.getters.getCoverPhoto;
+    },
+    activeClass() {
+      return this.hasItem ? "dropzone--active" : "";
+    },
+    dragClass() {
+      return this.dragging ? "dropzone--dragging" : "";
+    },
+    bodyTest() {
+      if (this.dragging) return "You drag it here boy";
+      else return "Drag photos or click to upload";
+    },
+  },
+
+  watch: {
+    async coverPhoto(value) {
+      this.activePhoto = value ? await this.loadPhoto(value) : null;
+    },
   },
 
   methods: {
     async onUploadPhotos(event) {
       const rawPhotos = event.target.files;
+      console.log("New Upload", event.target.files);
       if (!rawPhotos.length && !rawPhotos) return;
       let parsedPhotos = [];
       let self = this;
@@ -63,7 +100,7 @@ export default {
           isCover: false,
         });
       });
-
+      this.$refs.dropzone.value = null;
       this.$emit("input", [...parsedPhotos, ...this.value]);
     },
     async loadPhoto(photo) {

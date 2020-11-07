@@ -9,6 +9,35 @@
   overflow: hidden;
   flex-direction: column;
 
+  &--active {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background-color: var(--color-main);
+      opacity: 0.5;
+    }
+  }
+
+  &--dragging {
+    border: 3px dashed var(--color-primary);
+  }
+
+  &__edit {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    z-index: 4;
+  }
+
+  &--active &__body {
+    color: var(--color-primary);
+  }
+
   &__base {
     position: absolute;
     top: 0;
@@ -17,6 +46,8 @@
     width: 100%;
     z-index: 0;
     opacity: 0;
+    z-index: 3;
+    cursor: pointer;
   }
 
   &__body {
@@ -24,10 +55,13 @@
     flex-direction: column;
     height: calc(100% - 120px);
     width: 100%;
+    position: relative;
+    z-index: 2;
 
     h2 {
       font-size: 24px;
       margin-bottom: 10px;
+      font-weight: 600;
     }
 
     p {
@@ -41,6 +75,7 @@
     left: 0;
     display: flex;
     padding: 10px;
+    z-index: 3;
 
     & > *:not(:last-child) {
       margin-right: 10px;

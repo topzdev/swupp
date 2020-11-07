@@ -87,7 +87,7 @@
         label="Post"
         size="md"
         type="submit"
-        @click.native="onPost"
+        @click.native="test"
       />
     </div>
   </div>
@@ -116,9 +116,19 @@ export default {
   methods: {
     onChange(key, value) {
       console.log(value);
-      this.$store.commit(types.mutations.POST_UPDATE_CURRENT, {
+      this.$store.commit(types.mutations.SET_POST_CURRENT, {
         key,
         value,
+      });
+    },
+    test() {
+      console.log("Test");
+      this.$store.dispatch(types.actions.SHOW_SNACKBAR, {
+        show: true,
+        title: "Post successfully uploaded",
+        body: "test test",
+        type: "success",
+        timeout: 5000,
       });
     },
     ...mapActions({
