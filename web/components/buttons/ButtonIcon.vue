@@ -5,7 +5,9 @@
 </template>
 
 <script>
+import buttonMixin from "@/mixins/button";
 export default {
+  mixins: [buttonMixin],
   props: {
     icon: String,
     to: {

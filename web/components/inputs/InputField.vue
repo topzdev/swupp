@@ -5,7 +5,11 @@
     :vid="id"
     v-slot="{ errors }"
   >
-    <div class="inp inp--primary" :class="{ 'is-error': !!errors[0] }">
+    <div
+      v-bind="$attrs"
+      class="inp inp--primary"
+      :class="{ 'is-error': !!errors[0] }"
+    >
       <div>
         <label v-if="!!label" :for="id" class="inp__label">{{ label }}</label>
         <slot></slot>
@@ -49,6 +53,7 @@
 <script>
 import { ValidationProvider } from "vee-validate";
 export default {
+  inheritAttrs: false,
   components: { ValidationProvider },
 
   props: {

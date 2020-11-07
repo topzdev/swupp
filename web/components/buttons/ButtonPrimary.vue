@@ -1,12 +1,12 @@
 <template>
   <div>
     <component
-      :is="!to ? 'button' : 'nuxt-link'"
+      :is="to ? 'nuxt-link' : 'button'"
       v-bind="$attrs"
       :type="type"
       class="btn--primary"
       :to="to"
-      :class="[sizeClass, fullWidth]"
+      :class="[sizeClass, fullWidth, variantClass]"
     >
       {{ loading ? "loading..." : label }}
     </component>
@@ -14,13 +14,9 @@
 </template>
 
 <script>
-const sizes = {
-  sm: "btn--small",
-  md: "btn--medium",
-  lg: "btn--large",
-};
-
+import buttonMixin from "@/mixins/button";
 export default {
+  mixins: [buttonMixin],
   inheritAttrs: true,
   props: {
     to: {
@@ -32,25 +28,6 @@ export default {
     loading: {
       type: Boolean,
       default: false,
-    },
-    size: {
-      type: String,
-      default: "sm",
-    },
-
-    isFullWidth: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  computed: {
-    sizeClass() {
-      return sizes[this.size];
-    },
-
-    fullWidth() {
-      return this.isFullWidth ? "btn--full-width" : "";
     },
   },
 };

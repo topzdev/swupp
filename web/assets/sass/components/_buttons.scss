@@ -4,7 +4,6 @@ button {
 
 .btn {
   &--primary {
-    background: var(--color-primary);
     border-radius: 8px;
     font-weight: 600;
     color: var(--color-white);
@@ -18,13 +17,13 @@ button {
   }
 
   &--medium {
-    font-size: 16px;
-    padding: 14px 70px;
+    font-size: 15px;
+    padding: 12px 60px;
   }
 
   &--large {
     font-size: 18px;
-    padding: 18px 50px;
+    padding: 18px 70px;
   }
 
   &--full-width {

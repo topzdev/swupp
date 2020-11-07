@@ -1,33 +1,26 @@
 <template>
-  <div v-if="photo" class="dropzone__thumbnail" :class="coverClass">
-    <app-image :src="photo" />
+  <div class="dropzone__thumbnail" :class="coverClass" :title="title">
+    <app-image :src="item.photoUrl" />
     <input
       class="thumb-checkbox"
       type="checkbox"
       :checked="item.isCover"
       @change="isCover(index)"
     />
-    <!-- <input
-      type="text"
-      :value="item.caption"
-      @input="changeCaption(index, $event.target.value)"
-      placeholder="Enter Caption"
-    /> -->
-
-    <button class="thumb-exit" @click="remove(index)">
-      <app-icon type="mdi" :path="icons.close" />
-    </button>
+    <div class="dropzone__thumbnail-action">
+      <button-icon :icon="icons.edit" />
+      <button-icon :icon="icons.close" @click="remove(index)" />
+    </div>
   </div>
 </template>
 
 <script>
 import parseBlobToData from "@/utils/parseBlobToData";
-import { mdiClose } from "@mdi/js";
+import { mdiClose, mdiImageEdit } from "@mdi/js";
 export default {
   data() {
     return {
-      photo: null,
-      icons: { close: mdiClose },
+      icons: { close: mdiClose, edit: mdiImageEdit },
     };
   },
 
@@ -39,26 +32,15 @@ export default {
     isCover: Function,
   },
 
-  methods: {
-    async loadPhoto(photo) {
-      this.photo = await parseBlobToData(photo);
-    },
-  },
-
-  watch: {
-    item: function (newValue) {
-      this.loadPhoto(newValue.photo);
-    },
-  },
-
   computed: {
     coverClass() {
       return this.item.isCover ? "thumb-active" : "";
     },
-  },
-
-  mounted() {
-    this.loadPhoto(this.item.photo);
+    title() {
+      return !!this.item.caption
+        ? this.item.caption
+        : "No caption added, Click edit photos to add caption for this photo";
+    },
   },
 };
 </script>

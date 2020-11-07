@@ -1,0 +1,16 @@
+.color {
+  &--primary {
+    background-color: var(--color-primary);
+  }
+
+  &--accent {
+    background-color: var(--color-accent);
+  }
+
+  &--success {
+    background-color: var(--color-success);
+  }
+  &--default {
+    background-color: var(--color-dark-gray);
+  }
+}

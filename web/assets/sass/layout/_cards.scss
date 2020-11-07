@@ -1,4 +1,25 @@
 .card {
+  &--uploaded {
+    position: relative;
+    width: 100%;
+    background-color: var(--color-background-2);
+    padding: 12px;
+    border-radius: 5px;
+    &__photo {
+      overflow: hidden;
+      position: relative;
+      height: 350px;
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    &__input {
+      & > *:not(:last-child) {
+        margin-top: 10px;
+      }
+    }
+  }
+
   &--form {
     position: relative;
     display: flex;

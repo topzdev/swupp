@@ -11,9 +11,10 @@
     height: 120%;
     width: 120%;
     object-fit: cover;
-    left: 0;
-    right: 0;
-    filter: blur(5px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(5px) brightness(80%);
     z-index: 0;
   }
 

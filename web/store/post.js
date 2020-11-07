@@ -19,11 +19,11 @@ export const state = () => ({
 });
 
 export const getters = {
-  async getCoverPhoto(state) {
+  getCoverPhoto(state) {
     const photos = state.current.photos;
     const photoFiltered = photos.filter(item => item.isCover);
     if (photos.length && photoFiltered.length) {
-      return await parseBlobToData(photoFiltered[0].photo);
+      return photoFiltered[0].photoUrl;
     }
     return null;
   }

@@ -11,6 +11,7 @@
           <input
             type="checkbox"
             :id="id"
+            :checked="value"
             :value="value"
             @input="$emit('input', $event.target.checked)"
             name="agreement"
