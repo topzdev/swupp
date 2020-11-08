@@ -1,4 +1,5 @@
 const { CLOUDINARY_FOLDER } = require("../../constants");
+const returnError = require("../../utils/returnError");
 
 const cloudinary = require("cloudinary").v2;
 
@@ -22,7 +23,7 @@ const isValidWhere = (where) => {
   return folders[where] !== undefined;
 };
 
-exports.multiUploadToCloud = (where, photos) => {
+exports.bulkUploadToCloud = (where, photos) => {
   if (!isValidWhere(where)) throw Error("Invalid folder to store");
 
   if (!photos.length) throw Error("No photo provided");
@@ -63,6 +64,32 @@ exports.multiUploadToCloud = (where, photos) => {
     });
 };
 
+exports.bulkDeleteToCloud = (publicIds) => {
+  if (!publicIds || !publicIds.length) {
+    throw returnError("photos", "recieved null or empty array of publicIDs");
+  }
+
+  return new Promise(async (resolve, reject) => {
+    let publicIdsLength = publicIds.length,
+      deleteResponse = [];
+    for (let i = 0; i <= publicIdsLength - 1; i++) {
+      await cloudinary.uploader.destroy(publicIds[i], (error, result) => {
+        if (error) return reject(error);
+
+        console.log("Bulk delete resukt", result);
+
+        deleteResponse.push(result);
+
+        if (deleteResponse.length === publicIdsLength) resolve(deleteResponse);
+      });
+    }
+  })
+    .then((result) => result)
+    .catch((error) => {
+      throw error;
+    });
+};
+
 exports.singleUploadToCloud = (where, photo) => {
   if (!isValidWhere(where)) return;
 
@@ -83,6 +110,21 @@ exports.singleUploadToCloud = (where, photo) => {
         resolve(parseResult(result));
       }
     );
+  })
+    .then((result) => result)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+exports.singleDeleteToCloud = (publicId) => {
+  if (!publicId) throw returnError("photo", "No publicId provided");
+
+  return new Promise(async (resolve, reject) => {
+    await cloudinary.uploader.destroy(publicId, (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
+    });
   })
     .then((result) => result)
     .catch((error) => {

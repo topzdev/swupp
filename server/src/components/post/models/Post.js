@@ -16,12 +16,10 @@ const Post = sequelize.define(
       allowNull: false,
     },
     categoryId: {
-      type: DataTypes.INTEGER,
-      defaultValue: 1,
+      type: DataTypes.STRING,
     },
     conditionId: {
-      type: DataTypes.INTEGER,
-      defaultValue: 1,
+      type: DataTypes.STRING,
     },
     prefered: {
       type: DataTypes.STRING,
@@ -35,7 +33,7 @@ const Post = sequelize.define(
       defaultValue: false,
     },
   },
-  { timestamps: true, freezeTableName: true }
+  { timestamps: true, freezeTableName: true, paranoid: true }
 );
 
 module.exports = Post;

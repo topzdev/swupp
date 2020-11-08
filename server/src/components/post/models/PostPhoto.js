@@ -24,7 +24,7 @@ const PostPhoto = sequelize.define(
       defaultValue: false,
     },
   },
-  { timestamps: true, freezeTableName: true }
+  { timestamps: true, freezeTableName: true, paranoid: true }
 );
 
 module.exports = PostPhoto;
