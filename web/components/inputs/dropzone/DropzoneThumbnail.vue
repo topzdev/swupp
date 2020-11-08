@@ -1,15 +1,19 @@
 <template>
   <div class="dropzone__thumbnail" :class="coverClass" :title="title">
-    <app-image :src="item.photoUrl" />
+    <app-image :src="item.url" />
     <input
       class="thumb-checkbox"
       type="checkbox"
       :checked="item.isCover"
-      @change="isCover(index)"
+      @change="changeCover(index)"
     />
     <div class="dropzone__thumbnail-action">
-      <button-icon :icon="icons.edit" />
-      <button-icon :icon="icons.close" @click="remove(index)" />
+      <button-icon :to="goto" :icon="icons.edit" />
+      <button-icon
+        variant="accent"
+        :icon="icons.close"
+        @click.native="remove(index)"
+      />
     </div>
   </div>
 </template>
@@ -25,11 +29,15 @@ export default {
   },
 
   props: {
+    crud: {
+      type: String,
+      default: "created",
+    },
     index: Number,
     item: Object,
     remove: Function,
     changeCaption: Function,
-    isCover: Function,
+    changeCover: Function,
   },
 
   computed: {
@@ -38,8 +46,13 @@ export default {
     },
     title() {
       return !!this.item.caption
-        ? this.item.caption
+        ? "Caption: " + this.item.caption
         : "No caption added, Click edit photos to add caption for this photo";
+    },
+    goto() {
+      return `/${this.crud === "create" ? "new" : "update"}/photos#photo-${
+        this.index
+      } `;
     },
   },
 };

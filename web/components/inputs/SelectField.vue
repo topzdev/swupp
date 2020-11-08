@@ -5,7 +5,7 @@
     :vid="id"
     v-slot="{ errors }"
   >
-    <div class="inp inp--primary">
+    <div class="inp inp--primary" :class="{ 'is-error': !!errors[0] }">
       <label :for="id" class="inp__label">{{ label ? label : "&nbsp;" }}</label>
       <div class="inp__field">
         <select

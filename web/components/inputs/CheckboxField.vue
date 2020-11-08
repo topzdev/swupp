@@ -11,9 +11,9 @@
           <input
             type="checkbox"
             :id="id"
-            :checked="value"
             :value="value"
-            @input="$emit('input', $event.target.checked)"
+            :checked="value"
+            @change="$emit('input', $event.target.checked)"
             name="agreement"
           />
           <span class="checkmark"></span>
@@ -44,6 +44,12 @@ export default {
     mode: {
       type: String,
       default: "eager",
+    },
+  },
+
+  watch: {
+    value(sent) {
+      console.log("Sent", sent);
     },
   },
 };

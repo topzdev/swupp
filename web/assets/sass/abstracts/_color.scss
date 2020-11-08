@@ -5,12 +5,22 @@
 
   &--accent {
     background-color: var(--color-accent);
+    fill: var(--color-white);
   }
 
   &--success {
     background-color: var(--color-success);
   }
+
+  &--warning {
+    background-color: var(--color-yellow);
+  }
+
   &--default {
     background-color: var(--color-dark-gray);
+  }
+
+  &--light-gray {
+    background-color: var(--color-light-gray);
   }
 }

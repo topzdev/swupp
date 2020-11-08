@@ -1,7 +1,11 @@
 <template>
   <div class="card--post">
     <div class="card__header">
-      <button-icon :icon="icons.back" to="/new" class="mr-2" />
+      <button-icon
+        :icon="icons.back"
+        @click.native="$router.back()"
+        class="mr-2"
+      />
       <h2 class="heading--primary mr-auto">Uploaded Photos</h2>
       <button-primary label="Upload more photo" />
     </div>
@@ -15,13 +19,14 @@
         />
       </div>
     </div>
-    <div class="card__actions mt-5">
+    <div class="card__actions mt-1">
       <button-primary
-        label="Back"
+        class="ml-auto"
+        label="Done"
         size="md"
         type="submit"
-        to="/new"
-        variant="default"
+        to="/update"
+        variant="primary"
       />
     </div>
   </div>
@@ -42,9 +47,14 @@ export default {
     };
   },
 
+  mounted() {
+    console.log(this.post.id);
+    if (this.post.id === undefined) this.$router.back();
+  },
+
   computed: {
     post() {
-      return this.$store.state.post.create;
+      return this.$store.state.post.update;
     },
   },
   methods: {
@@ -53,7 +63,7 @@ export default {
       this.$store.commit(types.mutations.CHANGE_POST, {
         key,
         value,
-        crud: "create",
+        crud: "update",
       });
     },
   },

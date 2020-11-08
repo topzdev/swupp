@@ -1,63 +1,69 @@
 <template>
-  <div class="dropzone" :class="[activeClass, dragClass]">
-    <input
-      class="dropzone__base"
-      type="file"
-      @change="onUploadPhotos($event)"
-      multiple
-      accept="image/*"
-      ref="dropzone"
-      @dragover="dragging = true"
-      @drop="dragging = false"
-      @dragleave="dragging = false"
-    />
-    <div class="dropzone__body">
-      <h2>Drag photos or click to upload</h2>
-      <p>Upload two photos here</p>
-    </div>
-    <app-image v-if="coverPhoto" :src="coverPhoto" />
-    <div class="dropzone__uploaded">
-      <dropzone-thumbnail
-        v-for="(item, idx) in value.slice(0, 5)"
-        :key="idx"
-        :index="idx"
-        :item="item"
-        :remove="remove"
-        :change-caption="changeCaption"
-        :is-cover="isCover"
+  <validation-provider
+    :mode="mode"
+    :rules="rules"
+    :vid="id"
+    v-slot="{ errors }"
+    slim
+  >
+    <div class="dropzone" :class="[activeClass, dragClass, errorClass(errors)]">
+      <input
+        class="dropzone__base"
+        type="file"
+        @change="onUploadPhotos($event)"
+        multiple
+        accept="image/*"
+        ref="dropzone"
+        @dragover="dragging = true"
+        @drop="dragging = false"
+        @dragleave="dragging = false"
+        title="Drag photos or click to upload"
       />
+      <div class="dropzone__body">
+        <h2>Drag photos or click to upload</h2>
+        <p v-text="subtitle"></p>
+      </div>
+      <app-image v-if="coverPhoto" :src="coverPhoto" />
+      <div class="dropzone__uploaded">
+        <template v-for="(item, idx) in value.slice(0, 5)">
+          <dropzone-thumbnail
+            v-if="!(item.flag === 'deleted')"
+            :key="idx"
+            :index="idx"
+            :item="item"
+            :remove="remove"
+            :change-caption="changeCaption"
+            :change-cover="changeCover"
+          />
+        </template>
+      </div>
+      <div v-if="hasItem" class="dropzone__edit">
+        <button-primary label="Edit photos" :to="toPage" />
+      </div>
     </div>
-    <div v-if="hasItem" class="dropzone__edit">
-      <button-primary label="Edit photos" to="/new/photos" />
-    </div>
-  </div>
+  </validation-provider>
 </template>
 
 <script>
 import DropzoneThumbnail from "./dropzone/DropzoneThumbnail";
 import parseBlobToData from "@/utils/parseBlobToData";
 import postPhotoMixin from "@/mixins/postPhoto";
+import { ValidationProvider, validate } from "vee-validate";
+import inputValidationMixin from "@/mixins/inputValidation";
 export default {
-  components: { DropzoneThumbnail },
-  mixins: [postPhotoMixin],
-  props: {
-    value: Array,
-  },
+  components: { DropzoneThumbnail, ValidationProvider },
+  mixins: [postPhotoMixin, inputValidationMixin],
   data() {
     return {
       activePhoto: null,
       dragging: false,
-      parseImage: null,
-      toUpload: [],
+      subtitle: "Upload atleast two photos here",
     };
   },
 
   computed: {
     hasItem() {
       return this.value.length;
-    },
-    coverPhoto() {
-      return this.$store.getters.getCoverPhoto;
     },
     activeClass() {
       return this.hasItem ? "dropzone--active" : "";
@@ -69,39 +75,16 @@ export default {
       if (this.dragging) return "You drag it here boy";
       else return "Drag photos or click to upload";
     },
-  },
-
-  watch: {
-    async parseImage(value) {
-      if (!value) return;
-      const { photo, photoUrl } = value;
-      this.$emit("input", [
-        {
-          photo,
-          photoUrl,
-          caption: "",
-          isCover: false,
-        },
-        ...this.value,
-      ]);
+    toPage() {
+      return this.crud === "update" ? "/update/photos" : "/new/photos";
     },
   },
 
   methods: {
-    async onUploadPhotos(event) {
-      const rawPhotos = event.target.files;
-      const self = this;
-
-      rawPhotos.forEach((item) => {
-        const reader = new FileReader();
-
-        reader.onload = () => {
-          self.parseImage = { photoUrl: reader.result, photo: item };
-        };
-        reader.readAsDataURL(item);
-      });
-
-      this.$refs.dropzone.value = null;
+    errorClass(errors) {
+      console.log("Yeah errors", errors);
+      this.subtitle = !!errors[0] ? errors[0] : "Upload atleast two photos.";
+      return !!errors[0] ? "dropzone--error" : "";
     },
   },
 };

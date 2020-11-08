@@ -36,7 +36,7 @@
             href="https://github.com/topzdev/swupp"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn--primary btn--large btn--full-width"
+            class="btn--primary btn--large btn--full-width color--primary"
           >
             GitHub
           </a>

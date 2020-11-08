@@ -41,12 +41,12 @@ button {
     @include flex-middle();
     height: 50px;
     width: 50px;
-    background-color: var(--color-light-gray);
+    // background-color: var(--color-light-gray);
     border-radius: 100%;
     @include transition;
 
     &:hover {
-      background-color: rgba(#{var(--color-light-gray)}, 0.6);
+      // background-color: rgba(#{var(--color-light-gray)}, 0.6);
     }
   }
 }

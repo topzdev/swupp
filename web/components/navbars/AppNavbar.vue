@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar">
     <div class="container">
-      <div class="navbar__logo">
+      <nuxt-link to="/" class="navbar__logo">
         <app-logo />
-      </div>
+      </nuxt-link>
 
       <div class="navbar__search">
         <input-search />

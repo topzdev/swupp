@@ -7,10 +7,10 @@
         @input="onChange('photos', $event)"
         :rules="rules.photos"
         id="photos"
-        crud="create"
+        crud="update"
       />
       <div class="card___header mt-2 px-2">
-        <h2 class="heading--primary">Create Post</h2>
+        <h2 class="heading--primary">Update Post</h2>
       </div>
       <form @submit.prevent="handleSubmit(onSubmit)">
         <div class="row mt-3 px-2">
@@ -127,16 +127,16 @@ export default {
 
   computed: {
     post() {
-      return this.$store.state.post.create;
+      return this.$store.state.post.update;
     },
   },
   methods: {
     onChange(key, value) {
       console.log(value);
       this.$store.commit(types.mutations.CHANGE_POST, {
+        crud: "update",
         key,
         value,
-        crud: "create",
       });
     },
 
@@ -159,6 +159,10 @@ export default {
     ...mapActions({
       onPost: types.actions.POST_CREATE,
     }),
+  },
+  mounted() {
+    // console.log(this.$route.params.id);
+    this.$store.dispatch(types.actions.FETCH_POST, this.$route.params.id);
   },
 };
 </script>

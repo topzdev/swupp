@@ -1,19 +1,17 @@
 <template>
-  <div class="card--uploaded" :id="'photo' + index">
+  <div class="card--uploaded" :id="'photo-' + index">
     <div class="card--uploaded__photo">
-      <app-image :src="item.photoUrl" />
-      <button class="thumb-exit" @click="remove(index)">
-        <app-icon type="mdi" :path="icons.close" />
-      </button>
+      <app-image :src="item.url" />
+      <button-icon :icon="icons.close" @click.native="remove(index)" />
     </div>
     <div class="card--uploaded__input">
       <div class="row no-gutters">
         <div class="col-12 mb-1 mt-1">
           <checkbox-field
-            class="mb-2"
             :value="item.isCover"
+            class="mb-2"
             label="Make cover photo"
-            @input="isCover(index)"
+            @input="changeCover(index)"
           ></checkbox-field>
         </div>
         <div class="col-12">
@@ -43,6 +41,11 @@ export default {
     value: Array,
   },
   mixins: [postPhotoMixin],
+  // watch: {
+  //   item(value) {
+  //     console.log("Changing", value);
+  //   },
+  // },
 };
 </script>
 

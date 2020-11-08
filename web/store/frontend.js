@@ -30,7 +30,7 @@ export const actions = {
     newConfig = { ...newConfig, show: true };
 
     if (!config.timeout) newConfig = { ...newConfig, showClose: true };
-    commit(types.mutations.SET_SNACKBAR, config);
+    commit(types.mutations.SET_SNACKBAR, newConfig);
 
     if (config && config.timeout)
       setTimeout(function() {

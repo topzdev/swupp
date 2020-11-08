@@ -5,6 +5,7 @@
   height: 100%;
   width: 100%;
   z-index: 0;
+  background-color: var(--color-white);
 
   &__blur {
     position: absolute;
@@ -23,5 +24,7 @@
     position: relative;
     height: 100%;
     margin: 0 auto;
+    background-color: var(--color-white);
+    box-shadow: 0 0 20px rgba(#000000, 0.2);
   }
 }

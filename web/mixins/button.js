@@ -19,7 +19,9 @@ export default {
       variants: {
         primary: "color--primary",
         accent: "color--accent",
-        default: "color--default"
+        warning: "color--warning",
+        default: "color--default",
+        light: "color--light-gray"
       },
       sizes: {
         sm: "btn--small",

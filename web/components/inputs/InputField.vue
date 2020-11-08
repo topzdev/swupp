@@ -52,9 +52,12 @@
 
 <script>
 import { ValidationProvider } from "vee-validate";
+import inputValidationMixin from "@/mixins/inputValidation";
+
 export default {
   inheritAttrs: false,
   components: { ValidationProvider },
+  mixins: [inputValidationMixin],
 
   props: {
     value: [String, Number],
@@ -73,16 +76,7 @@ export default {
     },
     leftIcon: String,
     rightIcon: String,
-    showErrMes: {
-      type: Boolean,
-      default: true,
-    },
-    rules: String,
     name: String,
-    mode: {
-      type: String,
-      default: "eager",
-    },
   },
 };
 </script>
