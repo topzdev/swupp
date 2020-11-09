@@ -16,8 +16,8 @@ router.put("/update", auth, async (req, res) => {
   res.json(await postController.updatePost(req, res));
 });
 
-router.delete("/delete", auth, async (req, res) => {
-  res.json(await postController.createPost(req, res));
+router.delete("/delete/:id", auth, async (req, res) => {
+  res.json(await postController.deletePost(req, res));
 });
 
 module.exports = router;
