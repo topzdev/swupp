@@ -32,10 +32,10 @@
   }
 
   &--error {
-    border: 3px dashed var(--color-accent);
+    border: 3px dashed var(--color-accent) !important;
   }
   &--error &__body {
-    color: var(--color-accent);
+    color: var(--color-accent) !important;
   }
 
   &--dragging {

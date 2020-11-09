@@ -1,4 +1,15 @@
 .card {
+  padding: 10px 20px;
+  background-color: var(--color-background);
+
+  &--rounded {
+    border-radius: 5px;
+  }
+
+  &--elevate {
+    box-shadow: 0 0 15px rgba(var(--color-dark-rgb), 0.2);
+  }
+
   &--uploaded {
     position: relative;
     width: 100%;

@@ -1,6 +1,6 @@
 <template>
   <div class="card--post">
-    <validation-observer ref="form" v-slot="{ handleSubmit }">
+    <validation-observer ref="form">
       <dropzone
         name="photos"
         :value="post.photos"
@@ -12,7 +12,7 @@
       <div class="card___header mt-2 px-2">
         <h2 class="heading--primary">Update Post</h2>
       </div>
-      <form @submit.prevent="handleSubmit(onSubmit)">
+      <form @click.prevent="$event.preventDefault()">
         <div class="row mt-3 px-2">
           <div class="col-12 mb-2">
             <input-field
@@ -85,14 +85,19 @@
         </div>
 
         <div class="card__actions px-2">
-          <checkbox-field
+          <button-primary
+            label="Delete"
+            size="md"
             class="mr-auto"
-            :value="post.isDraft"
-            @input="onChange('isDraft', $event)"
-            label="Save as draft"
-            id="is-draft"
-          ></checkbox-field>
-          <button-primary label="Post" size="md" type="submit" />
+            variant="accent"
+            @click.native="onRemove"
+          />
+          <button-primary
+            :loading="loading"
+            label="Update"
+            size="md"
+            @click.native="onSubmit"
+          />
         </div>
       </form>
     </validation-observer>
@@ -109,6 +114,7 @@ export default {
   components: { ValidationObserver },
   data() {
     return {
+      loading: false,
       options: {
         categories: CATEGORIES,
         conditions: CONDITIONS,
@@ -140,13 +146,25 @@ export default {
       });
     },
 
-    onSubmit() {
-      if (!this.post.photos.length)
+    async onRemove(e) {
+      e.preventDefault();
+      this.loading = true;
+      await this.onPostRemove();
+      this.loading = false;
+    },
+
+    async onSubmit(e) {
+      e.preventDefault();
+      const length = this.post.photos.filter((item) => item.flag !== "deleted")
+        .length;
+      console.log("On Sumbit", length);
+      if (length <= 2)
         return this.$refs.form.setErrors({
           photos: ["Oh noh!, i need atleast two photos to upload this post."],
         });
-
-      this.onPost();
+      this.loading = true;
+      await this.onPostUpdate();
+      this.loading = false;
     },
     test() {
       this.$store.dispatch(types.actions.SHOW_SNACKBAR, {
@@ -157,12 +175,17 @@ export default {
       });
     },
     ...mapActions({
-      onPost: types.actions.POST_CREATE,
+      onPostUpdate: types.actions.POST_UPDATE,
+      onPostRemove: types.actions.POST_REMOVE,
     }),
   },
   mounted() {
-    // console.log(this.$route.params.id);
-    this.$store.dispatch(types.actions.FETCH_POST, this.$route.params.id);
+    const id = this.$route.params.id;
+    if (id === undefined) this.$router.back();
+
+    if (parseInt(id) !== this.post.id) {
+      this.$store.dispatch(types.actions.FETCH_POST, this.$route.params.id);
+    }
   },
 };
 </script>

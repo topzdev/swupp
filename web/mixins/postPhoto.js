@@ -66,9 +66,9 @@ export default {
         for (let i = 0; i < this.value.length; i++) {
           if (i === index) {
             if (this.value[i].flag === "new") continue;
-            temp.push({ ...this.value[i], flag: "deleted" });
+            temp.push({ ...this.value[i], flag: "deleted", isCover: false });
           } else {
-            temp.push(this.value[i]);
+            temp.push({ ...this.value[i] });
           }
         }
 

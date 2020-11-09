@@ -5,27 +5,40 @@ export const namespaced = false;
 export const state = () => ({
   snackbars: {
     show: false,
-    pos: "right-bottom",
-    title: "Post successfully uploaded",
-    type: "success",
-    body: "Ghosr mountain bike for i5 laptop and rtx 2060",
+    pos: "",
+    title: "",
+    type: "",
+    body: "",
     showClose: false,
     timeout: 5000,
-    image: "/_nuxt/assets/img/post-1.jpg"
+    image: "",
+    link: ""
   },
-  options: {}
+  dialog: {
+    show: false,
+    message: "",
+    type: "",
+    title: "",
+    isQuestion: false,
+    yesLabel: "",
+    noLabel: "",
+    okayLabel: "",
+    yesFunction: undefined,
+    noFuntion: undefined
+  }
 });
 
 export const mutations = {
   [types.mutations.SET_SNACKBAR](state, payload) {
-    console.log(payload);
     state.snackbars = payload;
+  },
+  [types.mutations.SET_DIALOG](state, payload) {
+    state.dialog = payload;
   }
 };
 
 export const actions = {
   [types.actions.SHOW_SNACKBAR]({ commit, state }, config) {
-    console.log(config);
     let newConfig = config;
     newConfig = { ...newConfig, show: true };
 
@@ -43,5 +56,23 @@ export const actions = {
   },
   [types.actions.HIDE_SNACKBAR]({ commit, state }) {
     commit(types.mutations.SET_SNACKBAR, { ...state.snackbars, show: false });
+  },
+  [types.actions.SHOW_DIALOG]({ commit, state }, config) {
+    let newConfig = config;
+    newConfig = { ...newConfig, show: true };
+
+    if (!config.timeout) newConfig = { ...newConfig, showClose: true };
+    commit(types.mutations.SET_DIALOG, newConfig);
+
+    if (config && config.timeout)
+      setTimeout(function() {
+        commit(types.mutations.SET_DIALOG, {
+          ...state.dialog,
+          show: false
+        });
+      }, config.timeout);
+  },
+  [types.actions.HIDE_DIALOG]({ commit, state }) {
+    commit(types.mutations.SET_DIALOG, { ...state.dialog, show: false });
   }
 };

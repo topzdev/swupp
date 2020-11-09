@@ -25,7 +25,7 @@
         label="Done"
         size="md"
         type="submit"
-        to="/update"
+        @click.native="goBack"
         variant="primary"
       />
     </div>
@@ -48,8 +48,12 @@ export default {
   },
 
   mounted() {
-    console.log(this.post.id);
-    if (this.post.id === undefined) this.$router.back();
+    const id = this.$route.params.id;
+    if (id === undefined) this.$router.push("/");
+
+    if (parseInt(id) !== this.post.id) {
+      this.$store.dispatch(types.actions.FETCH_POST, this.$route.params.id);
+    }
   },
 
   computed: {
@@ -58,6 +62,9 @@ export default {
     },
   },
   methods: {
+    goBack() {
+      this.$router.push(`/update/${this.post.id}`);
+    },
     onChange(key, value) {
       console.log(value);
       this.$store.commit(types.mutations.CHANGE_POST, {

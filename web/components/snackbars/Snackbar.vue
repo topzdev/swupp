@@ -1,8 +1,13 @@
 <template>
   <div v-if="config.show" class="snackbar" :class="[showClass, typeClass]">
-    <div v-if="config.image" class="snackbar__icon">
+    <component
+      :is="config.link ? 'nuxt-link' : 'div'"
+      :to="config.link"
+      v-if="config.image"
+      class="snackbar__icon"
+    >
       <img :src="config.image" alt="Post" />
-    </div>
+    </component>
     <div class="snackbar__body">
       <h1 class="snackbar__title">{{ config.title }}</h1>
 

@@ -58,3 +58,11 @@
 @mixin transition() {
   transition: all 200ms ease;
 }
+
+@mixin position-middle() {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

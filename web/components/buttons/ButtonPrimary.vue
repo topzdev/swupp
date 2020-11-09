@@ -6,7 +6,8 @@
       :type="type"
       class="btn--primary"
       :to="to"
-      :class="[sizeClass, fullWidth, variantClass]"
+      :disabled="disabled"
+      :class="[sizeClass, fullWidth, variantClass, textClass]"
     >
       {{ loading ? "loading..." : label }}
     </component>

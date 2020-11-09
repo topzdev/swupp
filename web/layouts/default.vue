@@ -1,15 +1,18 @@
 <template>
   <div>
     <Nuxt />
-    <snackbar />
+    <app-dialog />
+    <app-snackbar />
   </div>
 </template>
 
 <script>
-import Snackbar from "@/components/snackbars/Snackbar";
+import AppSnackbar from "@/components/snackbars/Snackbar";
+import AppDialog from "@/components/dialogs/Dialog";
 export default {
   components: {
-    Snackbar,
+    AppSnackbar,
+    AppDialog,
   },
 };
 </script>

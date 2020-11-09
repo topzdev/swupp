@@ -27,7 +27,7 @@
       <div class="dropzone__uploaded">
         <template v-for="(item, idx) in value.slice(0, 5)">
           <dropzone-thumbnail
-            v-if="!(item.flag === 'deleted')"
+            v-if="item.flag !== 'deleted'"
             :key="idx"
             :index="idx"
             :item="item"
@@ -63,7 +63,9 @@ export default {
 
   computed: {
     hasItem() {
-      return this.value.length;
+      if (this.crud === "update")
+        return this.value.filter((item) => item.flag !== "deleted").length;
+      else return this.value.length;
     },
     activeClass() {
       return this.hasItem ? "dropzone--active" : "";
@@ -76,7 +78,9 @@ export default {
       else return "Drag photos or click to upload";
     },
     toPage() {
-      return this.crud === "update" ? "/update/photos" : "/new/photos";
+      return this.crud === "update"
+        ? "/update/photos/" + this.$route.params.id
+        : "/new/photos";
     },
   },
 

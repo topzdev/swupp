@@ -9,6 +9,16 @@ button {
     color: var(--color-white);
     text-align: center;
     text-decoration: none;
+    @include transition;
+  }
+
+  &--text {
+    background: none;
+    color: inherit;
+
+    &:hover {
+      background: rgba(var(--color-dark-rgb), 0.1);
+    }
   }
 
   &--small {
@@ -18,7 +28,7 @@ button {
 
   &--medium {
     font-size: 15px;
-    padding: 12px 60px;
+    padding: 12px 50px;
   }
 
   &--large {
@@ -41,12 +51,12 @@ button {
     @include flex-middle();
     height: 50px;
     width: 50px;
-    // background-color: var(--color-light-gray);
+    background-color: var(--color-light-gray);
     border-radius: 100%;
     @include transition;
 
     &:hover {
-      // background-color: rgba(#{var(--color-light-gray)}, 0.6);
+      background-color: rgba(var(--color-light-rgb), 0.2);
     }
   }
 }

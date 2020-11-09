@@ -12,7 +12,10 @@ export default {
     isFullWidth: {
       type: Boolean,
       default: false
-    }
+    },
+
+    disabled: Boolean,
+    text: Boolean
   },
   data() {
     return {
@@ -33,6 +36,10 @@ export default {
   computed: {
     sizeClass() {
       return this.sizes[this.size];
+    },
+
+    textClass() {
+      return this.text ? "btn--text" : "";
     },
 
     variantClass() {

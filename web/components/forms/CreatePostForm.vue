@@ -92,7 +92,13 @@
             label="Save as draft"
             id="is-draft"
           ></checkbox-field>
-          <button-primary label="Post" size="md" type="submit" />
+          <button-primary
+            :loading="loading"
+            label="Post"
+            size="md"
+            type="submit"
+            :disabled="loading"
+          />
         </div>
       </form>
     </validation-observer>
@@ -113,7 +119,7 @@ export default {
         categories: CATEGORIES,
         conditions: CONDITIONS,
       },
-
+      loading: false,
       rules: {
         title: "required",
         price: "required",
@@ -140,14 +146,16 @@ export default {
       });
     },
 
-    onSubmit() {
-      if (!this.post.photos.length)
+    async onSubmit() {
+      if (this.post.photos.length <= 2)
         return this.$refs.form.setErrors({
           photos: ["Oh noh!, i need atleast two photos to upload this post."],
         });
-
-      this.onPost();
+      this.loading = true;
+      await this.onPost();
+      this.loading = false;
     },
+
     test() {
       this.$store.dispatch(types.actions.SHOW_SNACKBAR, {
         title: "Post successfully uploaded",

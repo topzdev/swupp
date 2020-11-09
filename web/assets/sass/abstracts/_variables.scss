@@ -7,27 +7,42 @@
   --navbar-height: 70px;
 
   --color-background: #ffffff;
-  --color-background-2: #f8f8f8;
   --color-background-rgb: 255, 255, 255; //#ffff
+  --color-background-2: #f8f8f8;
+  --color-background-2-rgba: 248, 248, 248;
 
   --color-main: #121212;
-  --color-main-rgb: #121212;
+  --color-main-rgb: 18, 18, 18;
   --color-primary: #ffa41b;
+  --color-primary-rgb: 255, 164, 27;
   --color-secondary: #000839;
+  --color-secondary-rgb: 0, 8, 57;
   --color-accent: #f04b4b;
-  --color-succes: #0ace03;
+  --color-accent-rgb: 240, 75, 75;
+  --color-success: #0ace03;
+  --color-success-rgb: 10, 206, 3;
 
   --color-blue: #2288ff;
+  --color-blue-rgb: 34, 136, 255;
   --color-light-gray: #eaeaea;
+  --color-light-gray-rgb: 234, 234, 234;
   --color-dark-gray: gray;
+  --color-dark-gray-rgb: 128, 128, 128;
   --color-dark: #121212;
+  --color-dark-rgb: 18, 18, 18;
   --color-red: #bf3723;
+  --color-red-rgb: 191, 55, 35;
   --color-white: #ffffff;
+  --color-white-rgb: 255, 255, 255;
   --color-yellow: #ffd700;
+  --color-yellow-rgb: rgb(255, 215, 0);
 
   --color-green: #0ace03;
+  --color-green-rgb: 10, 206, 3;
   --color-orange: #f86a00;
+  --color-orange-rgb: 248, 106, 0;
   --color-violet: #fe01fc;
+  --color-violet-rgb: 254, 1, 252;
 
   --snackbar-elevation: 0px 0px 25px 3px rgba(0, 0, 0, 0.1);
 }
