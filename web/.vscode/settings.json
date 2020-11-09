@@ -1,0 +1,74 @@
+{
+    "editor.fontFamily": "Fira Code",
+    "launch": {
+
+        "configurations": [],
+        "compounds": []
+    },
+    "vim.easymotion": true,
+  "vim.incsearch": true,
+  "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": true,
+  "vim.hlsearch": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "d"],
+      "after": ["d", "d"]
+    },
+    {
+      "before": ["<C-n>"],
+      "commands": [":nohl"]
+    }
+  ],
+  "vim.leader": "<space>",
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-w>": false,
+    "<C-d>": false,
+    "<C-b>": false,
+    "<C-f>": false
+  },
+  "workbench.activityBar.visible": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "editor.formatOnSave": true,
+  "json.schemas": [
+  
+  ],
+  "[.min]": {"editor.formatOnSave": false},
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue"
+  ],
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "vetur.completion.autoImport": true,
+  "vetur.experimental.templateInterpolationService": true,
+  "vetur.validation.interpolation": false,
+   "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Community Material Theme Ocean High Contrast",
+  "window.zoomLevel": 0,
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.fontWeight": "400", // Light
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "j"],
+      "after": ["<esc>"]
+    }
+  ],
+  "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  },
+  "sass.lint.enable": true,
+}

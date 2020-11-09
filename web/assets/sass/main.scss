@@ -1,10 +1,10 @@
 //Abstract
-@import "abstracts/color";
 @import "abstracts/function";
 @import "abstracts/mixins";
 @import "abstracts/placeholder";
 @import "abstracts/variables";
 @import "abstracts/background";
+@import "abstracts/color";
 
 //Layout
 @import "layout/footer";
@@ -44,6 +44,9 @@
 @import "components/logo";
 @import "components/previewer";
 @import "components/icons";
+@import "components/snackbars";
+@import "components/dialog";
 
 //Page
 @import "pages/register";
+@import "pages/new-post";

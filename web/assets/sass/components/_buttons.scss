@@ -4,11 +4,40 @@ button {
 
 .btn {
   &--primary {
-    background: var(--color-primary);
-    padding: 18px 20px;
-    width: 100%;
-    border-radius: 10px;
+    border-radius: 8px;
     font-weight: 600;
+    color: var(--color-white);
+    text-align: center;
+    text-decoration: none;
+    @include transition;
+  }
+
+  &--text {
+    background: none;
+    color: inherit;
+
+    &:hover {
+      background: rgba(var(--color-dark-rgb), 0.1);
+    }
+  }
+
+  &--small {
+    font-size: 14px;
+    padding: 10px 30px;
+  }
+
+  &--medium {
+    font-size: 15px;
+    padding: 12px 50px;
+  }
+
+  &--large {
+    font-size: 18px;
+    padding: 18px 70px;
+  }
+
+  &--full-width {
+    width: 100%;
   }
 
   &--links {
@@ -16,5 +45,18 @@ button {
     color: var(--color-blue);
     text-decoration: underline;
     font-weight: 500;
+  }
+
+  &--icon {
+    @include flex-middle();
+    height: 50px;
+    width: 50px;
+    background-color: var(--color-light-gray);
+    border-radius: 100%;
+    @include transition;
+
+    &:hover {
+      background-color: rgba(var(--color-light-rgb), 0.2);
+    }
   }
 }

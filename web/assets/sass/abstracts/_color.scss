@@ -1,0 +1,32 @@
+.color {
+  &--flat &--primary {
+    &:hover {
+      background-color: RGBA(var(--color-primary), 0.2);
+    }
+  }
+
+  &--primary {
+    background-color: var(--color-primary);
+  }
+
+  &--accent {
+    background-color: var(--color-accent);
+    fill: var(--color-white);
+  }
+
+  &--success {
+    background-color: var(--color-success);
+  }
+
+  &--warning {
+    background-color: var(--color-yellow);
+  }
+
+  &--default {
+    background-color: var(--color-dark-gray);
+  }
+
+  &--light-gray {
+    background-color: var(--color-light-gray);
+  }
+}

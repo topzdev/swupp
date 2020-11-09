@@ -9,32 +9,39 @@
         <template v-if="!$auth.loggedIn">
           <div class="col-4">
             <nuxt-link to="/login">
-              <button-primary label="Login" />
+              <button-primary label="Login" :is-full-width="true" size="lg" />
             </nuxt-link>
           </div>
           <div class="col-4">
             <nuxt-link to="/register">
-              <button-primary label="Register" />
+              <button-primary
+                label="Register"
+                :is-full-width="true"
+                size="lg"
+              />
+            </nuxt-link>
+          </div>
+          <div class="col-4">
+            <nuxt-link to="/new">
+              <button-primary
+                label="New Post"
+                :is-full-width="true"
+                size="lg"
+              />
             </nuxt-link>
           </div>
         </template>
-        <div class="col-6" v-else>
-          <button-primary
-            class=""
-            label="Logout"
-            @click.native="$auth.logout()"
-          />
-        </div>
-        <div class="col-4">
-          <a
-            href="https://github.com/topzdev/swupp"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn--primary"
-          >
-            GitHub
-          </a>
-        </div>
+        <template v-else>
+          <div class="col-4">
+            <button-primary
+              class=""
+              label="Logout"
+              @click.native="$auth.logout()"
+              :is-full-width="true"
+              size="lg"
+            />
+          </div>
+        </template>
       </div>
 
       <!-- <div class="contributors mt-5">

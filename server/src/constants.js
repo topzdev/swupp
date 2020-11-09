@@ -5,3 +5,7 @@ exports.JWT_SECRET = "secret@123";
 exports.COOKIE_NAME = "swupp-qid";
 exports.SESSION_SECRET = "ilovecats";
 exports.__prod__ = process.env.NODE_ENV === "production";
+exports.CLOUDINARY_CLOUD_NAME = "topzdev";
+exports.CLOUDINARY_API_KEY = "298988348888179";
+exports.CLOUDINARY_API_SECRET = "nbVhrwCnYxHIJqrsgXPdt0mxbb8";
+exports.CLOUDINARY_FOLDER = "swupp-dev";

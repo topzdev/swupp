@@ -1,0 +1,30 @@
+.app-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  background-color: var(--color-white);
+
+  &__blur {
+    position: absolute;
+    height: 120%;
+    width: 120%;
+    object-fit: cover;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(5px) grayscale(50%) contrast(85%);
+    z-index: 0;
+  }
+
+  &__main {
+    display: block;
+    position: relative;
+    height: 100%;
+    margin: 0 auto;
+    background-color: var(--color-white);
+    box-shadow: 0 0 20px rgba(#000000, 0.2);
+  }
+}

@@ -1,14 +1,30 @@
-import { Schema, model } from "mongoose";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../../config/sequelize");
 
-const postPhotoSchema = new Schema(
+const PostPhoto = sequelize.define(
+  "postPhoto",
   {
-    postId: String,
-    url: String,
-    shortUrl: String,
-    description: String,
-    publicId: String,
+    url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    securedUrl: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    caption: {
+      type: DataTypes.STRING,
+    },
+    publicId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    isCover: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
-  { timestamps: true }
+  { timestamps: true, freezeTableName: true, paranoid: true }
 );
 
-export default model("PostPhoto", postPhotoSchema);
+module.exports = PostPhoto;

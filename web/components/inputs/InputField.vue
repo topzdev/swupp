@@ -5,16 +5,24 @@
     :vid="id"
     v-slot="{ errors }"
   >
-    <div class="inp inp--primary" :class="{ 'is-error': !!errors[0] }">
-      <label v-if="!!label" :for="id" class="inp__label">{{ label }}</label>
+    <div
+      v-bind="$attrs"
+      class="inp inp--primary"
+      :class="{ 'is-error': !!errors[0] }"
+    >
+      <div>
+        <label v-if="!!label" :for="id" class="inp__label">{{ label }}</label>
+        <slot></slot>
+      </div>
 
       <div class="inp__field">
         <div v-if="!!leftIcon" class="inp__left-icon"></div>
         <input
-          v-if="textarea"
+          v-if="!textarea"
           :type="type"
           :name="name"
           :id="id"
+          class="inp"
           :placeholder="placeholder"
           :value="value"
           @input="$emit('input', $event.target.value)"
@@ -23,9 +31,10 @@
           v-else
           :name="name"
           :id="id"
+          class="inp"
           :placeholder="placeholder"
-          cols="30"
-          rows="10"
+          cols="5"
+          rows="5"
           :value="value"
           @input="$emit('input', $event.target.value)"
         ></textarea>
@@ -43,15 +52,19 @@
 
 <script>
 import { ValidationProvider } from "vee-validate";
+import inputValidationMixin from "@/mixins/inputValidation";
+
 export default {
+  inheritAttrs: false,
   components: { ValidationProvider },
+  mixins: [inputValidationMixin],
 
   props: {
-    value: String,
+    value: [String, Number],
     name: String,
     textarea: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     label: String,
     type: String,
@@ -63,16 +76,7 @@ export default {
     },
     leftIcon: String,
     rightIcon: String,
-    showErrMes: {
-      type: Boolean,
-      default: true,
-    },
-    rules: String,
     name: String,
-    mode: {
-      type: String,
-      default: "eager",
-    },
   },
 };
 </script>
