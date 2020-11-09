@@ -37,8 +37,8 @@ exports.getCurrentUserPost = async (req) => {
 exports.getPosts = async (req) => {
   try {
     const input = req.body;
-    const data = await postService.register(input);
-    res.status(200).json(data);
+    const result = await postService.register(input);
+    res.status(200).json(result);
   } catch (error) {
     res.status(400).json(error);
   }
@@ -48,25 +48,24 @@ exports.updatePost = async (req, res) => {
   try {
     const files = req.files;
     const body = req.body;
-    console.log("files", files);
-    console.log("body", body);
     const post = parsePostUpdate(files, body);
+    console.log(post);
     const result = await postService.updatePost(post);
 
     console.log("Post", post);
 
-    res.status(200).json({ data: null });
+    res.status(200).json(result);
   } catch (error) {
     res.status(400).json(error);
   }
 };
 
-exports.deletePost = async (req) => {
+exports.deletePost = async (req, res) => {
   try {
-    const id = req.body.id;
-    const data = await postService.removePost({ id });
-
-    res.status(200).json(data);
+    const id = req.params.id;
+    console.log("ID", id);
+    const result = await postService.removePost({ id });
+    res.status(200).json(result);
   } catch (error) {
     res.status(400).json(error);
   }

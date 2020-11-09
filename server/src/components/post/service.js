@@ -174,18 +174,22 @@ exports.updatePost = async ({
 
     if (updatedPhotos && updatedPhotos.length) {
       console.log("Updating exisiting photos");
-
-      const updatePhotos = await PostPhotoModel.bulkCreate(updatedPhotos, {
-        updateOnDuplicate: ["id"],
-        transaction: t,
+      let resultUpdate = [];
+      updatedPhotos.forEach(async function (item) {
+        resultUpdate.push(
+          await PostPhotoModel.update(
+            { caption: item.caption, isCover: item.isCover },
+            { where: { id: item.id }, transaction: t }
+          )
+        );
       });
 
-      console.log("Updated photos", updatePhotos);
+      console.log("Updated photos", resultUpdate);
     }
     if (newPhotos && newPhotos.length) {
       // validate photos (if null)
       console.log("Uploading new photos...");
-      const uploadedPhoto = await photoServices.uploadPostPhotos(id, photos);
+      const uploadedPhoto = await photoServices.uploadPostPhotos(id, newPhotos);
       const postPhotos = await PostPhotoModel.bulkCreate(uploadedPhoto, {
         transaction: t,
       });
@@ -212,7 +216,7 @@ exports.updatePost = async ({
 
     return {
       data: {
-        id: postId,
+        id: post.id,
         photos: newPhotoIds,
       },
       message: "Post successfully updated",
@@ -236,7 +240,6 @@ exports.updatePost = async ({
 
 exports.removePost = async ({ id }) => {
   const t = await sequelize.transaction();
-  let newPhotoIds = null;
 
   /* 
   Its not actually deleting it on database i added paranoid 
@@ -255,10 +258,13 @@ exports.removePost = async ({ id }) => {
 
   try {
     // removing post info
-    await PostModel.destroy({ where: id });
+    await PostModel.destroy({ where: { id }, transaction: t });
 
     // removing post photo info...
-    await PostPhotoModel.destroy({ where: { [Op.and]: { postId: id } } });
+    await PostPhotoModel.destroy({
+      where: { [Op.and]: { postId: id } },
+      transaction: t,
+    });
 
     await t.commit();
 
@@ -271,12 +277,6 @@ exports.removePost = async ({ id }) => {
     // if there is a error happend then rollback all database transaction
     console.log("Rollback is happening...");
     await t.rollback();
-
-    // delete photos on cloudinary when database error happened
-    console.log("Deleting photos that uploaded to cloudinary...");
-    if (!photoIds && !photoIds.length) {
-      photoHelpers.bulkDeleteToCloud(photoIds.map((item) => item.publicId));
-    }
     throw { error: "Something wrong with server" };
   }
 };
