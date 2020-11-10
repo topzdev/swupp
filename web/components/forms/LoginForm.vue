@@ -97,7 +97,6 @@ export default {
       } catch (error) {
         const data = error.response.data;
         if (data === undefined) return;
-        console.log(data.error.message);
         this.alert = {
           message: data.error.message,
           show: true,

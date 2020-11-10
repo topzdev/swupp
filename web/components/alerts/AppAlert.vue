@@ -65,10 +65,6 @@ export default {
       this.alert.show = false;
     },
   },
-
-  created() {
-    console.log(this.alert);
-  },
 };
 </script>
 

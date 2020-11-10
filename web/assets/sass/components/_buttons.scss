@@ -4,12 +4,27 @@ button {
 
 .btn {
   &--primary {
+    display: flex;
+    align-items: center;
     border-radius: 8px;
     font-weight: 600;
     color: var(--color-white);
     text-align: center;
     text-decoration: none;
     @include transition;
+
+    &__icon {
+      display: flex;
+      align-items: center;
+    }
+
+    &__icon-left {
+      margin-right: 8px;
+    }
+
+    &__icon-right {
+      margin-left: 8px;
+    }
   }
 
   &--text {
@@ -23,7 +38,7 @@ button {
 
   &--small {
     font-size: 14px;
-    padding: 10px 30px;
+    padding: 10px 20px;
   }
 
   &--medium {
@@ -56,7 +71,7 @@ button {
     @include transition;
 
     &:hover {
-      background-color: rgba(var(--color-light-rgb), 0.2);
+      background-color: rgba(var(--color-light-gray-rgb), 0.5);
     }
   }
 }

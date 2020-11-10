@@ -49,7 +49,6 @@ export default {
   },
   methods: {
     onChange(key, value) {
-      console.log(value);
       this.$store.commit(types.mutations.CHANGE_POST, {
         key,
         value,

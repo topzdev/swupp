@@ -4,29 +4,39 @@
       background-color: RGBA(var(--color-primary), 0.2);
     }
   }
-
   &--primary {
     background-color: var(--color-primary);
+    fill: var(--color-white);
+    color: var(--color-white);
   }
 
   &--accent {
     background-color: var(--color-accent);
     fill: var(--color-white);
+    color: var(--color-white);
   }
 
   &--success {
     background-color: var(--color-success);
+    fill: var(--color-white);
+    color: var(--color-white);
   }
 
   &--warning {
     background-color: var(--color-yellow);
+    fill: var(--color-white);
+    color: var(--color-white);
   }
 
   &--default {
     background-color: var(--color-dark-gray);
+    fill: var(--color-white);
+    color: var(--color-white);
   }
 
   &--light-gray {
-    background-color: var(--color-light-gray);
+    background-color: rgba(var(--color-light-gray-rgb), 0.8);
+    fill: var(--color-dark);
+    color: var(--color-white);
   }
 }

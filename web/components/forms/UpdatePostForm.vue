@@ -138,7 +138,6 @@ export default {
   },
   methods: {
     onChange(key, value) {
-      console.log(value);
       this.$store.commit(types.mutations.CHANGE_POST, {
         crud: "update",
         key,
@@ -157,7 +156,6 @@ export default {
       e.preventDefault();
       const length = this.post.photos.filter((item) => item.flag !== "deleted")
         .length;
-      console.log("On Sumbit", length);
       if (length <= 2)
         return this.$refs.form.setErrors({
           photos: ["Oh noh!, i need atleast two photos to upload this post."],

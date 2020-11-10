@@ -9,7 +9,15 @@
       :disabled="disabled"
       :class="[sizeClass, fullWidth, variantClass, textClass]"
     >
-      {{ loading ? "loading..." : label }}
+      <span v-if="iconLeft" class="btn--primary__icon btn--primary__icon-left">
+        <app-icon :path="iconLeft" type="mdi" />
+      </span>
+      <span class="btn--primary__label">
+        {{ loading ? "loading..." : label }}
+      </span>
+      <span v-if="iconRight" class="btn--primary__icon btn--primary__icon-left">
+        <app-icon :path="iconRight" type="mdi" />
+      </span>
     </component>
   </div>
 </template>

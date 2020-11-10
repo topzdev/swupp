@@ -1,12 +1,10 @@
+import variantMixin from "./basics/variants";
 export default {
+  mixins: [variantMixin],
   props: {
     size: {
       type: String,
       default: "sm"
-    },
-    variant: {
-      type: String,
-      default: "primary"
     },
 
     isFullWidth: {
@@ -15,17 +13,12 @@ export default {
     },
 
     disabled: Boolean,
-    text: Boolean
+    text: Boolean,
+    iconRight: String,
+    iconLeft: String
   },
   data() {
     return {
-      variants: {
-        primary: "color--primary",
-        accent: "color--accent",
-        warning: "color--warning",
-        default: "color--default",
-        light: "color--light-gray"
-      },
       sizes: {
         sm: "btn--small",
         md: "btn--medium",
@@ -40,10 +33,6 @@ export default {
 
     textClass() {
       return this.text ? "btn--text" : "";
-    },
-
-    variantClass() {
-      return this.variants[this.variant];
     },
 
     fullWidth() {

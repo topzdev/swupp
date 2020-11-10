@@ -66,7 +66,6 @@ export default {
       this.$router.push(`/update/${this.post.id}`);
     },
     onChange(key, value) {
-      console.log(value);
       this.$store.commit(types.mutations.CHANGE_POST, {
         key,
         value,
