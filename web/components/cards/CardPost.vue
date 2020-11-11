@@ -1,7 +1,7 @@
 <template>
   <div class="card--post">
     <div class="card--post__image">
-      <img :src="post.coverImage" :alt="post.title" draggable="false" />
+      <img :src="post.coverPhoto.url" :alt="post.title" draggable="false" />
     </div>
 
     <nuxt-link to="/" class="card--post__main">
@@ -43,21 +43,11 @@
 import { mdiEyeOutline, mdiCommentOutline } from "@mdi/js";
 import truncate from "cli-truncate";
 export default {
+  props: {
+    post: Object,
+  },
   data() {
     return {
-      post: {
-        title: "Ghost Mountain Bike for your i5 Laptop",
-        price: "$$$$",
-        prefered: "I prefered laptop that has i7 processor and gtx 2060",
-        counts: {
-          comment: 25,
-          views: 100,
-        },
-        isTraded: false,
-        conditionId: "Good",
-        categoryId: "Bicycle",
-        coverImage: require("@/assets/img/post-2.png"),
-      },
       icons: {
         views: mdiEyeOutline,
         comment: mdiCommentOutline,

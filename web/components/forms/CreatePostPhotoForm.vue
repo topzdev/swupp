@@ -1,5 +1,5 @@
 <template>
-  <div class="card--post">
+  <div class="card">
     <div class="card__header">
       <button-icon :icon="icons.back" to="/new" class="mr-2" />
       <h2 class="heading--primary mr-auto">Uploaded Photos</h2>

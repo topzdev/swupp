@@ -1,5 +1,5 @@
 <template>
-  <div class="card--post">
+  <div class="card">
     <validation-observer ref="form" v-slot="{ handleSubmit }">
       <dropzone
         name="photos"

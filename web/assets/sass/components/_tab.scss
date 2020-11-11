@@ -1,0 +1,41 @@
+.tab {
+  display: flex;
+  flex-direction: column;
+
+  .nuxt-link-active {
+    color: var(--color-primary);
+    background-color: rgba(var(--color-primary-rgb), 0.2);
+  }
+
+  &--vertical &__list {
+    flex-direction: column;
+  }
+  &__header {
+    margin-bottom: 15px;
+  }
+  &__list {
+    display: flex;
+    list-style: none;
+  }
+
+  &__link {
+    display: block;
+    color: var(--color-dark);
+    text-decoration: none;
+    padding: 10px 15px;
+    font-weight: 700;
+    border-radius: 8px;
+    @include transition;
+
+    &:hover {
+      color: rgba(var(--color-primary-rgb), 0.8);
+      background-color: rgba(var(--color-primary-rgb), 0.05);
+    }
+  }
+
+  &__item {
+    &:not(:last-child) {
+      margin-bottom: 5px;
+    }
+  }
+}

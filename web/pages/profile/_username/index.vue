@@ -1,6 +1,7 @@
 <template>
   <auth-layout title="Christian Lugod">
     <profile />
+
     <profile-post />
   </auth-layout>
 </template>

@@ -15,7 +15,7 @@
       <span class="btn--primary__label">
         {{ loading ? "loading..." : label }}
       </span>
-      <span v-if="iconRight" class="btn--primary__icon btn--primary__icon-left">
+      <span v-if="iconRight" class="btn--primary__icon btn--primary__icon-right">
         <app-icon :path="iconRight" type="mdi" />
       </span>
     </component>

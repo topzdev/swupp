@@ -43,7 +43,7 @@
             label="Login"
             type="submit"
             :is-full-width="true"
-            size="md"
+            size="lg"
           />
         </div>
       </form>

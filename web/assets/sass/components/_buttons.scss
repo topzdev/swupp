@@ -25,6 +25,10 @@ button {
     &__icon-right {
       margin-left: 8px;
     }
+
+    &__label {
+      margin: 0 auto;
+    }
   }
 
   &--text {
@@ -72,6 +76,34 @@ button {
 
     &:hover {
       background-color: rgba(var(--color-light-gray-rgb), 0.5);
+    }
+  }
+}
+
+.btn-icon {
+  &--small {
+    height: 30px;
+    width: 30px;
+
+    svg {
+      height: 13px;
+    }
+  }
+
+  &--medium {
+    height: 40px;
+    width: 40px;
+
+    svg {
+      height: 20px;
+    }
+  }
+
+  &--large {
+    height: 50px;
+    width: 50px;
+    svg {
+      height: 24px;
     }
   }
 }
