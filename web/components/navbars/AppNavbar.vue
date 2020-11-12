@@ -12,7 +12,7 @@
       <div class="navbar__actions">
         <button-icon :icon="icons.notif" />
 
-        <nuxt-link to="/profile" class="navbar__profile">
+        <nuxt-link to="/profile/topzdev" class="navbar__profile">
           <p class="navbar__profile-name">Christian</p>
 
           <div class="navbar__profile-photo">
@@ -36,6 +36,12 @@ export default {
         notif: mdiBell,
       },
     };
+  },
+
+  computed: {
+    user() {
+      return this.$auth.user;
+    },
   },
 };
 </script>

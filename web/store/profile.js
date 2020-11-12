@@ -28,6 +28,8 @@ export const state = () => ({
   },
   posts: {
     count: 5,
+    cursor: null,
+    hasNext: false,
     items: [
       {
         id: 1,
@@ -47,10 +49,17 @@ export const state = () => ({
         }
       }
     ]
+  },
+  modals: {
+    changePhotos: true
   }
 });
 
-export const mutations = {};
+export const mutations = {
+  [types.mutations.SET_PROFILE_MODAL](state, config) {
+    state.modals.changePhotos = config;
+  }
+};
 
 export const actions = {
   async [types.actions.FETCH_PROFILE]({ commit, state, dispatch, getters }) {
@@ -87,5 +96,8 @@ export const actions = {
   }) {
     try {
     } catch (error) {}
+  },
+  [types.actions.SHOW_PROFILE_CHANGE_MODAL]({ commit, dispatch }, show) {
+    dispatch(types.mutations.SET_PROFILE_MODAL, show);
   }
 };

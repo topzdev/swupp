@@ -1,6 +1,15 @@
 .card {
+  position: relative;
   padding: 10px 20px;
+  overflow: hidden;
   background-color: var(--color-background);
+
+  .progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
 
   &--rounded {
     border-radius: 5px;

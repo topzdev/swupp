@@ -4,7 +4,11 @@
       <div class="profile__cover">
         <img :src="profile.coverPhoto.url" alt="Cover photo" />
 
-        <button-primary label="Change Cover Photo" :icon-left="icons.camera" />
+        <button-primary
+          label="Change Cover Photo"
+          :icon-left="icons.camera"
+          @click.native="open('change-photo')"
+        />
       </div>
 
       <div class="profile__body">
@@ -12,7 +16,11 @@
           <div class="profile__photo-holder">
             <img :src="profile.profilePhoto.url" alt="Profile photo" />
           </div>
-          <button-icon :icon="icons.camera" />
+          <button-icon
+            class="profile__photo-btn"
+            :icon="icons.camera"
+            @click.native="open('change-photo')"
+          />
         </div>
         <div class="profile__names">
           <h1 class="fullname">
@@ -38,12 +46,15 @@
         </ul>
       </div>
     </div>
+
+    <change-profile-photos-modal />
   </div>
 </template>
 
 <script>
 import { mdiCamera } from "@mdi/js";
 import profileMixin from "@/mixins/profile";
+import { types } from "@/store/types";
 export default {
   mixins: [profileMixin],
   data() {
@@ -60,6 +71,17 @@ export default {
     },
     postCount() {
       return this.$store.state.profile.posts.count;
+    },
+  },
+
+  methods: {
+    open(type) {
+      if (type === "change-photo") {
+        this.$store.commit(
+          "profile/" + types.mutations.SET_PROFILE_MODAL,
+          true
+        );
+      }
     },
   },
 
