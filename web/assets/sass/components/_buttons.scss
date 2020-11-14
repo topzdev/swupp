@@ -11,6 +11,7 @@ button {
     color: var(--color-white);
     text-align: center;
     text-decoration: none;
+    justify-content: center;
     @include transition;
 
     &__icon {
@@ -105,5 +106,20 @@ button {
     svg {
       height: 24px;
     }
+  }
+  &--xl {
+    height: 70px;
+    width: 70px;
+    svg {
+      width: 40px !important;
+      height: 40px !important;
+    }
+  }
+
+  &--float {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    box-shadow: 0 0 14px rgba(var(--color-dark-rgb), 0.1);
   }
 }

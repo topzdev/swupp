@@ -4,17 +4,14 @@ const PostPhotoModel = require("../post/models/PostPhoto");
 const Op = require("sequelize").Op;
 
 exports.uploadPostPhotos = async (postId, photos) => {
-  console.log("Validating photos...");
   if (!photos.length) return returnError("photos", "Photo is not provided");
 
-  console.log("Uploding photos to cloudinary...");
   let photoResult = await photoHelpers.bulkUploadToCloud(
     "post",
     photos.map((item) => item.photo)
   );
 
   // add error handling here..
-  console.log("Get all photo result to be save to db...");
   photoResult = photoResult.map((item, idx) => {
     const { isCover, caption } = photos[idx];
     return { ...item, isCover: isCover, caption: caption, postId };
@@ -26,23 +23,33 @@ exports.uploadPostPhotos = async (postId, photos) => {
 exports.deletePostPhotos = async (publicIds) => {
   if (!publicIds || !publicIds.length)
     throw returnError("photo", "Public ids are not supplied");
-
-  console.log("Deleting photos from cloudinary...");
   const photoResult = await photoHelpers.bulkDeleteToCloud(publicIds);
+  return photoResult;
+};
 
-  console.log("Delete Photo: ", photoResult);
+exports.uploadProfilePhoto = async (photo) => {
+  if (!photo) return returnError("photo", "Photo is not provided");
+  if (Array.isArray(photo)) throw { error: "Expecting single photo only" };
+  let photoResult = await photoHelpers.singleUploadToCloud("profile", photo);
 
   return photoResult;
 };
 
-exports.uploadProfilePhoto = async (profileId, photo, options) => {
+exports.deleteProfilePhoto = async (publicId) => {
+  if (!publicId) throw returnError("photo", "Public ids are not supplied");
+  const photoResult = await photoHelpers.singleDeleteToCloud(publicId);
+  return photoResult;
+};
+exports.uploadCoverPhoto = async (photo) => {
   if (!photo) return returnError("photo", "Photo is not provided");
-
   if (Array.isArray(photo)) throw { error: "Expecting single photo only" };
+  let photoResult = await photoHelpers.singleUploadToCloud("profile", photo);
 
-  const result = await photoHelpers.singleUploadToCloud("profile", photo);
-  return {
-    data: result,
-    message: "Profile photo successfully uploaded",
-  };
+  return photoResult;
+};
+
+exports.deleteCoverPhoto = async (publicId) => {
+  if (!publicId) throw returnError("photo", "Public ids are not supplied");
+  const photoResult = await photoHelpers.singleDeleteToCloud(publicId);
+  return photoResult;
 };

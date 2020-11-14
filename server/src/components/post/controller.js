@@ -6,8 +6,6 @@ exports.createPost = async (req, res) => {
     const files = req.files;
     const body = req.body;
     const post = parsePostData(files, body);
-    console.log("Body", post);
-    console.log("userId", req.session.userId);
     const data = await postService.createPost({
       ...post,
       userId: req.session.userId,

@@ -1,5 +1,5 @@
 <template>
-  <div class="card card--form">
+  <div class="card--form">
     <!-- <alert type="info"> Product not available </alert> -->
     <div class="card--form__header">
       <div class="card--form__logo">

@@ -6,6 +6,7 @@ const cloudinary = require("cloudinary").v2;
 const folders = {
   profile: `${CLOUDINARY_FOLDER}/profiles`,
   post: `${CLOUDINARY_FOLDER}/posts`,
+  cover: `${CLOUDINARY_FOLDER}/covers`,
 };
 
 const parseResult = (result) => {

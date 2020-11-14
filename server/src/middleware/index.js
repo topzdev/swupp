@@ -2,11 +2,6 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../constants");
 
 exports.auth = (req, res, next) => {
-  req.session.userId = 1;
-  next();
-
-  return;
-
   let token = req.headers["x-access-token"] || req.headers["authorization"];
 
   if (token && token.startsWith("Bearer "))
@@ -19,6 +14,7 @@ exports.auth = (req, res, next) => {
       const decoded = jwt.verify(token, JWT_SECRET);
       console.log(decoded);
       req.session.userId = decoded.id;
+      console.log("Next....");
       next();
     } catch (error) {
       return res.status(400).send("token is not valid");

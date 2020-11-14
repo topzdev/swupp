@@ -2,9 +2,14 @@
   <div class="profile mb-4">
     <div class="container">
       <div class="profile__cover">
-        <img :src="profile.coverPhoto.url" alt="Cover photo" />
+        <img
+          v-if="profile.coverPhoto.url"
+          :src="profile.coverPhoto.url"
+          alt="Cover photo"
+        />
 
         <button-primary
+          v-if="user"
           label="Change Cover Photo"
           :icon-left="icons.camera"
           @click.native="open('change-photo')"
@@ -13,10 +18,9 @@
 
       <div class="profile__body">
         <div class="profile__photo">
-          <div class="profile__photo-holder">
-            <img :src="profile.profilePhoto.url" alt="Profile photo" />
-          </div>
+          <profile-photo :url="profile.profilePhoto.url" />
           <button-icon
+            v-if="user"
             class="profile__photo-btn"
             :icon="icons.camera"
             @click.native="open('change-photo')"
@@ -26,7 +30,7 @@
           <h1 class="fullname">
             {{ profile.firstname }} {{ profile.lastname }}
           </h1>
-          <p class="username">@{{ profile.username }}</p>
+          <p class="username">{{ username }}</p>
         </div>
       </div>
 
@@ -35,7 +39,7 @@
           <li class="profile__tab-item">
             <nuxt-link class="profile__tab-link" exact :to="links.profile">
               <span class="profile__tab-label"> Post </span>
-              <span class="profile__tab-count">{{ postCount }}</span>
+              <span class="profile__tab-count">{{ profile.postCount }}</span>
             </nuxt-link>
           </li>
           <li class="profile__tab-item">
@@ -57,6 +61,14 @@ import profileMixin from "@/mixins/profile";
 import { types } from "@/store/types";
 export default {
   mixins: [profileMixin],
+
+  async fetch() {
+    const params = this.$route.params;
+    await this.$store.dispatch("profile/" + types.actions.FETCH_PROFILE, {
+      username: params.username,
+    });
+  },
+
   data() {
     return {
       icons: {
@@ -69,8 +81,8 @@ export default {
     profile() {
       return this.$store.state.profile.current;
     },
-    postCount() {
-      return this.$store.state.profile.posts.count;
+    username() {
+      if (this.profile.username) `@${this.profile.username}`;
     },
   },
 

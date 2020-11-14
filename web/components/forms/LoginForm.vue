@@ -76,8 +76,8 @@ export default {
         password: "required",
       },
       credential: {
-        usernameOrEmail: "topzdev@31",
-        password: "1416465465465",
+        usernameOrEmail: "topzdev123",
+        password: "123456789",
         // rememberMe: false,
       },
       alert: {
@@ -93,14 +93,18 @@ export default {
           data: this.credential,
         });
 
-        this.$router.push("/profile");
+        console.log(this.$auth.user);
+
+        if (this.$auth.loggedIn)
+          this.$router.push("/profile/" + this.$auth.user.username);
       } catch (error) {
-        const data = error.response.data;
-        if (data === undefined) return;
-        this.alert = {
-          message: data.error.message,
-          show: true,
-        };
+        console.log(error);
+        // const data = error.response.data;
+        // if (data === undefined) return;
+        // this.alert = {
+        //   message: data.error.message,
+        //   show: true,
+        // };
       }
     },
   },

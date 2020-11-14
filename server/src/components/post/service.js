@@ -27,7 +27,7 @@ exports.createPost = async ({
   const t = await sequelize.transaction();
   // where the photoIds like publicId and db id where stored after saving it to databse for error handiling
   let photoIds = null;
-
+  console.log("User id", userId);
   try {
     // insert post to database
     console.log("Creating post...");
@@ -45,6 +45,7 @@ exports.createPost = async ({
       },
       { transaction: t }
     );
+    console.log("Post Created", post);
 
     // uploading photos to cloudinary
     const uploadedPhoto = await photoServices.uploadPostPhotos(post.id, photos);

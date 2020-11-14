@@ -7,5 +7,9 @@
     </div>
   </AuthLayout>
 </template>
-
+<script>
+export default {
+  middleware: "auth",
+};
+</script>
 

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../../config/sequelize");
 
-const PostPhoto = sequelize.define(
+const PostPhotoModel = sequelize.define(
   "postPhoto",
   {
     url: {
@@ -27,4 +27,4 @@ const PostPhoto = sequelize.define(
   { timestamps: true, freezeTableName: true, paranoid: true }
 );
 
-module.exports = PostPhoto;
+module.exports = PostPhotoModel;

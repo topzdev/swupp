@@ -1,4 +1,3 @@
-const { use } = require("./api");
 const authService = require("./service");
 
 exports.signUp = async (req, res) => {
@@ -32,13 +31,13 @@ exports.signIn = async (req, res) => {
 exports.me = async (req, res) => {
   try {
     const userId = req.session.userId;
-    console.log("User Id", userId);
     const data = await authService.me(userId);
 
     if (data.error) return res.status(400).json(data);
 
     res.status(200).json(data);
   } catch (error) {
+    console.log(error);
     res.status(400).json(error);
   }
 };

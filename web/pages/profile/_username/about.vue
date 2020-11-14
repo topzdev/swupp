@@ -1,5 +1,5 @@
 <template>
-  <auth-layout title="Christian Lugod">
+  <auth-layout :title="title">
     <profile />
     <profile-about />
   </auth-layout>
@@ -7,7 +7,10 @@
 
 <script>
 import { mdiCamera } from "@mdi/js";
+import { types } from "@/store/types";
+import profileMixin from "@/mixins/profile";
 export default {
+  mixins: [profileMixin],
   data() {
     return {
       icons: {
@@ -15,7 +18,6 @@ export default {
       },
     };
   },
-  //   middleware: "auth",
 };
 </script>
 

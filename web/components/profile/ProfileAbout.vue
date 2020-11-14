@@ -27,24 +27,24 @@
         <div class="col-8">
           <div class="profile-about__content">
             <div class="profile-about__list">
-              <div
-                v-for="(item, idx) in items"
-                :key="idx"
-                class="profile-about__item"
-              >
-                <div class="profile-about__icon">
-                  <app-icon :path="item.icon" type="mdi" />
-                </div>
-                <div class="profile-about__text">
-                  <span class="value"> {{ item.text }}</span>
+              <template v-for="(item, idx) in items">
+                <div v-if="item.text" :key="idx" class="profile-about__item">
+                  <div class="profile-about__icon">
+                    <app-icon :path="item.icon" type="mdi" />
+                  </div>
+                  <div class="profile-about__text">
+                    <span class="value"> {{ item.text }}</span>
 
-                  <span v-if="item.label" class="label">{{ item.label }}</span>
-                </div>
+                    <span v-if="item.label" class="label">{{
+                      item.label
+                    }}</span>
+                  </div>
 
-                <div class="profile-about__action">
-                  <button-icon size="md" :icon="icons.edit" />
+                  <div class="profile-about__action">
+                    <button-icon size="md" :icon="icons.edit" />
+                  </div>
                 </div>
-              </div>
+              </template>
             </div>
           </div>
         </div>
@@ -64,8 +64,15 @@ import {
   mdiMapMarker,
 } from "@mdi/js";
 import profileMixin from "@/mixins/profile";
+import { types } from "@/store/types";
 export default {
   mixins: [profileMixin],
+  async fetch() {
+    const params = this.$route.params;
+    await this.$store.dispatch("profile/" + types.actions.FETCH_PROFILE_ABOUT, {
+      username: params.username,
+    });
+  },
   data() {
     return {
       icons: {

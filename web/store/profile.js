@@ -1,27 +1,36 @@
 import { types } from "./types";
+import profileServices from "../services/profile";
 
 export const state = () => ({
   current: {
-    firstname: "Christian",
-    lastname: "Lugod",
+    firstname: "",
+    lastname: "",
+    postCount: 0,
     profilePhoto: {
-      url:
-        "https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/105049311_2493529057626472_8398877668556967082_o.jpg?_nc_cat=105&ccb=2&_nc_sid=a4a2d7&_nc_eui2=AeHWqjeTnKDLtZ9QL6nvqAr9XM4FzVCgauFczgXNUKBq4WXVCWN9f48Fi1deZ-PniW7fWxFSyj6Y49BbxeIFg43G&_nc_ohc=UUvUSPj1n10AX9EjKR0&_nc_ht=scontent.fmnl17-1.fna&oh=a71a2f5f653b950e7d5f9476466f9007&oe=5FD342C3",
+      url: "",
+      securedUrl: "",
       publicId: ""
     },
     coverPhoto: {
-      url:
-        "https://pbs.twimg.com/profile_banners/2940922927/1601537647/1500x500",
+      url: "",
+      securedUrl: "",
       publicId: ""
     },
-    username: "topzdev",
+    username: "",
 
     about: {
       overview: {
-        phoneNumber: "09286665903",
-        email: "christianlugod05@gmail.com",
-        address: "1320 A 48 Cp Gacia st Tondo, Manila",
-        birthday: "May 15, 2000"
+        phoneNumber: "",
+        email: "",
+        address: "",
+        birthday: ""
+      },
+      socials: {
+        fbUrl: "",
+        instaUrl: "",
+        websiteUrl: "",
+        twitterUrl: "",
+        birthdate: ""
       },
       addresses: [{}]
     }
@@ -30,62 +39,72 @@ export const state = () => ({
     count: 5,
     cursor: null,
     hasNext: false,
-    items: [
-      {
-        id: 1,
-        title: "Ghost Mountain Bike for your i5 Laptop",
-        price: "$$$$",
-        prefered: "I prefered laptop that has i7 processor and gtx 2060",
-        counts: {
-          comment: 25,
-          views: 100
-        },
-        isTraded: false,
-        conditionId: "Good",
-        categoryId: "Bicycle",
-        coverPhoto: {
-          url: require("@/assets/img/post-2.png"),
-          publicId: ""
-        }
-      }
-    ]
+    items: []
   },
   modals: {
-    changePhotos: true
+    changePhotos: false
   }
 });
 
 export const mutations = {
+  [types.mutations.SET_CURRENT_PROFILE](state, data) {
+    console.log("Setting up profile", data);
+    state.current = { ...state.current, ...data };
+  },
+  [types.mutations.SET_CURRENT_PROFILE_POST](state, data) {
+    state.posts = data;
+  },
   [types.mutations.SET_PROFILE_MODAL](state, config) {
     state.modals.changePhotos = config;
   }
 };
 
 export const actions = {
-  async [types.actions.FETCH_PROFILE]({ commit, state, dispatch, getters }) {
+  async [types.actions.FETCH_PROFILE](
+    { commit, state, dispatch, getters },
+    { username }
+  ) {
     try {
-    } catch (error) {}
+      const data = await profileServices.getProfile({ username });
+      console.log(data);
+
+      commit(types.mutations.SET_CURRENT_PROFILE, data);
+    } catch (error) {
+      console.log(error);
+    }
   },
-  async [types.actions.FETCH_PROFILE_ABOUT]({
-    commit,
-    state,
-    dispatch,
-    getters
-  }) {
+  async [types.actions.FETCH_PROFILE_ABOUT](
+    { commit, state, dispatch, getters },
+    { username }
+  ) {
     try {
-    } catch (error) {}
+      const data = await profileServices.getProfileAbout({ username });
+
+      commit(types.mutations.SET_CURRENT_PROFILE, {
+        ...state.current,
+        about: data
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
-  async [types.actions.FETCH_PROFILE_POSTS]({
-    commit,
-    state,
-    dispatch,
-    getters
-  }) {
+  async [types.actions.FETCH_PROFILE_POSTS](
+    { commit, state, dispatch, getters },
+    { username }
+  ) {
     try {
-    } catch (error) {}
+      const data = await profileServices.getProfilePost({ username });
+      console.log(data);
+      commit(types.mutations.SET_CURRENT_PROFILE_POST, data);
+    } catch (error) {
+      console.log(error);
+    }
   },
   async [types.actions.POST_COVER_PHOTO]({ commit, state, dispatch, getters }) {
     try {
+      const data = await profileServices.getProfilePost({ username });
+      console.log(data);
+      commit(types.mutations.SET_CURRENT_PROFILE);
     } catch (error) {}
   },
   async [types.actions.POST_PROFILE_PHOTO]({

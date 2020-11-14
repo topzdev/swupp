@@ -1,9 +1,13 @@
 const User = require("../user/models/User");
-const Profile = require("../user/models/Profile");
+const ProfileModel = require("../profile/models/Profile");
 const { Op } = require("sequelize");
 const authHelpers = require("./helpers");
 const returnError = require("../../utils/returnError");
 const sequelize = require("../../config/sequelize");
+const ProfilePhoto = require("../profile/models/ProfilePhoto");
+const CoverPhoto = require("../profile/models/CoverPhoto");
+const ProfilePhotoModel = require("../profile/models/ProfilePhoto");
+const CoverPhotoModel = require("../profile/models/CoverPhoto");
 // @ts-check
 
 exports.signUp = async ({
@@ -62,9 +66,24 @@ exports.signUp = async ({
         firstname,
         lastname,
         birthdate,
+        coverPhoto: {
+          url: null,
+          securedUrl: null,
+          publicId: null,
+        },
+        profilePhoto: {
+          url: null,
+          securedUrl: null,
+          publicId: null,
+        },
       },
     },
-    { include: { model: Profile } }
+    {
+      include: {
+        model: ProfileModel,
+        include: [{ model: ProfilePhoto }, { model: CoverPhoto }],
+      },
+    }
   );
 
   console.log("User Created", user.toJSON());
@@ -102,12 +121,30 @@ exports.signIn = async ({ usernameOrEmail, password, rememberMe }) => {
 exports.me = async (userId) => {
   if (!userId) return null;
 
-  console.log(userId);
-
   let user = await User.findByPk(userId, {
     attributes: { exclude: ["password"] },
-    include: { model: Profile, attributes: ["firstname", "lastname"] },
+    include: [
+      {
+        model: ProfileModel,
+        attributes: ["firstname", "lastname"],
+        as: "profile",
+        include: [
+          {
+            model: CoverPhotoModel,
+            attributes: ["url", "securedUrl", "publicId"],
+            as: "coverPhoto",
+          },
+          {
+            model: ProfilePhotoModel,
+            attributes: ["url", "securedUrl", "publicId"],
+            as: "profilePhoto",
+          },
+        ],
+      },
+    ],
   });
+
+  console.log("User", user);
 
   return {
     data: {

@@ -1,50 +1,50 @@
 <template>
-  <div class="container">
-    <div class="specs">
-      <AppLogo height="300px" />
-      <h1 class="title">swupp</h1>
-      <h1 class="under">Under Construction</h1>
+  <auth-layout>
+    <div class="container">
+      <div class="specs">
+        <AppLogo height="300px" />
+        <h1 class="title">swupp</h1>
+        <h1 class="under">Under Construction</h1>
 
-      <div style="align-items: center" class="row mt-5 flex-align-end">
-        <template v-if="!$auth.loggedIn">
-          <div class="col-4">
-            <nuxt-link to="/login">
-              <button-primary label="Login" :is-full-width="true" size="lg" />
-            </nuxt-link>
-          </div>
-          <div class="col-4">
-            <nuxt-link to="/register">
+        <div style="align-items: center" class="row mt-5 flex-align-end">
+          <template v-if="!$auth.loggedIn">
+            <div class="col-4">
+              <nuxt-link to="/login">
+                <button-primary label="Login" :is-full-width="true" size="lg" />
+              </nuxt-link>
+            </div>
+            <div class="col-4">
+              <nuxt-link to="/register">
+                <button-primary
+                  label="Register"
+                  :is-full-width="true"
+                  size="lg"
+                />
+              </nuxt-link>
+            </div>
+            <div class="col-4">
+              <nuxt-link to="/new">
+                <button-primary
+                  label="New Post"
+                  :is-full-width="true"
+                  size="lg"
+                />
+              </nuxt-link>
+            </div>
+          </template>
+          <template v-else>
+            <div class="col-4">
               <button-primary
-                label="Register"
+                label="Logout"
+                @click.native="$auth.logout()"
                 :is-full-width="true"
                 size="lg"
               />
-            </nuxt-link>
-          </div>
-          <div class="col-4">
-            <nuxt-link to="/new">
-              <button-primary
-                label="New Post"
-                :is-full-width="true"
-                size="lg"
-              />
-            </nuxt-link>
-          </div>
-        </template>
-        <template v-else>
-          <div class="col-4">
-            <button-primary
-              class=""
-              label="Logout"
-              @click.native="$auth.logout()"
-              :is-full-width="true"
-              size="lg"
-            />
-          </div>
-        </template>
-      </div>
+            </div>
+          </template>
+        </div>
 
-      <!-- <div class="contributors mt-5">
+        <!-- <div class="contributors mt-5">
         <h3 class="mb-1">Contributors</h3>
 
         <ul>
@@ -57,8 +57,9 @@
           </li>
         </ul>
       </div> -->
+      </div>
     </div>
-  </div>
+  </auth-layout>
 </template>
 
 <script>

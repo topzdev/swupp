@@ -7,7 +7,7 @@
       class="btn--primary"
       :to="to"
       :disabled="disabled"
-      :class="[sizeClass, fullWidth, variantClass, textClass]"
+      :class="[sizeClass, fullWidth, variantClass, textClass, className]"
     >
       <span v-if="iconLeft" class="btn--primary__icon btn--primary__icon-left">
         <app-icon :path="iconLeft" type="mdi" />
@@ -15,7 +15,10 @@
       <span class="btn--primary__label">
         {{ loading ? "loading..." : label }}
       </span>
-      <span v-if="iconRight" class="btn--primary__icon btn--primary__icon-right">
+      <span
+        v-if="iconRight"
+        class="btn--primary__icon btn--primary__icon-right"
+      >
         <app-icon :path="iconRight" type="mdi" />
       </span>
     </component>
@@ -28,6 +31,7 @@ export default {
   mixins: [buttonMixin],
   inheritAttrs: true,
   props: {
+    className: String,
     to: {
       type: String,
       default: "",

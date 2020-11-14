@@ -3,7 +3,7 @@
     :is="!to ? 'button' : 'nuxt-link'"
     :to="to"
     class="btn btn--icon"
-    :class="[variantClass, sizeClass]"
+    :class="[variantClass, sizeClass, fabClass]"
   >
     <app-icon type="mdi" :path="icon" />
   </component>
@@ -19,6 +19,7 @@ export default {
         sm: "btn-icon--small",
         md: "btn-icon--medium",
         lg: "btn-icon--large",
+        xl: "btn-icon--xl",
       },
     };
   },
@@ -34,6 +35,14 @@ export default {
     to: {
       type: String,
       default: "",
+    },
+    fab: {
+      type: Boolean,
+    },
+  },
+  computed: {
+    fabClass() {
+      return this.fab ? "btn-icon--float" : "";
     },
   },
 };

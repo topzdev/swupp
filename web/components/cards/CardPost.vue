@@ -16,7 +16,7 @@
           </li>
           <li class="card--post__others-item">
             <app-icon :path="icons.comment" type="mdi" />
-            <span>{{ post.counts.comment }}</span>
+            <span>{{ post.counts.comments }}</span>
           </li>
         </ul>
         <h3 class="card--post__title" :title="post.title">
@@ -30,9 +30,7 @@
         <div class="card--post__description">
           <div class="card--post__price mr-auto">{{ post.price }}</div>
 
-          <badge variant="success"
-            >{{ post.categoryId }} - {{ post.conditionId }}</badge
-          >
+          <badge variant="success">{{ category }} - {{ condition }}</badge>
         </div>
       </div>
     </nuxt-link>
@@ -41,6 +39,7 @@
 
 <script>
 import { mdiEyeOutline, mdiCommentOutline } from "@mdi/js";
+import { CONDITIONS, CATEGORIES } from "@/constants";
 import truncate from "cli-truncate";
 export default {
   props: {
@@ -62,6 +61,20 @@ export default {
 
     truncatedPrefered() {
       return truncate(this.post.prefered, 40);
+    },
+
+    category() {
+      return CATEGORIES.filter((item) => item.id === this.post.categoryId)[0]
+        .text;
+    },
+
+    condition() {
+      return CONDITIONS.filter((item) => item.id === this.post.conditionId)[0]
+        .value;
+    },
+
+    prefered() {
+      return this.post.prefered ? `I prefered - ${this.post.prefered}` : ``;
     },
   },
 };
