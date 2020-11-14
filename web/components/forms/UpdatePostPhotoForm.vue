@@ -1,5 +1,5 @@
 <template>
-  <div class="card--post">
+  <div>
     <div class="card__header">
       <button-icon
         :icon="icons.back"

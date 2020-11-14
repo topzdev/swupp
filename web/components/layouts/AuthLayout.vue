@@ -1,7 +1,9 @@
 <template>
   <div>
     <header>
+      <!-- <client-only> -->
       <app-navbar />
+      <!-- </client-only> -->
     </header>
 
     <main>

@@ -17,7 +17,7 @@
             <p class="navbar__profile-name">{{ this.profile.firstname }}</p>
 
             <div class="navbar__profile-photo">
-              <profile-photo :src="profilePhoto" />
+              <profile-photo :url="profilePhoto" />
             </div>
           </nuxt-link>
         </template>
@@ -38,6 +38,7 @@
 
 <script>
 import { mdiBell } from "@mdi/js";
+import authMixin from "@/mixins/auth";
 export default {
   data() {
     return {
@@ -46,6 +47,7 @@ export default {
       },
     };
   },
+  mixins: [authMixin],
 };
 </script>
 

@@ -15,5 +15,9 @@ export default {
     profileLink() {
       return `/profile/${this.user.username}`;
     }
+  },
+
+  mounted() {
+    console.log(this.profilePhoto);
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="card--post">
+  <div>
     <validation-observer ref="form">
       <dropzone
         name="photos"
@@ -156,7 +156,7 @@ export default {
       e.preventDefault();
       const length = this.post.photos.filter((item) => item.flag !== "deleted")
         .length;
-      if (length <= 2)
+      if (length < 2)
         return this.$refs.form.setErrors({
           photos: ["Oh noh!, i need atleast two photos to upload this post."],
         });

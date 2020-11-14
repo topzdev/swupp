@@ -47,5 +47,63 @@ export default {
     );
 
     return data;
+  },
+
+  async updateProfilePhoto({ id, publicId, photo }) {
+    const formData = new FormData();
+
+    formData.append("id", id);
+    formData.append("publicId", publicId);
+    formData.append("photo", photo);
+
+    const data = await apiClient.$put(
+      "/api/v1/profile/update/profile-photo",
+      formData,
+      {
+        headers: {
+          "Content-type": "multipart/form-data"
+        }
+      }
+    );
+
+    console.log(data);
+
+    return data.data;
+  },
+  async updateCoverPhoto({ id, publicId, photo }) {
+    const formData = new FormData();
+
+    formData.append("id", id);
+    formData.append("publicId", publicId);
+    formData.append("photo", photo);
+
+    const data = await apiClient.$put(
+      "/api/v1/profile/update/cover-photo",
+      formData,
+      {
+        headers: {
+          "Content-type": "multipart/form-data"
+        }
+      }
+    );
+    console.log(data);
+
+    return data.data;
+  },
+  async removeProfilePhoto({ id, publicId }) {
+    const data = await apiClient.$put("api/v1/profile/remove/profile-photo", {
+      id,
+      publicId
+    });
+
+    return data.data;
+  },
+  async removeCoverPhoto(params) {
+    const data = await apiClient.$put("api/v1/profile/remove/cover-photo", {
+      id,
+      publicId
+    });
+
+    return data.data;
   }
 };

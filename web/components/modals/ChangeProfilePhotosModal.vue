@@ -1,7 +1,7 @@
 <template>
   <div v-if="show" class="backdrop">
     <div class="dialog">
-      <card rounded>
+      <card :loading="loading" rounded>
         <card-header class="mb-1">
           <h2 class="mr-auto">Change Profile photo and cover</h2>
           <button-icon :icon="icons.close" @click.native="close" />
@@ -72,6 +72,7 @@
             class="ml-auto mr-1"
             variant="primary"
             size="md"
+            @click.native="onSave"
           />
         </card-header>
       </card>
@@ -86,6 +87,7 @@ import { types } from "@/store/types";
 export default {
   data() {
     return {
+      loading: false,
       icons: {
         close: mdiClose,
         camera: mdiCamera,
@@ -127,11 +129,45 @@ export default {
   },
 
   methods: {
+    async onSave() {
+      this.loading = true;
+      const coverPhoto = this.edit.coverPhoto;
+      const profilePhoto = this.edit.profilePhoto;
+
+      console.log(profilePhoto, coverPhoto);
+      if (coverPhoto.flag === "update") {
+        const { publicId, id } = this.current.coverPhoto;
+        await this.$store.dispatch(
+          "profile/" + types.actions.UPDATE_COVER_PHOTO,
+          {
+            id,
+            publicId,
+            photo: coverPhoto.photo,
+          }
+        );
+      }
+
+      if (profilePhoto.flag === "update") {
+        const { publicId, id } = this.current.profilePhoto;
+        await this.$store.dispatch(
+          "profile/" + types.actions.UPDATE_PROFILE_PHOTO,
+          {
+            id,
+            publicId,
+            photo: profilePhoto.photo,
+          }
+        );
+      }
+
+      this.loading = false;
+    },
+
     async onUploadPhotos(event, where) {
-      if (event.target.files.length)
+      const photo = event.target.files;
+      if (photo.length)
         this.edit[where] = {
-          url: await parseBlobToData(event.target.files[0]),
-          photo: null,
+          url: await parseBlobToData(photo[0]),
+          photo: photo[0],
           flag: "update",
         };
     },
