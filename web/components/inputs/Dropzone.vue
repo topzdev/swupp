@@ -86,7 +86,6 @@ export default {
 
   methods: {
     errorClass(errors) {
-      console.log("Yeah errors", errors);
       this.subtitle = !!errors[0] ? errors[0] : "Upload atleast two photos.";
       return !!errors[0] ? "dropzone--error" : "";
     },

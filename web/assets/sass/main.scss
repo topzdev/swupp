@@ -20,6 +20,7 @@
 @import "layout/modal";
 @import "layout/slider";
 @import "layout/alert";
+@import "layout/errors";
 
 //Themes
 
@@ -46,7 +47,12 @@
 @import "components/icons";
 @import "components/snackbars";
 @import "components/dialog";
+@import "components/tab";
+@import "components/paper";
+@import "components/progress";
 
 //Page
 @import "pages/register";
 @import "pages/new-post";
+@import "pages/profile";
+@import "pages/profile-about";

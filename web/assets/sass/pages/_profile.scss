@@ -1,0 +1,180 @@
+.profile {
+  background-color: var(--color-background-2);
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__cover {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 380px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--color-light-gray);
+
+    @include backdrop(0.3);
+
+    img {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .btn--primary {
+      position: absolute;
+      z-index: 4;
+      bottom: 15px;
+      right: 20px;
+    }
+  }
+
+  &__photo {
+    $photo-size: 240px;
+    height: $photo-size;
+    width: $photo-size;
+    min-width: $photo-size;
+    border: 5px solid var(--color-white);
+    border-radius: 100%;
+    position: relative;
+    background-color: var(--color-light-gray);
+  }
+
+  &__photo-btn {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    background: rgba(var(--color-white-rgb), 0.8) !important;
+    fill: var(--color-dark) !important;
+
+    &:hover {
+      background: rgba(var(--color-white-rgb), 0.4) !important;
+    }
+  }
+
+  &__photo-holder {
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+    overflow: hidden;
+    background-color: var(--color-light-gray);
+    img {
+      @include cover-image;
+    }
+  }
+
+  &__names {
+    text-align: center;
+    margin-top: 8px;
+    line-height: 1.3;
+
+    .username {
+      font-size: 18px;
+    }
+  }
+
+  &__body {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: -200px;
+  }
+
+  &__footer {
+    display: flex;
+    margin-top: 30px;
+    border-top: 1px solid rgba(var(--color-main-rgb), 0.08);
+    width: 100%;
+  }
+
+  &__tab {
+    display: flex;
+    list-style: none;
+  }
+
+  &__tab-item {
+    .nuxt-link-active {
+      position: relative;
+      color: var(--color-primary) !important;
+      @include transition;
+
+      &::before {
+        position: absolute;
+        content: "";
+        height: 3px;
+        width: 100%;
+        background-color: var(--color-primary);
+        bottom: 0;
+        right: 0;
+      }
+    }
+
+    &:hover .nuxt-link-active {
+      background-color: rgba(var(--color-primary-rgb), 0.02);
+    }
+  }
+
+  &__tab-link {
+    display: block;
+    padding: 16px 25px;
+    text-decoration: none;
+    color: var(--color-main);
+  }
+
+  &__tab-label {
+    font-family: var(--font-regular);
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  &__tab-count {
+    font-size: 14px;
+    margin-left: 5px;
+  }
+}
+
+.change-profile {
+  & .profile__cover {
+    height: 230px;
+    border-radius: 6px;
+  }
+  & .profile__photo {
+    $photo-size: 180px;
+    height: $photo-size;
+    width: $photo-size;
+    min-width: $photo-size;
+    margin-left: 20px;
+    overflow: hidden;
+  }
+
+  & .profile__body {
+    margin-top: -100px;
+    align-items: flex-start;
+  }
+
+  &__floater {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    @include flex-middle;
+    z-index: 10;
+    background: rgba(var(--color-dark-rgb), 0.2) !important;
+    .btn--icon {
+      background: transparent !important;
+      svg {
+        fill: var(--color-white);
+      }
+    }
+  }
+}

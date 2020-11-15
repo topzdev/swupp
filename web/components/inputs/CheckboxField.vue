@@ -46,12 +46,6 @@ export default {
       default: "eager",
     },
   },
-
-  watch: {
-    value(sent) {
-      console.log("Sent", sent);
-    },
-  },
 };
 </script>
 

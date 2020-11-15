@@ -12,6 +12,7 @@
 <script>
 import AuthLayout from "@/components/layouts/AuthLayout";
 export default {
+  middleware: "auth",
   components: {
     AuthLayout,
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="card--post">
+  <div class="">
     <validation-observer ref="form" v-slot="{ handleSubmit }">
       <dropzone
         name="photos"
@@ -138,7 +138,6 @@ export default {
   },
   methods: {
     onChange(key, value) {
-      console.log(value);
       this.$store.commit(types.mutations.CHANGE_POST, {
         key,
         value,
@@ -147,7 +146,7 @@ export default {
     },
 
     async onSubmit() {
-      if (this.post.photos.length <= 2)
+      if (this.post.photos.length < 2)
         return this.$refs.form.setErrors({
           photos: ["Oh noh!, i need atleast two photos to upload this post."],
         });

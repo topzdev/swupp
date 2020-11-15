@@ -6,8 +6,6 @@ const Profile = sequelize.define(
   {
     firstname: { type: DataTypes.STRING, allowNull: false },
     lastname: { type: DataTypes.STRING, allowNull: false },
-    profilePhotoId: { type: DataTypes.STRING },
-    coverPhotoId: { type: DataTypes.STRING },
     birthdate: { type: DataTypes.DATEONLY },
     twitterUrl: { type: DataTypes.STRING },
     fbUrl: { type: DataTypes.STRING },

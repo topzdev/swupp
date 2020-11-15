@@ -1,5 +1,5 @@
 <template>
-  <div class="card--post">
+  <div>
     <div class="card__header">
       <button-icon
         :icon="icons.back"
@@ -66,7 +66,6 @@ export default {
       this.$router.push(`/update/${this.post.id}`);
     },
     onChange(key, value) {
-      console.log(value);
       this.$store.commit(types.mutations.CHANGE_POST, {
         key,
         value,

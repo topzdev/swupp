@@ -41,11 +41,6 @@ export default {
     value: Array,
   },
   mixins: [postPhotoMixin],
-  // watch: {
-  //   item(value) {
-  //     console.log("Changing", value);
-  //   },
-  // },
 };
 </script>
 

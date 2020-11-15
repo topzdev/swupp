@@ -51,7 +51,6 @@ extend("confirm_password", {
 
 extend("includes", {
   validate: (value, { target }) => {
-    console.log("Includes", value, target);
     return !value.toLowerCase().includes(target.toLowerCase());
   },
   params: ["target"],

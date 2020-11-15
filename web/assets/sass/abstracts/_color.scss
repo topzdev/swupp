@@ -1,32 +1,56 @@
+@mixin colors($background-color, $text-color, $icon-color) {
+  background-color: $background-color !important;
+  fill: $icon-color !important;
+  color: $text-color !important;
+}
+
 .color {
   &--flat &--primary {
     &:hover {
       background-color: RGBA(var(--color-primary), 0.2);
     }
   }
-
   &--primary {
-    background-color: var(--color-primary);
+    @include colors(
+      var(--color-primary),
+      var(--color-white),
+      var(--color-white)
+    );
   }
 
   &--accent {
-    background-color: var(--color-accent);
-    fill: var(--color-white);
+    @include colors(
+      var(--color-accent),
+      var(--color-white),
+      var(--color-white)
+    );
   }
 
   &--success {
-    background-color: var(--color-success);
+    @include colors(
+      var(--color-success),
+      var(--color-white),
+      var(--color-white)
+    );
   }
 
   &--warning {
-    background-color: var(--color-yellow);
+    @include colors(
+      var(--color-yellow),
+      var(--color-white),
+      var(--color-white)
+    );
   }
 
   &--default {
-    background-color: var(--color-dark-gray);
+    @include colors(var(--color-gray), var(--color-white), var(--color-white));
   }
 
   &--light-gray {
-    background-color: var(--color-light-gray);
+    @include colors(
+      rgba(var(--color-light-gray-rgb), 0.8),
+      var(--color-white),
+      var(--color-main)
+    );
   }
 }

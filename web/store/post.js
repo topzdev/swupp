@@ -27,15 +27,12 @@ export const getters = {
 
 export const mutations = {
   [types.mutations.CHANGE_POST](state, { key, value, crud }) {
-    console.log("Mode", crud);
     state[crud][key] = value;
 
-    console.log(state[crud].photos);
     if (
       state[crud].photos.length &&
       !state[crud].photos.filter(item => item.isCover).length
     ) {
-      console.log("setting up");
       if (crud === "update" && state[crud].photos[0].flag !== "new")
         state[crud].photos[0].flag = "updated";
       state[crud].photos[0].isCover = true;
@@ -55,7 +52,6 @@ export const actions = {
   async [types.actions.FETCH_POST]({ commit }, id) {
     try {
       const result = await this.$axios.$get("/api/v1/post/get/" + id);
-      console.log(result);
       commit(types.mutations.SET_POST_UPDATE, {
         ...result.data.post
       });
@@ -72,13 +68,11 @@ export const actions = {
           formData.append(property, post[property]);
         }
       }
-      console.log(post.photos.map(item => item.caption));
 
       post.photos.forEach((item, idx) => {
         formData.append("photos.photo" + idx, item.photo);
         formData.append("photos.caption" + idx, item.caption);
         formData.append("photos.isCover" + idx, item.isCover);
-        console.log("Created", item);
       });
 
       const result = await this.$axios.$post("/api/v1/post/create", formData, {
@@ -86,8 +80,6 @@ export const actions = {
           "Content-type": "multipart/form-data"
         }
       });
-
-      console.log(result.data);
 
       dispatch(
         types.actions.SHOW_SNACKBAR,
@@ -161,8 +153,6 @@ export const actions = {
           "Content-type": "multipart/form-data"
         }
       });
-
-      console.log(result.data);
 
       dispatch(
         types.actions.SHOW_SNACKBAR,

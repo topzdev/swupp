@@ -47,7 +47,6 @@ export const actions = {
 
     if (config && config.timeout)
       setTimeout(function() {
-        console.log("Time out...");
         commit(types.mutations.SET_SNACKBAR, {
           ...state.snackbars,
           show: false

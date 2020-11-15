@@ -1,4 +1,10 @@
 export default {
+  cloudinary: {
+    cloudName: "topzdev",
+    apiSecret: "nbVhrwCnYxHIJqrsgXPdt0mxbb8",
+    useComponent: true,
+    apiKey: "swupp-dev"
+  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: "swupp",
@@ -12,7 +18,7 @@ export default {
       {
         rel: "stylesheet",
         href:
-          "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;1,300;1,400&family=Poppins:wght@400;600;700&display=swap"
+          "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Poppins:wght@400;700&display=swa"
       }
     ]
   },
@@ -20,8 +26,8 @@ export default {
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ["@/assets/css/bootstrap-grid.min.css", "@/assets/sass/main.scss"],
 
-  // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ["~/plugins/vee-validate.js"],
+  // Plugins to run before rSendering page (https://go.nuxtjs.dev/config-plugins)
+  plugins: ["~/plugins/vee-validate.js", "~/plugins/axios-port.js"],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -35,31 +41,32 @@ export default {
     "@nuxtjs/axios",
     // https://go.nuxtjs.dev/pwa
     "@nuxtjs/pwa",
-    "@nuxtjs/auth"
+    "@nuxtjs/auth",
+    "@nuxtjs/cloudinary"
   ],
 
   auth: {
     // Options
-    // strategies: {
-    //   local: {
-    //     endpoints: {
-    //       login: {
-    //         url: "/api/v1/auth/sign-in",
-    //         method: "post",
-    //         propertyName: "data.token"
-    //       },
-    //       logout: {
-    //         url: "/api/v1/auth/logout",
-    //         method: "post"
-    //       },
-    //       user: {
-    //         url: "/api/v1/auth/me",
-    //         method: "get",
-    //         propertyName: "data.user"
-    //       }
-    //     }
-    //   }
-    // }
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: "/api/v1/auth/sign-in",
+            method: "post",
+            propertyName: "data.token"
+          },
+          logout: {
+            url: "/api/v1/auth/logout",
+            method: "post"
+          },
+          user: {
+            url: "/api/v1/auth/me",
+            method: "get",
+            propertyName: "data.user"
+          }
+        }
+      }
+    }
   },
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
