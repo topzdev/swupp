@@ -1,7 +1,10 @@
 <template>
   <auth-layout :title="title">
-    <profile />
-    <profile-post />
+    <app-errors v-if="userNotFound" error="no-user-found" />
+    <template v-else>
+      <profile />
+      <profile-post />
+    </template>
   </auth-layout>
 </template>
 
@@ -11,12 +14,26 @@ import profileMixin from "@/mixins/profile";
 import { types } from "@/store/types";
 export default {
   mixins: [profileMixin],
+
+  async fetch() {
+    const params = this.$route.params;
+    await this.$store.dispatch("profile/" + types.actions.FETCH_PROFILE, {
+      username: params.username,
+    });
+  },
+
   data() {
     return {
       icons: {
         camera: mdiCamera,
       },
     };
+  },
+
+  computed: {
+    userNotFound() {
+      return this.$store.state.profile.current.username === "";
+    },
   },
   //   middleware: "auth",
 };

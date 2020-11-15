@@ -2,11 +2,7 @@
   <div class="profile mb-4">
     <div class="container">
       <div class="profile__cover">
-        <img
-          v-if="profile.coverPhoto.url"
-          :src="profile.coverPhoto.url"
-          alt="Cover photo"
-        />
+        <img v-if="coverPhoto" :src="coverPhoto" alt="Cover photo" />
 
         <button-primary
           v-if="user"
@@ -18,7 +14,7 @@
 
       <div class="profile__body">
         <div class="profile__photo">
-          <profile-photo :url="profile.profilePhoto.url" />
+          <profile-photo :url="profilePhoto" />
           <button-icon
             v-if="user"
             class="profile__photo-btn"
@@ -62,13 +58,6 @@ import { types } from "@/store/types";
 export default {
   mixins: [profileMixin],
 
-  async fetch() {
-    const params = this.$route.params;
-    await this.$store.dispatch("profile/" + types.actions.FETCH_PROFILE, {
-      username: params.username,
-    });
-  },
-
   data() {
     return {
       icons: {
@@ -82,7 +71,19 @@ export default {
       return this.$store.state.profile.current;
     },
     username() {
-      if (this.profile.username) `@${this.profile.username}`;
+      if (this.profile.username) return `@${this.profile.username}`;
+    },
+    profilePhoto() {
+      return this.$cloudinary.image.url(this.profile.profilePhoto.publicId, {
+        crop: "scale",
+        width: 300,
+      });
+    },
+    coverPhoto() {
+      // return this.profile.coverPhoto.url;
+      return this.$cloudinary.image.url(this.profile.coverPhoto.publicId, {
+        height: 500,
+      });
     },
   },
 

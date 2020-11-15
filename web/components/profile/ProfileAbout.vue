@@ -14,11 +14,6 @@
                     Overview
                   </nuxt-link>
                 </li>
-                <li class="tab__item">
-                  <nuxt-link :to="links.address" class="tab__link">
-                    Address
-                  </nuxt-link>
-                </li>
               </ul>
             </div>
           </div>

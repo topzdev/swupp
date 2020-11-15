@@ -43,7 +43,7 @@ exports.deleteProfilePhoto = async (publicId) => {
 exports.uploadCoverPhoto = async (photo) => {
   if (!photo) return returnError("photo", "Photo is not provided");
   if (Array.isArray(photo)) throw { error: "Expecting single photo only" };
-  let photoResult = await photoHelpers.singleUploadToCloud("profile", photo);
+  let photoResult = await photoHelpers.singleUploadToCloud("cover", photo);
 
   return photoResult;
 };

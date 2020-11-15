@@ -2,34 +2,35 @@
   <auth-layout>
     <div class="container">
       <div class="specs">
-        <AppLogo height="300px" />
+        <app-logo height="300px" size="lg" />
         <h1 class="title">swupp</h1>
         <h1 class="under">Under Construction</h1>
 
         <div style="align-items: center" class="row mt-5 flex-align-end">
           <template v-if="!$auth.loggedIn">
-            <div class="col-4">
-              <nuxt-link to="/login">
-                <button-primary label="Login" :is-full-width="true" size="lg" />
-              </nuxt-link>
+            <div class="col-3">
+              <button-primary
+                to="/login"
+                label="Login"
+                :is-full-width="true"
+                size="lg"
+              />
             </div>
             <div class="col-4">
-              <nuxt-link to="/register">
-                <button-primary
-                  label="Register"
-                  :is-full-width="true"
-                  size="lg"
-                />
-              </nuxt-link>
+              <button-primary
+                to="/register"
+                label="Register"
+                :is-full-width="true"
+                size="lg"
+              />
             </div>
-            <div class="col-4">
-              <nuxt-link to="/new">
-                <button-primary
-                  label="New Post"
-                  :is-full-width="true"
-                  size="lg"
-                />
-              </nuxt-link>
+            <div class="col-5">
+              <button-primary
+                to="/new"
+                label="New Post"
+                :is-full-width="true"
+                size="lg"
+              />
             </div>
           </template>
           <template v-else>
@@ -82,11 +83,12 @@ export default {
 <style lang="scss">
 .specs {
   display: flex;
+  margin-top: 30px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 100vh;
+  height: 80vh;
 }
 .contributors {
   margin-top: 30px;

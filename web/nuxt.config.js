@@ -2,6 +2,7 @@ export default {
   cloudinary: {
     cloudName: "topzdev",
     apiSecret: "nbVhrwCnYxHIJqrsgXPdt0mxbb8",
+    useComponent: true,
     apiKey: "swupp-dev"
   },
   // Global page headers (https://go.nuxtjs.dev/config-head)

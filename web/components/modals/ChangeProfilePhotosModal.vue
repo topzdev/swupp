@@ -115,12 +115,24 @@ export default {
 
     profilePhoto() {
       const edit = this.edit.profilePhoto.url;
-      return edit ? edit : this.current.profilePhoto.url;
+      return edit
+        ? edit
+        : this.$cloudinary.image.url(this.current.profilePhoto.publicId, {
+            width: 150,
+            quality: "auto",
+            crop: "scale",
+          });
     },
 
     coverPhoto() {
       const edit = this.edit.coverPhoto.url;
-      return edit ? edit : this.current.coverPhoto.url;
+      return edit
+        ? edit
+        : this.$cloudinary.image.url(this.current.coverPhoto.publicId, {
+            height: 250,
+            quality: "auto",
+            crop: "scale",
+          });
     },
 
     show() {
@@ -131,33 +143,26 @@ export default {
   methods: {
     async onSave() {
       this.loading = true;
-      const coverPhoto = this.edit.coverPhoto;
-      const profilePhoto = this.edit.profilePhoto;
+      const coverPhoto = {
+        id: this.current.coverPhoto.id,
+        publicId: this.current.coverPhoto.publicId,
+        photo: this.edit.coverPhoto.photo,
+        flag: this.edit.coverPhoto.flag,
+      };
+      const profilePhoto = {
+        id: this.current.profilePhoto.id,
+        publicId: this.current.profilePhoto.publicId,
+        photo: this.edit.profilePhoto.photo,
+        flag: this.edit.profilePhoto.flag,
+      };
 
-      console.log(profilePhoto, coverPhoto);
-      if (coverPhoto.flag === "update") {
-        const { publicId, id } = this.current.coverPhoto;
-        await this.$store.dispatch(
-          "profile/" + types.actions.UPDATE_COVER_PHOTO,
-          {
-            id,
-            publicId,
-            photo: coverPhoto.photo,
-          }
-        );
-      }
-
-      if (profilePhoto.flag === "update") {
-        const { publicId, id } = this.current.profilePhoto;
-        await this.$store.dispatch(
-          "profile/" + types.actions.UPDATE_PROFILE_PHOTO,
-          {
-            id,
-            publicId,
-            photo: profilePhoto.photo,
-          }
-        );
-      }
+      await this.$store.dispatch(
+        "profile/" + types.actions.UPDATE_PROFILE_PHOTOS,
+        {
+          profilePhoto,
+          coverPhoto,
+        }
+      );
 
       this.loading = false;
     },

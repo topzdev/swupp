@@ -1,19 +1,32 @@
 <template>
   <div class="container mt-3 pb-5">
-    <div class="row">
-      <div v-for="item in posts" :key="item.id" class="col-3">
-        <card-post :post="item" />
+    <app-errors v-if="postCount === 0 && $auth.loggedIn" error="me-no-post" />
+    <app-errors v-else-if="postCount === 0" error="user-no-post" />
+    <template v-else>
+      <div class="row">
+        <div v-for="item in posts" :key="item.id" class="col-3">
+          <card-post :post="item" />
+        </div>
       </div>
-    </div>
 
-    <button-icon to="/new" size="xl" variant="primary" fab :icon="icons.plus" />
+      <button-icon
+        v-if="loggedIn"
+        to="/new"
+        size="xl"
+        variant="primary"
+        fab
+        :icon="icons.plus"
+      />
+    </template>
   </div>
 </template>
 
 <script>
 import { mdiPlus } from "@mdi/js";
 import { types } from "@/store/types";
+import authMixin from "@/mixins/auth";
 export default {
+  mixins: [authMixin],
   data() {
     return {
       icons: {
@@ -22,6 +35,9 @@ export default {
     };
   },
   computed: {
+    postCount() {
+      return parseInt(this.$store.state.profile.current.postCount);
+    },
     posts() {
       return this.$store.state.profile.posts.items;
     },

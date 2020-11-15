@@ -66,10 +66,7 @@ export const mutations = {
 };
 
 export const actions = {
-  async [types.actions.FETCH_PROFILE](
-    { commit, state, dispatch, getters },
-    { username }
-  ) {
+  async [types.actions.FETCH_PROFILE]({ commit }, { username }) {
     try {
       const data = await profileServices.getProfile({ username });
       console.log(data);
@@ -79,10 +76,7 @@ export const actions = {
       console.log(error);
     }
   },
-  async [types.actions.FETCH_PROFILE_ABOUT](
-    { commit, state, dispatch, getters },
-    { username }
-  ) {
+  async [types.actions.FETCH_PROFILE_ABOUT]({ commit, state }, { username }) {
     try {
       const data = await profileServices.getProfileAbout({ username });
 
@@ -94,10 +88,7 @@ export const actions = {
       console.log(error);
     }
   },
-  async [types.actions.FETCH_PROFILE_POSTS](
-    { commit, state, dispatch, getters },
-    { username }
-  ) {
+  async [types.actions.FETCH_PROFILE_POSTS]({ commit }, { username }) {
     try {
       const data = await profileServices.getProfilePost({ username });
       console.log(data);
@@ -113,65 +104,61 @@ export const actions = {
       commit(types.mutations.SET_CURRENT_PROFILE);
     } catch (error) {}
   },
-  async [types.actions.POST_PROFILE_PHOTO]({
-    commit,
-    state,
-    dispatch,
-    getters
-  }) {
-    try {
-    } catch (error) {}
-  },
+
   [types.actions.SHOW_PROFILE_CHANGE_MODAL]({ commit, dispatch }, show) {
-    dispatch(types.mutations.SET_PROFILE_MODAL, show);
+    commit(types.mutations.SET_PROFILE_MODAL, show);
   },
-  async [types.actions.UPDATE_PROFILE_PHOTO](
+
+  async [types.actions.UPDATE_PROFILE_PHOTOS](
     { commit, state, dispatch, getters },
-    { id, publicId, photo }
+    { profilePhoto, coverPhoto }
   ) {
     try {
-      const data = await profileServices.updateProfilePhoto({
-        id,
-        publicId,
-        photo
-      });
-      commit(types.mutations.SET_CURRENT_PROFILE_PHOTO, data.photo);
+      let profileData, coverData;
+
+      if (profilePhoto.flag === "update") {
+        const { id, publicId, photo } = profilePhoto;
+
+        profileData = await profileServices.updateProfilePhoto({
+          id,
+          publicId,
+          photo
+        });
+      }
+
+      if (coverPhoto.flag === "update") {
+        const { id, publicId, photo } = coverPhoto;
+
+        coverData = await profileServices.updateCoverPhoto({
+          id,
+          publicId,
+          photo
+        });
+      }
+
+      if (coverPhoto.flag === "update")
+        commit(types.mutations.SET_CURRENT_COVER_PHOTO, coverData.photo);
+
+      if (profilePhoto.flag === "update")
+        commit(types.mutations.SET_CURRENT_PROFILE_PHOTO, profileData.photo);
 
       dispatch(
         types.actions.SHOW_SNACKBAR,
         {
-          title: "Profile photo",
-          body: "cover photo updated",
+          title: "Profile Photos",
+          body: "Profile and cover photo updated",
           type: "success",
           timeout: 10000
         },
         { root: true }
       );
-    } catch (error) {}
+
+      dispatch(types.actions.SHOW_PROFILE_CHANGE_MODAL, false);
+    } catch (error) {
+      console.log(error);
+    }
   },
-  async [types.actions.UPDATE_COVER_PHOTO](
-    { commit, state, dispatch, getters },
-    { id, publicId, photo }
-  ) {
-    try {
-      const data = await profileServices.updateCoverPhoto({
-        id,
-        publicId,
-        photo
-      });
-      commit(types.mutations.SET_CURRENT_COVER_PHOTO, data.photo);
-      dispatch(
-        types.actions.SHOW_SNACKBAR,
-        {
-          title: "Cover photo",
-          body: "profile photo updated",
-          type: "success",
-          timeout: 10000
-        },
-        { root: true }
-      );
-    } catch (error) {}
-  },
+
   async [types.actions.REMOVE_PROFILE_PHOTO](
     { commit, state, dispatch, getters },
     { id, publicId, photo }
@@ -190,8 +177,8 @@ export const actions = {
       dispatch(
         types.actions.SHOW_SNACKBAR,
         {
-          title: "Profile photo",
-          body: "profile photo removed",
+          title: "Profile Updates",
+          body: "Profile photo removed",
           type: "success",
           timeout: 10000
         },
@@ -219,8 +206,8 @@ export const actions = {
       dispatch(
         types.actions.SHOW_SNACKBAR,
         {
-          title: "Profile photo",
-          body: "cover photo removed",
+          title: "Profile Updates",
+          body: "Cover photo removed",
           type: "success",
           timeout: 10000
         },

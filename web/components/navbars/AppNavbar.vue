@@ -1,9 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="container">
-      <nuxt-link to="/" class="navbar__logo">
-        <app-logo />
-      </nuxt-link>
+      <app-logo class="navbar__logo" />
 
       <div class="navbar__search">
         <input-search />
@@ -29,7 +27,9 @@
             className="px-1"
             text
           /> -->
-          <nuxt-link to="/login">Login</nuxt-link>
+          <nuxt-link class="btn btn--link" to="/login">Login</nuxt-link>
+          <span class="mx-1">or</span>
+          <nuxt-link class="btn btn--link" to="/register">Sign up</nuxt-link>
         </template>
       </div>
     </div>

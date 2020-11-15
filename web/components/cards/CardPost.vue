@@ -1,7 +1,12 @@
 <template>
   <div class="card--post">
     <div class="card--post__image">
-      <img :src="post.coverPhoto.url" :alt="post.title" draggable="false" />
+      <img
+        :src="postCoverPhoto"
+        :alt="post.title"
+        draggable="false"
+        loading="lazy"
+      />
     </div>
 
     <nuxt-link to="/" class="card--post__main">
@@ -75,6 +80,16 @@ export default {
 
     prefered() {
       return this.post.prefered ? `I prefered - ${this.post.prefered}` : ``;
+    },
+
+    postCoverPhoto() {
+      // return this.profile.coverPhoto.url;
+      return this.$cloudinary.image.url(this.post.coverPhoto.publicId, {
+        height: 400,
+        crop: "scale",
+        quality: "auto",
+        fetch_format: "auto",
+      });
     },
   },
 };
