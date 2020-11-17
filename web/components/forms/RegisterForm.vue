@@ -250,8 +250,11 @@ export default {
           ),
         });
 
-        this.$auth.setUserToken(res.data.token);
-        this.$router.push("/profile");
+        await this.$auth.setUserToken(res.data.token);
+
+        if (this.$auth.loggedIn)
+          this.$router.push("/profile/" + this.$auth.user.username);
+
         this.loading = false;
       } catch (error) {
         // console.error(error.response.data);

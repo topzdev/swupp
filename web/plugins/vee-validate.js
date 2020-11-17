@@ -51,7 +51,8 @@ extend("confirm_password", {
 
 extend("includes", {
   validate: (value, { target }) => {
-    return !value.toLowerCase().includes(target.toLowerCase());
+    if (!target && !value) return false;
+    return !value.toLowerCase().includes(target ? target.toLowerCase() : "");
   },
   params: ["target"],
   message: "Password contains your username"
