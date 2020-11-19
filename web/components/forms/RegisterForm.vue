@@ -146,6 +146,7 @@ import { debounce } from "debounce";
 import isEmptyFields from "@/utils/isEmptyFields";
 import { ValidationObserver, extend, validate } from "vee-validate";
 import { CURRENT_DATE, DAYS, MONTHS, YEARS } from "@/constants";
+import { types } from "@/store/types";
 
 const usernameOrEmailExist = async (value) => {
   return (
@@ -252,8 +253,15 @@ export default {
 
         await this.$auth.setUserToken(res.data.token);
 
-        if (this.$auth.loggedIn)
+        if (this.$auth.loggedIn) {
           this.$router.push("/profile/" + this.$auth.user.username);
+          this.$store.dispatch(types.actions.SHOW_SNACKBAR, {
+            title: "Greetings from Swupp!",
+            body: `Hi!, ${this.$auth.user.username} `,
+            type: "success",
+            timeout: 10000,
+          });
+        }
 
         this.loading = false;
       } catch (error) {

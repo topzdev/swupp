@@ -5,6 +5,7 @@
     :type="type"
     class="btn--primary"
     :to="to"
+    :name="name"
     :disabled="disabled"
     :class="[sizeClass, fullWidth, variantClass, textClass, className]"
   >
@@ -31,6 +32,7 @@ export default {
       type: String,
       default: "",
     },
+    name: String,
     label: String,
     type: String,
     loading: {

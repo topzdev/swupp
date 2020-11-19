@@ -17,6 +17,7 @@
                 :rules="rules.usernameOrEmail"
                 label="Username"
                 id="username"
+                name="email"
               ></input-field>
             </div>
             <div class="col-12 mb-1">
@@ -26,6 +27,7 @@
                 :rules="rules.password"
                 label="Password"
                 id="password"
+                name="password"
               ></password-field>
             </div>
             <!-- <div class="col-12">
@@ -42,6 +44,7 @@
           <button-primary
             label="Login"
             type="submit"
+            name="login"
             :is-full-width="true"
             size="lg"
           />
@@ -76,8 +79,8 @@ export default {
         password: "required",
       },
       credential: {
-        usernameOrEmail: "topzdev123",
-        password: "123456789",
+        usernameOrEmail: "", //topzdev123
+        password: "", //123456789
         // rememberMe: false,
       },
       alert: {
@@ -99,12 +102,14 @@ export default {
           this.$router.push("/profile/" + this.$auth.user.username);
       } catch (error) {
         console.log(error);
-        // const data = error.response.data;
-        // if (data === undefined) return;
-        // this.alert = {
-        //   message: data.error.message,
-        //   show: true,
-        // };
+
+        if (error.response && error.response.data) {
+          const data = error.response.data;
+          this.alert = {
+            message: data.error.message,
+            show: true,
+          };
+        }
       }
     },
   },

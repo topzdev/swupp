@@ -58,6 +58,7 @@ export const mutations = {
     state.modals.changePhotos = config;
   },
   [types.mutations.SET_CURRENT_PROFILE_PHOTO](state, data) {
+    console.log(data);
     state.current.profilePhoto = data;
   },
   [types.mutations.SET_CURRENT_COVER_PHOTO](state, data) {
@@ -136,11 +137,18 @@ export const actions = {
         });
       }
 
-      if (coverPhoto.flag === "update")
-        commit(types.mutations.SET_CURRENT_COVER_PHOTO, coverData.photo);
+      console.log("Photo Data", profilePhoto);
+      console.log("Photo Raw", profileData);
 
-      if (profilePhoto.flag === "update")
+      if (coverPhoto.flag === "update") {
+        console.log("Cover photo");
+        commit(types.mutations.SET_CURRENT_COVER_PHOTO, coverData.photo);
+      }
+
+      if (profilePhoto.flag === "update") {
+        console.log("Updating profile");
         commit(types.mutations.SET_CURRENT_PROFILE_PHOTO, profileData.photo);
+      }
 
       dispatch(
         types.actions.SHOW_SNACKBAR,

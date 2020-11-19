@@ -5,7 +5,7 @@ exports.signUp = async (req, res) => {
     const input = req.body;
     const data = await authService.signUp(input);
 
-    if (data.error) return res.status(200).json(data);
+    if (data.error) return res.status(401).json(data);
 
     res.status(200).json(data);
   } catch (error) {
@@ -20,7 +20,7 @@ exports.signIn = async (req, res) => {
     console.log(input);
     const data = await authService.signIn(input);
 
-    if (data.error) return res.status(400).json(data);
+    if (data.error) return res.status(401).json(data);
 
     res.status(200).json(data);
   } catch (error) {

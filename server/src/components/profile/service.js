@@ -150,9 +150,12 @@ exports.updateProfilePhoto = async ({ id, publicId, photo }) => {
       },
     });
 
+    console.log("Profile Update Result", updateResult);
+    console.log("Profile Uploaded photo", uploadedPhoto);
+
     return {
       data: {
-        photo: uploadedPhoto,
+        photo: { id, ...uploadedPhoto },
         message: "profile photo successfully uploaded",
       },
     };
@@ -183,7 +186,7 @@ exports.updateCoverPhoto = async ({ id, publicId, photo }) => {
 
     return {
       data: {
-        photo: uploadedPhoto,
+        photo: { id, ...uploadedPhoto },
         message: "profile photo successfully uploaded",
       },
     };
