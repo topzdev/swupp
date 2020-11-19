@@ -4,7 +4,7 @@
     <app-errors v-else-if="postCount === 0" error="user-no-post" />
     <template v-else>
       <div class="row">
-        <div v-for="item in posts" :key="item.id" class="col-3">
+        <div v-for="item in posts" :key="item.id" class="col-3 mb-3">
           <card-post :post="item" />
         </div>
       </div>
@@ -24,9 +24,9 @@
 <script>
 import { mdiPlus } from "@mdi/js";
 import { types } from "@/store/types";
-import authMixin from "@/mixins/auth";
+import profileMixin from "@/mixins/profile";
 export default {
-  mixins: [authMixin],
+  mixins: [profileMixin],
   data() {
     return {
       icons: {
@@ -34,6 +34,7 @@ export default {
       },
     };
   },
+
   computed: {
     postCount() {
       return parseInt(this.$store.state.profile.current.postCount);

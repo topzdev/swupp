@@ -24,7 +24,7 @@ export default {
         : "";
     },
     profileLink() {
-      return `/profile/${this.user.username}`;
+      return `/profile/${this.user.username}?refresh=1`;
     }
   },
 

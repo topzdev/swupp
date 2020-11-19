@@ -25,6 +25,7 @@
           class="inp"
           :placeholder="placeholder"
           :value="value"
+          step="0.01"
           @input="$emit('input', $event.target.value)"
         />
         <textarea

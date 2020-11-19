@@ -1,4 +1,7 @@
+import authMixin from "./auth";
+
 export default {
+  mixins: [authMixin],
   computed: {
     links() {
       const username = this.$route.params.username;
@@ -9,12 +12,6 @@ export default {
         address: `/profile/${username}/address`
       };
     },
-    user() {
-      return this.$auth.user;
-    },
-    loggedIn() {
-      return this.$auth.loggedIn;
-    },
 
     title() {
       if (this.loggedIn) {
@@ -23,6 +20,15 @@ export default {
       }
 
       return "Profile";
+    }
+  },
+  watch: {
+    "$route.query.refresh"(newValue, oldValue) {
+      if (newValue === "1" && !(newValue === undefined)) {
+        console.log("Refetching data again via query");
+        if (typeof this.$fetch === "function") this.$fetch();
+        this.$router.push({ path: this.$route.path });
+      }
     }
   }
 };

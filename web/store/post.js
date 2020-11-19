@@ -58,7 +58,13 @@ export const actions = {
     } catch (error) {}
   },
 
-  async [types.actions.POST_CREATE]({ commit, state, dispatch, getters }) {
+  async [types.actions.POST_CREATE]({
+    commit,
+    state,
+    dispatch,
+    getters,
+    rootState
+  }) {
     try {
       const formData = new FormData();
       const post = state.create;
@@ -95,7 +101,13 @@ export const actions = {
       );
 
       commit(types.mutations.CLEAR_FIELDS, "create");
-      $nuxt.$router.push("/");
+
+      console.log(rootState.auth.user.username);
+
+      $nuxt.$router.push({
+        path: `profile/${rootState.auth.user.username}`,
+        query: { refresh: 1 }
+      });
     } catch (error) {
       dispatch(
         types.actions.SHOW_SNACKBAR,

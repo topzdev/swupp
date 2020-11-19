@@ -27,9 +27,10 @@
             <input-field
               :value="post.price"
               :rules="rules.price"
-              @input="onChange('price', parseInt($event || 0))"
+              @input="onChange('price', parseFloat($event || 0))"
               label="Price"
               id="price"
+              type="number"
             ></input-field>
           </div>
           <div class="col-12 mb-2">

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-connection />
     <header>
       <!-- <client-only> -->
       <app-navbar />
