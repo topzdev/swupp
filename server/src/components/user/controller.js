@@ -14,7 +14,8 @@ exports.checkUsernameOrEmailExist = async (req, res) => {
 
 exports.changePassword = async (req, res) => {
   try {
-    const { id, currentPassword, newPassword, confirmPassword } = req.body;
+    const id = req.session.userId;
+    const { currentPassword, newPassword, confirmPassword } = req.body;
     const data = await userService.changePassword({
       id,
       currentPassword,
@@ -30,7 +31,8 @@ exports.changePassword = async (req, res) => {
 
 exports.changeEmail = async (req, res) => {
   try {
-    const { id, email } = req.body;
+    const id = req.session.userId;
+    const { email } = req.body;
     const data = await userService.changePassword({ id, email });
     res.status(200).json(data);
   } catch (error) {
@@ -41,7 +43,7 @@ exports.changeEmail = async (req, res) => {
 
 exports.deactivate = async (req, res) => {
   try {
-    const { id } = req.body;
+    const id = req.session.userId;
     const data = await userService.deactivate({ id });
     res.status(200).json(data);
   } catch (error) {
@@ -52,7 +54,9 @@ exports.deactivate = async (req, res) => {
 
 exports.changeUsername = async (req, res) => {
   try {
-    const { id, username } = req.body;
+    const { username } = req.body;
+    const id = req.session.userId;
+    console.log("Change username");
     const data = await userService.changeUsername({ id, username });
     res.status(200).json(data);
   } catch (error) {
@@ -63,7 +67,8 @@ exports.changeUsername = async (req, res) => {
 
 exports.changeAccountInfo = async (req, res) => {
   try {
-    const { id, firstname, lastname, birthdate } = req.body;
+    const id = req.session.userId;
+    const { firstname, lastname, birthdate } = req.body;
     const data = await userService.changeAccountInfo({
       id,
       firstname,
