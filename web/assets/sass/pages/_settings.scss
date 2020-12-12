@@ -1,0 +1,5 @@
+.settings {
+  & > *:not(:last-child) .content-show {
+    border-bottom: 1px solid var(--color-light-gray);
+  }
+}

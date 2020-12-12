@@ -13,6 +13,10 @@
 
   --color-main: #121212;
   --color-main-rgb: 18, 18, 18;
+
+  --color-main-light: #222222;
+  --color-main-light-rgb: 34, 34, 34;
+
   --color-primary: #ffa41b;
   --color-primary-rgb: 255, 164, 27;
   --color-secondary: #000839;
@@ -44,7 +48,13 @@
   --color-violet: #fe01fc;
   --color-violet-rgb: 254, 1, 252;
 
-  --snackbar-elevation: 0px 0px 25px 3px rgba(0, 0, 0, 0.1);
+  --card-border: 1px solid rgba(var(--color-dark-gray-rgb), 0.2);
+  --active-background: rgba(var(--color-primary-rgb), 0.05);
+  --active-color: var(--color-primary);
+  --active-fill: var(--color-primary);
+
+  --snackbar-elevation: 0px 0px 25px 3px rgba(var(--color-dark) 0.1);
+  --menu-elevation: 0px 0px 20px rgba(var(--color-dark), 0.05);
 }
 
 ::selection {

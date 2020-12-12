@@ -1,7 +1,11 @@
 @mixin colors($background-color, $text-color, $icon-color) {
-  background-color: $background-color !important;
-  fill: $icon-color !important;
-  color: $text-color !important;
+  background-color: var($background-color) !important;
+  fill: var($icon-color) !important;
+  color: var($text-color) !important;
+
+  &:hover {
+    background-color: #{rgba(var(#{$background-color}-rgb), 0.9)} !important;
+  }
 }
 
 .color {
@@ -11,46 +15,26 @@
     }
   }
   &--primary {
-    @include colors(
-      var(--color-primary),
-      var(--color-white),
-      var(--color-white)
-    );
+    @include colors(--color-primary, --color-white, --color-white);
   }
 
   &--accent {
-    @include colors(
-      var(--color-accent),
-      var(--color-white),
-      var(--color-white)
-    );
+    @include colors(--color-accent, --color-white, --color-white);
   }
 
   &--success {
-    @include colors(
-      var(--color-success),
-      var(--color-white),
-      var(--color-white)
-    );
+    @include colors(--color-success, --color-white, --color-white);
   }
 
   &--warning {
-    @include colors(
-      var(--color-yellow),
-      var(--color-white),
-      var(--color-white)
-    );
+    @include colors(--color-yellow, --color-white, --color-white);
   }
 
   &--default {
-    @include colors(var(--color-gray), var(--color-white), var(--color-white));
+    @include colors(--color-gray, --color-white, --color-white);
   }
 
   &--light-gray {
-    @include colors(
-      rgba(var(--color-light-gray-rgb), 0.8),
-      var(--color-white),
-      var(--color-main)
-    );
+    @include colors(--color-light-gray, --color-white, --color-main);
   }
 }

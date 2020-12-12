@@ -205,3 +205,43 @@
     height: 14px;
   }
 }
+
+.profile-icon {
+  display: flex;
+  align-items: center;
+  @include transition();
+  padding: 5px 20px 5px 5px;
+  border-radius: 100px;
+  text-decoration: none;
+
+  &:hover {
+    background-color: var(--color-light-gray);
+  }
+
+  &__body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 10px;
+    color: var(--color-main);
+  }
+
+  &__name {
+    font-weight: 600;
+  }
+
+  &__photo {
+    display: flex;
+    @include square-size(45px);
+    border-radius: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(var(--color-main-rgb), 0.1);
+    img {
+      height: 100%;
+    }
+  }
+
+  &__caption {
+    font-size: 13px;
+  }
+}
