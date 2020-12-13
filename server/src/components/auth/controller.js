@@ -61,3 +61,15 @@ exports.forgotPassword = async (req, res) => {
     res.status(400).json(error);
   }
 };
+
+exports.transactVerifiy = async (req, res) => {
+  try {
+    const id = req.session.userId;
+    const password = req.body.password;
+    console.log(password, id);
+    const data = await authService.transactVerify({ id, password });
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};

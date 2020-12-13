@@ -41,6 +41,7 @@ export default {
         message: null,
         show: false,
         type: "info",
+        timeout: undefined,
       }),
     },
     type: {
@@ -48,6 +49,18 @@ export default {
     },
     message: {
       type: String,
+    },
+  },
+
+  watch: {
+    alert(newValue) {
+      const self = this;
+
+      if (newValue.show === true && newValue.timeout !== undefined) {
+        setTimeout(function () {
+          self.close();
+        }, newValue.timeout);
+      }
     },
   },
 

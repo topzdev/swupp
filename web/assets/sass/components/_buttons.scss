@@ -7,6 +7,10 @@ button {
     background-color: var(--color-light-gray) !important;
     color: var(--color-dark) !important;
     cursor: default !important;
+
+    &:hover {
+      background-color: var(--color-light-gray) !important;
+    }
   }
 
   &--primary {

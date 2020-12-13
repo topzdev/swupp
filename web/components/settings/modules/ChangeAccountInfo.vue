@@ -23,8 +23,8 @@
           <div class="row">
             <div class="col-8">
               <input-field
-                :value="account.firstname"
-                @input="onChange('firstname', $event)"
+                v-model="fields.firstname"
+                :rules="rules.firstname"
                 label="First Name"
                 id="firstname"
                 name="firstname"
@@ -32,19 +32,18 @@
             </div>
             <div class="col-8 mt-2">
               <input-field
-                :value="account.lastname"
-                @input="onChange('lastname', $event)"
+                v-model="fields.lastname"
+                :rules="rules.lastname"
                 label="Last Name"
-                id="firstname"
-                name="firstname"
+                id="lastname"
+                name="lastname"
               ></input-field>
             </div>
             <div class="col-8 mb-1">
               <div class="row">
                 <div class="col-5 mt-2">
                   <select-field
-                    :value="birthdate.month"
-                    @input="changeDate('month', $event)"
+                    v-model="fields.bdMonth"
                     placeholder="Select Month"
                     :options="options.months"
                     :rules="rules.bdMonth"
@@ -55,9 +54,8 @@
                 </div>
                 <div class="col-3 mt-2">
                   <select-field
+                    v-model="fields.bdDay"
                     :rules="rules.bdDay"
-                    :value="birthdate.day"
-                    @input="changeDate('day', parseInt($event))"
                     id="bd-day"
                     placeholder="Select Day"
                     :options="options.days"
@@ -66,8 +64,7 @@
                 </div>
                 <div class="col-4 mt-2">
                   <select-field
-                    :value="birthdate.year"
-                    @input="changeDate('year', parseInt($event))"
+                    v-model="fields.bdYear"
                     placeholder="Select Year"
                     :options="options.years"
                     :rules="rules.bdMonth"
@@ -91,7 +88,6 @@
                 class="ml-auto"
                 label="Update"
                 type="submit"
-                name="login"
                 size="md"
               />
             </div>
@@ -103,8 +99,9 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { types } from "@/store/types";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import userSettingsServices from "@/services/userSettings";
 import { CURRENT_DATE, DAYS, MONTHS, YEARS } from "@/constants";
 import dayjs from "dayjs";
 export default {
@@ -116,8 +113,17 @@ export default {
     return {
       show: false,
       disabled: false,
-      alert: {},
-      bdate: {},
+      alert: {
+        show: false,
+        message: "",
+      },
+      fields: {
+        firstname: "",
+        lastname: "",
+        bdDay: "",
+        bdMonth: "",
+        bdYear: "",
+      },
       rules: {
         firstname: "required",
         lastname: "required",
@@ -137,12 +143,24 @@ export default {
     general() {
       return this.$store.state.userSettings.general;
     },
-    account() {
-      return this.general.profile;
+  },
+  watch: {
+    "general.profile"(newValue) {
+      let parse = JSON.parse(JSON.stringify(newValue));
+      console.log("Parse Value", parse);
+      const parseDate = this.parseDate(parse.birthdate);
+      this.fields = {
+        firstname: parse.firstname,
+        lastname: parse.lastname,
+        bdDay: parseDate.day,
+        bdMonth: parseDate.month,
+        bdYear: parseDate.year,
+      };
     },
-
-    birthdate() {
-      const birth = dayjs(this.account.birthdate);
+  },
+  methods: {
+    parseDate(bdate) {
+      const birth = dayjs(bdate);
       console.log(MONTHS[birth.month()], birth.day(), birth.year());
       return {
         day: birth.day(),
@@ -150,29 +168,32 @@ export default {
         year: birth.year(),
       };
     },
-  },
 
-  methods: {
-    changeDate(key, value) {
-      let date = { ...this.birthdate };
-      date[key] = value;
-      console.log("Your birthdate", date, "Key", key, "value", value);
-      this.onChange(
-        "birthdate",
-        dayjs(`${date.month}/${date.day}/${date.year}`).format("YYYY-MM-DD")
-      );
-    },
-    onChange(key, value) {
-      console.log("On Change", key, value);
-      this.$store.commit("userSettings/" + types.mutations.SET_GENERAL_INFO, {
-        ...this.general,
-        profile: { ...this.account, [key]: value },
-      });
-    },
     async onSubmit() {
-      await this.$store.dispatch(
-        "userSettings/" + types.actions.CHANGE_ACOUNT_INFO
-      );
+      const self = this;
+      const { bdMonth, bdDay, bdYear } = this.fields;
+      this.$store.dispatch(types.actions.SHOW_AUTH_MODAL, {
+        show: true,
+        submitFunction: async function () {
+          self.disabled = true;
+          const response = await userSettingsServices.updateAccountInfo({
+            ...self.fields,
+            birthdate: dayjs(`${bdMonth}/${bdDay}/${bdYear}`).format(
+              "YYYY-MM-DD"
+            ),
+          });
+
+          self.alert = {
+            show: true,
+            message: "Account information updated",
+            type: "success",
+            timeout: 3000,
+          };
+
+          self.show = false;
+          self.disabled = false;
+        },
+      });
     },
   },
 };

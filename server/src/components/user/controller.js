@@ -12,6 +12,17 @@ exports.checkUsernameOrEmailExist = async (req, res) => {
   }
 };
 
+exports.getGeneralInfo = async (req, res) => {
+  try {
+    const id = req.session.userId;
+    const data = await userService.getGeneralInfo(id);
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+
 exports.changePassword = async (req, res) => {
   try {
     const id = req.session.userId;
@@ -33,7 +44,7 @@ exports.changeEmail = async (req, res) => {
   try {
     const id = req.session.userId;
     const { email } = req.body;
-    const data = await userService.changePassword({ id, email });
+    const data = await userService.changeEmail({ id, email });
     res.status(200).json(data);
   } catch (error) {
     console.log(error);

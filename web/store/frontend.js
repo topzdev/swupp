@@ -28,7 +28,7 @@ export const state = () => ({
   },
   modals: {
     auth: {
-      show: true,
+      show: false,
       title: "",
       message: "",
       submitFunction: undefined

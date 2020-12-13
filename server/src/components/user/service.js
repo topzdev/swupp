@@ -1,9 +1,9 @@
 const UserModel = require("../user/models/User");
+const ProfileModel = require("../profile/models/Profile");
 const { Op } = require("sequelize");
 const retunError = require("../../utils/returnError");
 const authHelpers = require("../auth/helpers");
 const returnError = require("../../utils/returnError");
-const Profile = require("../profile/models/Profile");
 
 exports.checkUsernameExist = async (usernameOrEmail) => {
   const user = await UserModel.findOne({
@@ -12,6 +12,23 @@ exports.checkUsernameExist = async (usernameOrEmail) => {
     },
   });
   return user ? true : false;
+};
+
+exports.getGeneralInfo = async (id) => {
+  const user = await UserModel.findOne({
+    where: { id },
+    attributes: ["email", "username"],
+    include: [
+      {
+        model: ProfileModel,
+        attributes: ["firstname", "lastname", "birthdate"],
+      },
+    ],
+  });
+
+  console.log(user);
+
+  return user;
 };
 
 exports.changePassword = async ({
@@ -66,7 +83,12 @@ exports.changeEmail = async ({ id, email }) => {
 
   if (!user) throw retunError("user", "user not exist");
 
-  const isExist = await UserModel.findOne({ where: { email } });
+  if (email === user.email)
+    throw returnError("email", "this your current email address");
+
+  const isExist = await UserModel.findOne({
+    where: { [Op.and]: [{ email: email }, { [Op.not]: { id } }] },
+  });
 
   if (isExist) throw returnError("email", "email address is already exist");
 
@@ -102,7 +124,15 @@ exports.deactivate = async ({ id }) => {
 exports.changeUsername = async ({ id, username }) => {
   const user = await UserModel.findByPk(id, { plain: true });
 
-  if (!user) throw retunError("user", "user not exist");
+  if (username === user.username)
+    throw returnError("email", "this your current username");
+
+  const isExist = await UserModel.findOne({
+    where: { [Op.and]: [{ username: username }, { [Op.not]: { id } }] },
+  });
+
+  if (isExist) throw returnError("username", "username is already exist");
+
   console.log("Change username", username, user);
   const hasUsernameError = authHelpers.validateUsername(username);
 
@@ -140,7 +170,7 @@ exports.changeAccountInfo = async ({ id, firstname, lastname, birthdate }) => {
   if (birthdate) info.birthdate = birthdate;
 
   console.log(info, id);
-  const updateUser = await Profile.update(info, { where: { userId: id } });
+  const updateUser = await ProfileModel.update(info, { where: { userId: id } });
 
   console.log("Change Account Info", updateUser);
 

@@ -54,7 +54,7 @@ export default {
       icons: {
         close: mdiClose,
       },
-      password: "",
+      password: "123456789",
 
       alert: {
         show: false,

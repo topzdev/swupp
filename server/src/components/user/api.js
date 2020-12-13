@@ -13,5 +13,6 @@ router.put("/change-password", auth, userController.changePassword);
 router.put("/change-deactivate", auth, userController.deactivate);
 router.put("/change-email", auth, userController.changeEmail);
 router.put("/change-info", auth, userController.changeAccountInfo);
+router.get("/get-general-info", auth, userController.getGeneralInfo);
 
 module.exports = router;

@@ -153,4 +153,13 @@ exports.me = async (userId) => {
   };
 };
 
+exports.transactVerify = async ({ id, password }) => {
+  const user = await User.findByPk(id, { attributes: ["password"] });
+
+  if (!(await authHelpers.verifyPassword(password, user.password)))
+    return false;
+
+  return true;
+};
+
 exports.logout = async (req) => {};

@@ -2,6 +2,7 @@
   <div class="content" :class="{ 'content-show': show }">
     <div class="content__header">
       <div class="content__body">
+        <app-alert :alert.sync="alert" />
         <h2 class="heading">Change Username</h2>
         <p class="paragraph">
           Your public username is the same as your timeline address
@@ -19,56 +20,119 @@
     </div>
 
     <div v-if="show" class="content__main">
-      <div class="row">
-        <div class="col-8">
-          <input-field
-            :value="username"
-            label="Username"
-            id="username"
-            name="username"
-          ></input-field>
-        </div>
+      <validation-observer ref="form" v-slot="{ handleSubmit }">
+        <form @submit.prevent="handleSubmit(onSubmit)">
+          <div class="row">
+            <div class="col-8">
+              <input-field
+                v-model="fields.username"
+                :rules="rules.username"
+                label="Username"
+                id="username"
+                name="username"
+              ></input-field>
+            </div>
 
-        <div class="col-8 mt-2 d-flex">
-          <button-primary
-            class="btn--flat"
-            color="light-gray"
-            label="Close"
-            @click.native="show = false"
-            name="login"
-            size="md"
-          />
-          <button-primary
-            class="ml-auto"
-            disabled
-            label="Change"
-            type="submit"
-            name="login"
-            size="md"
-          />
-        </div>
-      </div>
+            <div class="col-8 mt-2 d-flex">
+              <button-primary
+                class="btn--flat"
+                color="light-gray"
+                label="Close"
+                @click.native="show = false"
+                name="login"
+                size="md"
+              />
+              <button-primary
+                class="ml-auto"
+                :disabled="disabled"
+                label="Update"
+                type="submit"
+                size="md"
+              />
+            </div>
+          </div>
+        </form>
+      </validation-observer>
     </div>
   </div>
 </template>
 
 <script>
+import { types } from "@/store/types";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import userSettingsServices from "@/services/userSettings";
 export default {
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
   data() {
     return {
       show: false,
+      disabled: false,
+      alert: {
+        show: false,
+        message: "",
+      },
+      fields: {
+        username: "",
+      },
+      rules: {
+        username: "required|min:8|max:15|no_white_space",
+      },
     };
   },
 
   computed: {
-    username() {
-      return this.$store.state.userSettings.general.username;
+    general() {
+      return this.$store.state.userSettings.general;
+    },
+  },
+
+  watch: {
+    "general.username"(newValue) {
+      console.log("Watch Username", newValue);
+      let parse = JSON.parse(JSON.stringify(newValue));
+
+      this.fields = {
+        username: parse,
+      };
     },
   },
 
   methods: {
-    changeUsername() {
-      // your code here
+    async onSubmit() {
+      const self = this;
+      this.$store.dispatch(types.actions.SHOW_AUTH_MODAL, {
+        show: true,
+        submitFunction: async function () {
+          self.disabled = true;
+
+          try {
+            const response = await userSettingsServices.updateUsername({
+              username: self.fields.username,
+            });
+
+            self.alert = {
+              show: true,
+              message: "Username Updated",
+              type: "success",
+              timeout: 3000,
+            };
+          } catch (error) {
+            console.log(error.response.data.error.message);
+            if (error.response.data)
+              self.alert = {
+                show: true,
+                message: error.response.data.error.message,
+                type: "error",
+              };
+          }
+
+          self.show = false;
+          self.disabled = false;
+        },
+      });
     },
   },
 };
