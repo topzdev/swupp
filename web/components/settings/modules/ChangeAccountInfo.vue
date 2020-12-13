@@ -2,6 +2,7 @@
   <div class="content" :class="{ 'content-show': show }">
     <div class="content__header">
       <div class="content__body">
+        <app-alert :alert.sync="alert" />
         <h2 class="heading">Change Account Information</h2>
         <p class="paragraph">Update your exisisting account Information.</p>
       </div>
@@ -20,7 +21,7 @@
       <div class="row">
         <div class="col-8">
           <input-field
-            v-model="account.firstname"
+            :value="account.firstname"
             label="First Name"
             id="firstname"
             name="firstname"
@@ -28,7 +29,7 @@
         </div>
         <div class="col-8 mt-2">
           <input-field
-            v-model="account.lastname"
+            :value="account.lastname"
             label="Last Name"
             id="firstname"
             name="firstname"
@@ -57,15 +58,28 @@
 </template>
 
 <script>
+import { types } from "@/store/types";
 export default {
   data() {
     return {
       show: false,
-      account: {
-        firstname: "Christian",
-        lastname: "Lugod",
-      },
+      alert: {},
     };
+  },
+
+  computed: {
+    account() {
+      return this.$store.state.userSettings.general.profile;
+    },
+  },
+
+  methods: {
+    onChange(key, value) {
+      this.$store.commit(
+        "userSettings/" + types.mutations.SET_GENERAL_INFO,
+        {}
+      );
+    },
   },
 };
 </script>

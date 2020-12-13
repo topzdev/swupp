@@ -9,11 +9,6 @@
 }
 
 .color {
-  &--flat &--primary {
-    &:hover {
-      background-color: RGBA(var(--color-primary), 0.2);
-    }
-  }
   &--primary {
     @include colors(--color-primary, --color-white, --color-white);
   }

@@ -40,11 +40,11 @@ export default {
       default: () => ({
         message: null,
         show: false,
+        type: "info",
       }),
     },
     type: {
       type: String,
-      default: "info",
     },
     message: {
       type: String,
@@ -52,11 +52,15 @@ export default {
   },
 
   computed: {
-    setAlertClass() {
-      return `alert ${this.type ? `alert--${this.type}` : ""} `;
+    alertType() {
+      return this.type || this.alert.type;
     },
+    setAlertClass() {
+      return `alert ${this.alertType ? `alert--${this.alertType}` : ""} `;
+    },
+
     iconType() {
-      return this.icons[this.type];
+      return this.icons[this.alertType];
     },
   },
 

@@ -12,12 +12,12 @@
 
 .alert {
   display: flex;
-  padding: 15px 15px;
+  padding: 12px 15px;
   font-size: 15px;
   // background: var(--color-light-gray);
   border: 1px solid var(--color-dark-gray);
   margin-bottom: 10px;
-  border-radius: 10px;
+  border-radius: 8px;
   align-items: center;
 
   svg {
@@ -32,6 +32,13 @@
   &__message {
     margin-right: auto;
     font-weight: 400;
+  }
+
+  &--outline {
+  }
+
+  &--outline {
+    background-color: transparent !important;
   }
 
   @include alertColor(info, var(--color-blue));

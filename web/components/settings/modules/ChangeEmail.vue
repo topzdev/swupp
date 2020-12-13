@@ -20,10 +20,10 @@
 
     <div v-if="show" class="content__main">
       <div class="row">
-        <div class="col-8 mb-2">
+        <div class="col-8">
           <input-field
-            v-model="account.email"
-            label="New email address"
+            v-model="email"
+            label="Email address"
             id="email"
             name="email"
           ></input-field>
@@ -57,10 +57,13 @@ export default {
   data() {
     return {
       show: false,
-      account: {
-        email: "",
-      },
     };
+  },
+
+  computed: {
+    email() {
+      return this.$store.state.userSettings.general.email;
+    },
   },
 
   methods: {

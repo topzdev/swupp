@@ -20,9 +20,9 @@
 
     <div v-if="show" class="content__main">
       <div class="row">
-        <div class="col-8 mb-2">
+        <div class="col-8">
           <input-field
-            v-model="account.username"
+            :value="username"
             label="Username"
             id="username"
             name="username"
@@ -57,10 +57,13 @@ export default {
   data() {
     return {
       show: false,
-      account: {
-        username: "",
-      },
     };
+  },
+
+  computed: {
+    username() {
+      return this.$store.state.userSettings.general.username;
+    },
   },
 
   methods: {
