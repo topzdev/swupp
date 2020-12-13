@@ -15,7 +15,6 @@ export const state = () => ({
 
 export const mutations = {
   async [types.mutations.SET_GENERAL_INFO](state, data) {
-    console.log("Mutation general", data);
     state.general = data;
   }
 };
@@ -30,25 +29,18 @@ export const actions = {
       console.log(error);
     }
   },
-  async [types.actions.CHANGE_ACOUNT_INFO]({ firstname, lastname, birthdate }) {
+  async [types.actions.CHANGE_ACOUNT_INFO]({ state }) {
     try {
-      const response = await userSettingsServices.updateAccountInfo({
-        firstname,
-        lastname,
-        birthdate
+      commit(types.actions.SHOW_AUTH_MODAL, {
+        show: true,
+        submitFunction: async function() {
+          const response = await userSettingsServices.updateAccountInfo(
+            state.general.profile
+          );
+        }
       });
-      console.log(response);
 
-      dispatch(
-        types.actions.SHOW_SNACKBAR,
-        {
-          title: "User Settings",
-          body: "Profile and cover photo updated",
-          type: "success",
-          timeout: 10000
-        },
-        { root: true }
-      );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }

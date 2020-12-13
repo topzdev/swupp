@@ -30,7 +30,8 @@
   &__main {
     margin-top: 20px;
 
-    input {
+    input,
+    select {
       border: 1px solid rgba(var(--color-main-light-rgb), 0.3);
     }
   }

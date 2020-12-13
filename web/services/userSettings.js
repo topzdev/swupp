@@ -16,7 +16,7 @@ export default {
 
     console.log(response);
 
-    return reseponse;
+    return response;
   },
 
   async updatePassword({ currentPassword, newPassword, confirmPassword }) {
