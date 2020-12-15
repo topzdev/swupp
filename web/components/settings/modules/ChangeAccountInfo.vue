@@ -44,9 +44,9 @@
                 <div class="col-5 mt-2">
                   <select-field
                     v-model="fields.bdMonth"
-                    placeholder="Select Month"
-                    :options="options.months"
                     :rules="rules.bdMonth"
+                    :options="options.months"
+                    placeholder="Select Month"
                     id="bd-month"
                     label="Birth Date"
                     :show-err-mes="false"
@@ -65,9 +65,9 @@
                 <div class="col-4 mt-2">
                   <select-field
                     v-model="fields.bdYear"
+                    :rules="rules.bdYear"
                     placeholder="Select Year"
                     :options="options.years"
-                    :rules="rules.bdMonth"
                     id="bd-year"
                     :show-err-mes="false"
                   ></select-field>
@@ -145,9 +145,8 @@ export default {
     },
   },
   watch: {
-    "general.profile"(newValue) {
-      let parse = JSON.parse(JSON.stringify(newValue));
-      console.log("Parse Value", parse);
+    show() {
+      let parse = JSON.parse(JSON.stringify(this.general.profile));
       const parseDate = this.parseDate(parse.birthdate);
       this.fields = {
         firstname: parse.firstname,
@@ -160,38 +159,62 @@ export default {
   },
   methods: {
     parseDate(bdate) {
-      const birth = dayjs(bdate);
-      console.log(MONTHS[birth.month()], birth.day(), birth.year());
+      console.log("Original", bdate);
+      const birth = new Date(bdate);
       return {
-        day: birth.day(),
-        month: MONTHS[birth.month()],
-        year: birth.year(),
+        day: birth.getDate(),
+        month: MONTHS[birth.getMonth() + 1],
+        year: birth.getFullYear(),
       };
     },
 
     async onSubmit() {
       const self = this;
       const { bdMonth, bdDay, bdYear } = this.fields;
+      console.log(
+        bdMonth,
+        bdDay,
+        bdYear,
+        "Formated:" +
+          dayjs(`${bdMonth} ${bdDay}, ${bdYear}`).format("YYYY-MM-DD")
+      );
       this.$store.dispatch(types.actions.SHOW_AUTH_MODAL, {
         show: true,
+
         submitFunction: async function () {
           self.disabled = true;
-          const response = await userSettingsServices.updateAccountInfo({
-            ...self.fields,
-            birthdate: dayjs(`${bdMonth}/${bdDay}/${bdYear}`).format(
-              "YYYY-MM-DD"
-            ),
-          });
+          try {
+            const data = {
+              ...self.fields,
+              birthdate: dayjs(`${bdMonth} ${bdDay}, ${bdYear}`).format(
+                "YYYY-MM-DD"
+              ),
+            };
+            const response = await userSettingsServices.updateAccountInfo(data);
 
-          self.alert = {
-            show: true,
-            message: "Account information updated",
-            type: "success",
-            timeout: 3000,
-          };
+            self.alert = {
+              show: true,
+              message: "Account information updated",
+              type: "success",
+              timeout: 3000,
+            };
 
-          self.show = false;
-          self.disabled = false;
+            self.$store.commit(
+              "userSettings/" + types.mutations.SET_GENERAL_INFO,
+              { ...self.general, profile: data }
+            );
+
+            self.show = false;
+            self.disabled = false;
+          } catch (error) {
+            console.log(error);
+            if (error.response && error.response.data)
+              self.alert = {
+                show: true,
+                message: error.response.data.error.message,
+                type: "error",
+              };
+          }
         },
       });
     },

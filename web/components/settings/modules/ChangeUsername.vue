@@ -90,9 +90,8 @@ export default {
   },
 
   watch: {
-    "general.username"(newValue) {
-      console.log("Watch Username", newValue);
-      let parse = JSON.parse(JSON.stringify(newValue));
+    show() {
+      let parse = JSON.parse(JSON.stringify(this.general.username));
 
       this.fields = {
         username: parse,
@@ -119,9 +118,14 @@ export default {
               type: "success",
               timeout: 3000,
             };
+
+            self.$store.commit(
+              "userSettings/" + types.mutations.SET_GENERAL_INFO,
+              { ...self.general, username: self.fields.username }
+            );
           } catch (error) {
             console.log(error.response.data.error.message);
-            if (error.response.data)
+            if (error.response && error.response.data)
               self.alert = {
                 show: true,
                 message: error.response.data.error.message,

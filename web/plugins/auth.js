@@ -7,7 +7,6 @@ export default function({ app, $auth, redirect }) {
   //     return redirect("/deactivated");
   //   }
   app.router.beforeEach((to, from, next) => {
-    console.log("Switching routers...");
     if ($auth.loggedIn && !$auth.user.isActive) {
       next();
       redirect("/deactivated");

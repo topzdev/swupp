@@ -91,8 +91,8 @@ export default {
   },
 
   watch: {
-    "general.email"(newValue) {
-      let parse = JSON.parse(JSON.stringify(newValue));
+    show() {
+      let parse = JSON.parse(JSON.stringify(this.general.email));
 
       this.fields = {
         email: parse,
@@ -119,9 +119,14 @@ export default {
               type: "success",
               timeout: 3000,
             };
+
+            self.$store.commit(
+              "userSettings/" + types.mutations.SET_GENERAL_INFO,
+              { ...self.general, email: self.fields.email }
+            );
           } catch (error) {
             console.log(error.response.data.error.message);
-            if (error.response.data)
+            if (error.response && error.response.data)
               self.alert = {
                 show: true,
                 message: error.response.data.error.message,

@@ -138,7 +138,7 @@ export default {
             self.show = false;
           } catch (error) {
             console.log(error);
-            if (error.response.data)
+            if (error.response && error.response.data)
               self.alert = {
                 show: true,
                 message: error.response.data.error.message,

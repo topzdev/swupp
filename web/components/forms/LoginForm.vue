@@ -79,8 +79,8 @@ export default {
         password: "required",
       },
       credential: {
-        usernameOrEmail: "topzdevz@123", //topzdev123
-        password: "123456789", //123456789
+        usernameOrEmail: "", //topzdev123
+        password: "", //123456789
         // rememberMe: false,
       },
       alert: {
