@@ -11,8 +11,8 @@
 
 <script>
 export default {
-  middleware: "auth",
-  auth: "guest",
+  middleware: false,
+  // auth: "guest",
 };
 </script>
 

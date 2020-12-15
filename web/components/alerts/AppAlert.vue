@@ -40,23 +40,40 @@ export default {
       default: () => ({
         message: null,
         show: false,
+        type: "info",
+        timeout: undefined,
       }),
     },
     type: {
       type: String,
-      default: "info",
     },
     message: {
       type: String,
     },
   },
 
-  computed: {
-    setAlertClass() {
-      return `alert ${this.type ? `alert--${this.type}` : ""} `;
+  watch: {
+    alert(newValue) {
+      const self = this;
+
+      if (newValue.show === true && newValue.timeout !== undefined) {
+        setTimeout(function () {
+          self.close();
+        }, newValue.timeout);
+      }
     },
+  },
+
+  computed: {
+    alertType() {
+      return this.type || this.alert.type;
+    },
+    setAlertClass() {
+      return `alert ${this.alertType ? `alert--${this.alertType}` : ""} `;
+    },
+
     iconType() {
-      return this.icons[this.type];
+      return this.icons[this.alertType];
     },
   },
 

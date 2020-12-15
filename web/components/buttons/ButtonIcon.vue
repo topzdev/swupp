@@ -3,7 +3,7 @@
     :is="!to ? 'button' : 'nuxt-link'"
     :to="to"
     class="btn btn--icon"
-    :class="[variantClass, sizeClass, fabClass]"
+    :class="[variantClass, sizeClass, fabClass, activeClass]"
   >
     <app-icon type="mdi" :path="icon" />
   </component>
@@ -39,10 +39,16 @@ export default {
     fab: {
       type: Boolean,
     },
+    active: {
+      type: Boolean,
+    },
   },
   computed: {
     fabClass() {
       return this.fab ? "btn-icon--float" : "";
+    },
+    activeClass() {
+      return this.active ? "menu-active" : "";
     },
   },
 };

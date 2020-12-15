@@ -7,7 +7,7 @@
   >
     <div
       v-bind="$attrs"
-      class="inp inp--primary"
+      class="inp--primary"
       :class="{ 'is-error': !!errors[0] }"
     >
       <div>

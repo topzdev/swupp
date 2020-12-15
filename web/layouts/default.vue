@@ -3,6 +3,7 @@
     <Nuxt keep-alive />
     <app-dialog />
     <app-snackbar />
+    <auth-modal />
   </div>
 </template>
 

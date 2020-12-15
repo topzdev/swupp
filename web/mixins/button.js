@@ -15,7 +15,8 @@ export default {
     disabled: Boolean,
     text: Boolean,
     iconRight: String,
-    iconLeft: String
+    iconLeft: String,
+    flat: Boolean
   },
   data() {
     return {
@@ -37,6 +38,9 @@ export default {
 
     fullWidth() {
       return this.isFullWidth ? "btn--full-width" : "";
+    },
+    disabledClass() {
+      return this.disabled ? "btn--disabled" : "";
     }
   }
 };

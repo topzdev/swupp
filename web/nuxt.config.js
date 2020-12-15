@@ -22,7 +22,6 @@ export default {
       }
     ]
   },
-
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ["@/assets/css/bootstrap-grid.min.css", "@/assets/sass/main.scss"],
 
@@ -41,14 +40,25 @@ export default {
     "@nuxtjs/axios",
     // https://go.nuxtjs.dev/pwa
     "@nuxtjs/pwa",
-    "@nuxtjs/auth",
+    "@nuxtjs/auth-next",
     "@nuxtjs/cloudinary"
   ],
 
   auth: {
     // Options
+
+    plugins: ["~/plugins/auth.js"],
     strategies: {
       local: {
+        token: {
+          property: "data.token"
+          // required: true,
+          // type: 'Bearer'
+        },
+        user: {
+          property: "data.user"
+          // autoFetch: true
+        },
         endpoints: {
           login: {
             url: "/api/v1/auth/sign-in",

@@ -92,14 +92,15 @@ export default {
   methods: {
     async onSubmit() {
       try {
-        const response = await this.$auth.loginWith("local", {
+        const response = await this.$auth.login({
           data: this.credential,
         });
 
         console.log(this.$auth.user);
 
-        if (this.$auth.loggedIn)
+        if (this.$auth.loggedIn) {
           this.$router.push("/profile/" + this.$auth.user.username);
+        }
       } catch (error) {
         console.log(error);
 

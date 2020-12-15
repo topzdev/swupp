@@ -9,15 +9,21 @@
 
       <div class="navbar__actions">
         <template v-if="loggedIn">
-          <button-icon :icon="icons.notif" />
+          <profile-icon
+            :to="profileLink"
+            :photo="profilePhoto"
+            :name="profile.firstname"
+          />
+          <button-icon class="mx-1" :icon="icons.notif" />
 
-          <nuxt-link :to="profileLink" class="navbar__profile">
-            <p class="navbar__profile-name">{{ this.profile.firstname }}</p>
+          <button-icon
+            :active="menu.navbar"
+            @click.native="menu.navbar = !menu.navbar"
+            class="menu-icon"
+            :icon="icons.menu"
+          />
 
-            <div class="navbar__profile-photo">
-              <profile-photo :url="profilePhoto" />
-            </div>
-          </nuxt-link>
+          <navbar-menu v-if="menu.navbar" />
         </template>
         <template v-else>
           <!-- <button-primary
@@ -37,13 +43,17 @@
 </template>
 
 <script>
-import { mdiBell } from "@mdi/js";
+import { mdiBell, mdiMenuDown } from "@mdi/js";
 import authMixin from "@/mixins/auth";
 export default {
   data() {
     return {
+      menu: {
+        navbar: false,
+      },
       icons: {
         notif: mdiBell,
+        menu: mdiMenuDown,
       },
     };
   },

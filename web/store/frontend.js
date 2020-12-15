@@ -21,10 +21,20 @@ export const state = () => ({
     title: "",
     isQuestion: false,
     yesLabel: "",
+    timeout: 5000,
     noLabel: "",
     okayLabel: "",
+    showClose: true,
     yesFunction: undefined,
     noFuntion: undefined
+  },
+  modals: {
+    auth: {
+      show: false,
+      title: "",
+      message: "",
+      submitFunction: undefined
+    }
   }
 });
 
@@ -34,6 +44,9 @@ export const mutations = {
   },
   [types.mutations.SET_DIALOG](state, payload) {
     state.dialog = payload;
+  },
+  [types.mutations.SET_AUTH_MODAL](state, payload) {
+    state.modals.auth = payload;
   }
 };
 
@@ -53,6 +66,9 @@ export const actions = {
         });
       }, config.timeout);
   },
+  [types.actions.SHOW_AUTH_MODAL]({ commit, state }, config) {
+    commit(types.mutations.SET_AUTH_MODAL, { ...state.modals.auth, ...config });
+  },
   [types.actions.HIDE_SNACKBAR]({ commit, state }) {
     commit(types.mutations.SET_SNACKBAR, { ...state.snackbars, show: false });
   },
@@ -67,11 +83,16 @@ export const actions = {
       setTimeout(function() {
         commit(types.mutations.SET_DIALOG, {
           ...state.dialog,
+          showClose: true,
           show: false
         });
       }, config.timeout);
   },
   [types.actions.HIDE_DIALOG]({ commit, state }) {
-    commit(types.mutations.SET_DIALOG, { ...state.dialog, show: false });
+    commit(types.mutations.SET_DIALOG, {
+      ...state.dialog,
+      show: false,
+      showClose: true
+    });
   }
 };

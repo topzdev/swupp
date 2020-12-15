@@ -13,6 +13,7 @@ const Address = sequelize.define(
     barangay: DataTypes.STRING,
     buildingNo: DataTypes.STRING,
     isDefaultAddress: Boolean,
+    type: DataTypes.STRING,
   },
   { timestamps: true, freezeTableName: true }
 );

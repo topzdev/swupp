@@ -49,6 +49,10 @@
   }
 }
 
+@mixin menu-active-state {
+  background-color: rgba(var(--color-light-gray-rgb), 0.5) !important;
+}
+
 @mixin backdrop($alpha) {
   &::after {
     content: "";
@@ -84,4 +88,16 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@mixin svg-size($size) {
+  height: $size;
+  width: $size;
+}
+
+@mixin square-size($size) {
+  height: $size;
+  min-height: $size;
+  width: $size;
+  min-width: $size;
 }

@@ -5,6 +5,7 @@
   .nuxt-link-active {
     color: var(--color-primary);
     background-color: rgba(var(--color-primary-rgb), 0.2);
+    fill: var(--color-primary);
   }
 
   &--vertical &__list {
@@ -19,7 +20,8 @@
   }
 
   &__link {
-    display: block;
+    display: flex;
+    align-items: center;
     color: var(--color-dark);
     text-decoration: none;
     padding: 10px 15px;
@@ -30,6 +32,15 @@
     &:hover {
       color: rgba(var(--color-primary-rgb), 0.8);
       background-color: rgba(var(--color-primary-rgb), 0.05);
+      fill: rgba(var(--color-primary-rgb), 0.8);
+    }
+  }
+
+  &__icon {
+    margin-right: 8px;
+
+    svg {
+      @include svg-size(28px);
     }
   }
 

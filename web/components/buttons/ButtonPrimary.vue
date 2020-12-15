@@ -7,7 +7,14 @@
     :to="to"
     :name="name"
     :disabled="disabled"
-    :class="[sizeClass, fullWidth, variantClass, textClass, className]"
+    :class="[
+      sizeClass,
+      fullWidth,
+      variantClass,
+      textClass,
+      disabledClass,
+      className,
+    ]"
   >
     <span v-if="iconLeft" class="btn--primary__icon btn--primary__icon-left">
       <app-icon :path="iconLeft" type="mdi" />

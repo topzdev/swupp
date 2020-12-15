@@ -27,7 +27,7 @@ const types = {
 
 export default {
   props: {
-    type: String,
+    type: { type: String, default: "mdi" },
     path: { type: String, required: true },
     size: { type: Number, default: 24 },
     viewbox: String,

@@ -49,6 +49,14 @@ extend("confirm_password", {
   message: "Password confirmation does not match"
 });
 
+extend("not_equal_password", {
+  validate: (value, { target }) => {
+    return value !== target;
+  },
+  params: ["target"],
+  message: "New Password should be equal to your current password"
+});
+
 extend("includes", {
   validate: (value, { target }) => {
     if (!target && !value) return false;
