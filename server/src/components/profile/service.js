@@ -10,6 +10,7 @@ const photoServices = require("../photo/services");
 const PostPhotoModel = require("../post/models/PostPhoto");
 const ProfilePhotoModel = require("./models/ProfilePhoto");
 const CoverPhotoModel = require("./models/CoverPhoto");
+const { Op } = require("sequelize");
 
 exports.getProfileAbout = async (username) => {
   if (!username) throw returnError("username", "username not provided");
@@ -48,7 +49,7 @@ exports.getProfile = async (username) => {
     include: [
       {
         model: UserModel,
-        where: { username },
+        where: { username, [Op.not]: { isActive: false } },
         attributes: ["username"],
       },
       {

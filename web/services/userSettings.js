@@ -49,7 +49,10 @@ export default {
 
   async deactivate() {
     const response = await apiClient.$put("api/v1/user/deactivate");
-
+    return response;
+  },
+  async activate() {
+    const response = await apiClient.$put("api/v1/user/activate");
     return response;
   }
 };

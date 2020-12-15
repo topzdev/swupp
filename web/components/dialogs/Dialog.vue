@@ -4,13 +4,18 @@
       <card rounded elevate>
         <card-header>
           <h2 class="mr-auto">{{ title }}</h2>
-          <button-icon :icon="icons.close" @click.native="hide" />
+          <button-icon
+            v-if="dialog.showClose"
+            :icon="icons.close"
+            @click.native="hide"
+          />
         </card-header>
         <card-body>
           <div class="dialog__body">{{ message }}</div>
         </card-body>
         <card-header class="mt-2">
           <button-primary
+            v-if="dialog.noFunction"
             :label="noLabel"
             class="ml-auto mr-1"
             variant="primary"
@@ -20,6 +25,7 @@
           />
           <button-primary
             size="md"
+            v-if="dialog.yesFunction"
             :label="yesLabel"
             @click.native="yesFunc"
             variant="primary"

@@ -121,6 +121,24 @@ exports.deactivate = async ({ id }) => {
   };
 };
 
+exports.activate = async ({ id }) => {
+  const user = await UserModel.findByPk(id, { plain: true });
+
+  if (!user) throw returnError("user", "user not exist");
+
+  const updateUser = await UserModel.update(
+    { isActive: true },
+    { where: { id } }
+  );
+
+  console.log("Account Reactivate");
+  return {
+    data: {
+      activated: true,
+    },
+  };
+};
+
 exports.changeUsername = async ({ id, username }) => {
   const user = await UserModel.findByPk(id, { plain: true });
 

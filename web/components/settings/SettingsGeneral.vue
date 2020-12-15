@@ -15,10 +15,7 @@
 <script>
 import { types } from "@/store/types";
 export default {
-  fetchOnServer: false,
-
-  async fetch() {
-    console.log("Fetching General Info..");
+  async created() {
     await this.$store.dispatch(
       "userSettings/" + types.actions.FETCH_GENERAL_INFO
     );

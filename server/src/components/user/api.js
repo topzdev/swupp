@@ -10,7 +10,8 @@ router.get(
 
 router.put("/change-username", auth, userController.changeUsername);
 router.put("/change-password", auth, userController.changePassword);
-router.put("/change-deactivate", auth, userController.deactivate);
+router.put("/deactivate", auth, userController.deactivate);
+router.put("/activate", auth, userController.activate);
 router.put("/change-email", auth, userController.changeEmail);
 router.put("/change-info", auth, userController.changeAccountInfo);
 router.get("/get-general-info", auth, userController.getGeneralInfo);

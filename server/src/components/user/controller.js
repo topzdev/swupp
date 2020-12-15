@@ -63,6 +63,17 @@ exports.deactivate = async (req, res) => {
   }
 };
 
+exports.activate = async (req, res) => {
+  try {
+    const id = req.session.userId;
+    const data = await userService.activate({ id });
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+
 exports.changeUsername = async (req, res) => {
   try {
     const { username } = req.body;

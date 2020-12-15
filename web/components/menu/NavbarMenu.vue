@@ -28,7 +28,7 @@
         </button>
       </li>
       <li class="menu__item">
-        <button class="btn menu__link">
+        <button class="btn menu__link" @click="$auth.logout()">
           <span class="menu__link-icon">
             <app-icon :path="icons.logout" />
           </span>

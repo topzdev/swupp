@@ -21,8 +21,10 @@ export const state = () => ({
     title: "",
     isQuestion: false,
     yesLabel: "",
+    timeout: 5000,
     noLabel: "",
     okayLabel: "",
+    showClose: true,
     yesFunction: undefined,
     noFuntion: undefined
   },
@@ -81,11 +83,16 @@ export const actions = {
       setTimeout(function() {
         commit(types.mutations.SET_DIALOG, {
           ...state.dialog,
+          showClose: true,
           show: false
         });
       }, config.timeout);
   },
   [types.actions.HIDE_DIALOG]({ commit, state }) {
-    commit(types.mutations.SET_DIALOG, { ...state.dialog, show: false });
+    commit(types.mutations.SET_DIALOG, {
+      ...state.dialog,
+      show: false,
+      showClose: true
+    });
   }
 };

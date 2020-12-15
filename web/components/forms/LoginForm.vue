@@ -79,8 +79,8 @@ export default {
         password: "required",
       },
       credential: {
-        usernameOrEmail: "", //topzdev123
-        password: "", //123456789
+        usernameOrEmail: "topzdevz@123", //topzdev123
+        password: "123456789", //123456789
         // rememberMe: false,
       },
       alert: {
@@ -92,14 +92,15 @@ export default {
   methods: {
     async onSubmit() {
       try {
-        const response = await this.$auth.loginWith("local", {
+        const response = await this.$auth.login({
           data: this.credential,
         });
 
         console.log(this.$auth.user);
 
-        if (this.$auth.loggedIn)
+        if (this.$auth.loggedIn) {
           this.$router.push("/profile/" + this.$auth.user.username);
+        }
       } catch (error) {
         console.log(error);
 

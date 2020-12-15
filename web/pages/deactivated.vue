@@ -3,7 +3,7 @@
     <div class="abstract-bg abstract-bg--2"></div>
     <div class="container">
       <div class="login">
-        <login-form />
+        <activate-form />
       </div>
     </div>
   </div>
@@ -11,8 +11,7 @@
 
 <script>
 export default {
-  middleware: false,
-  // auth: "guest",
+  middleware: ["auth"],
 };
 </script>
 

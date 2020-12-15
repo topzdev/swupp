@@ -24,6 +24,10 @@
       <h1 class="heading--primary">No post yet</h1>
       <p>Di pa ako nagpopost eh, Balik kanalang next time</p>
     </div>
+    <div v-if="error === 'account-disabled'" class="error errors--no-post">
+      <h1 class="heading--primary">Account Disabled</h1>
+      <p>Timeout muna kaka trade ng kahit ano hehe.</p>
+    </div>
     <div
       v-else-if="error === 'no-user-found'"
       class="error errors--no-post mt-5"
