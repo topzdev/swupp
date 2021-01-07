@@ -154,7 +154,10 @@ exports.getPosts = async ({
     ],
   });
 
-  return { data: { posts, counts: postCount }, message: "Fetch all post" };
+  return {
+    data: { items: posts, count: postCount },
+    message: "Fetch all post",
+  };
 };
 
 exports.updatePost = async ({
