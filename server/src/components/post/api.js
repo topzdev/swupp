@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const postController = require("./controller");
 const { auth } = require("../../middleware");
-router.get("/", async (req, res) => {
+router.get("/get", async (req, res) => {
   res.json(await postController.getPosts(req, res));
 });
 router.get("/get/:id", async (req, res) => {
