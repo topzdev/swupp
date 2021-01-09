@@ -2,11 +2,16 @@ const express = require("express");
 const router = express.Router();
 const postController = require("./controller");
 const { auth } = require("../../middleware");
-router.get("/", async (req, res) => {
+router.post("/get", async (req, res) => {
   res.json(await postController.getPosts(req, res));
 });
+
 router.get("/get/:id", async (req, res) => {
   res.json(await postController.getPostById(req, res));
+});
+
+router.get("/count", async (req, res) => {
+  res.json(await postController.getPostCount(req, res));
 });
 
 router.post("/create", auth, async (req, res) => {

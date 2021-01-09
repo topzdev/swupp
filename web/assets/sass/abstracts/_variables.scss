@@ -19,6 +19,8 @@
 
   --color-primary: #ffa41b;
   --color-primary-rgb: 255, 164, 27;
+  --color-primary-dark: #e98f08;
+  --color-primary-dark-rgb: 233, 143, 8;
   --color-secondary: #000839;
   --color-secondary-rgb: 0, 8, 57;
   --color-accent: #f04b4b;
@@ -30,6 +32,8 @@
   --color-blue-rgb: 34, 136, 255;
   --color-light-gray: #eaeaea;
   --color-light-gray-rgb: 234, 234, 234;
+  --color-light-gray-2: #f6f6f6;
+  --color-light-gray-rgb-2: 246, 246, 246;
   --color-dark-gray: gray;
   --color-dark-gray-rgb: 128, 128, 128;
   --color-dark: #121212;
@@ -55,6 +59,10 @@
 
   --snackbar-elevation: 0px 0px 25px 3px rgba(var(--color-dark) 0.1);
   --menu-elevation: 0px 0px 20px rgba(var(--color-dark), 0.05);
+  --search-bar-elevation: 0px 4px 20px rgba(0, 0, 0, 0.05),
+    0px -4px 20px rgba(0, 0, 0, 0.05);
+  --select-elevation: 0px 4px 20px rgba(0, 0, 0, 0.05),
+    0px -4px 20px rgba(0, 0, 0, 0.05);
 }
 
 ::selection {

@@ -1,14 +1,14 @@
 const PostModel = require("./models/Post");
 const PostPhotoModel = require("./models/PostPhoto");
-const User = require("../user/models/User");
+const UserModel = require("../user/models/User");
 const photoServices = require("../photo/services");
 const sequelize = require("../../config/sequelize");
 const photoHelpers = require("../photo/helpers");
 const postHelpers = require("./helpers");
-const Post = require("./models/Post");
 const PostPhoto = require("./models/PostPhoto");
 const { updatePost } = require("./controller");
 const { update } = require("./models/Post");
+const profileHelpers = require("../profile/helpers");
 const Op = require("sequelize").Op;
 
 exports.createPost = async ({
@@ -94,7 +94,7 @@ exports.getCurrentUserPosts = async ({ userId }) => {
 exports.getPostById = async (id) => {
   const post = await PostModel.findByPk(id, {
     include: [
-      { model: User, attributes: ["username"], as: "user" },
+      { model: UserModel, attributes: ["username"], as: "user" },
       {
         model: PostPhoto,
         attributes: [
@@ -113,15 +113,54 @@ exports.getPostById = async (id) => {
   return { data: { post }, message: "Post by id fetched" };
 };
 
-exports.getPost = async () => [];
+exports.getPostsCount = async () => {
+  return await PostModel.count();
+};
 
-exports.getPosts = async () => {
+exports.getPosts = async ({
+  order = "DESC",
+  limit = 25,
+  page = 1,
+  categoryId,
+  conditionId,
+  search,
+}) => {
+  let where = {};
+  if (categoryId) where.categoryId = categoryId;
+  if (conditionId) where.conditionId = conditionId;
+  if (search)
+    where.title = {
+      [Op.like]: `%${search}%`,
+    };
   const posts = await PostModel.findAll({
-    include: { model: User, attributes: { include: ["id", "username"] } },
-    order: ["DES"],
+    attributes: {
+      exclude: ["updatedAt", "deletedAt"],
+    },
+    order: [["createdAt", order]],
+    limit,
+    offset: (page - 1) * limit,
+    where,
+    include: [
+      {
+        model: UserModel,
+        as: "user",
+        attributes: ["username", "id"],
+      },
+      {
+        model: PostPhotoModel,
+        as: "photos",
+        where: {
+          isCover: true,
+        },
+      },
+    ],
   });
+  let parsePost = profileHelpers.parsePosts(posts);
 
-  return { data: { posts }, message: "Fetch all post" };
+  return {
+    data: { items: parsePost },
+    message: "Fetch all post",
+  };
 };
 
 exports.updatePost = async ({

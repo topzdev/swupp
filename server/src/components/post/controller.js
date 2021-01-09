@@ -32,10 +32,19 @@ exports.getCurrentUserPost = async (req) => {
   return true;
 };
 
-exports.getPosts = async (req) => {
+exports.getPosts = async (req, res) => {
   try {
-    const input = req.body;
-    const result = await postService.register(input);
+    console.log("Query", req.body);
+    const result = await postService.getPosts(req.body);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+exports.getPostCount = async (req, res) => {
+  try {
+    const result = await postService.getPostsCount();
     res.status(200).json(result);
   } catch (error) {
     res.status(400).json(error);

@@ -10,6 +10,7 @@ const photoServices = require("../photo/services");
 const PostPhotoModel = require("../post/models/PostPhoto");
 const ProfilePhotoModel = require("./models/ProfilePhoto");
 const CoverPhotoModel = require("./models/CoverPhoto");
+const profileHelpers = require("./helpers");
 const { Op } = require("sequelize");
 
 exports.getProfileAbout = async (username) => {
@@ -109,20 +110,7 @@ exports.getProfilePost = async (username) => {
     ],
   });
 
-  let newPost = JSON.parse(JSON.stringify(posts));
-
-  newPost = newPost.map((item) => {
-    const coverPhoto = item.photos[0];
-    delete item.photos;
-
-    return {
-      ...item,
-      price: item.isPriceHidden ? "$$$" : 0,
-      coverPhoto,
-      counts: { comments: 0, views: 0 },
-    };
-  });
-  console.log(newPost);
+  let newPost = profileHelpers.parsePosts(posts);
 
   return {
     count: 0,
