@@ -18,7 +18,7 @@ export default {
       {
         rel: "stylesheet",
         href:
-          "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Poppins:wght@400;700&display=swa"
+          "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Poppins:wght@400;500;600;700&display=swa"
       }
     ]
   },
@@ -26,7 +26,12 @@ export default {
   css: ["@/assets/css/bootstrap-grid.min.css", "@/assets/sass/main.scss"],
 
   // Plugins to run before rSendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ["~/plugins/vee-validate.js", "~/plugins/axios-port.js"],
+  plugins: [
+    "~/plugins/vee-validate.js",
+    "~/plugins/axios-port.js",
+    { src: "~/plugins/infinite-loading", ssr: false },
+    { src: "~/plugins/click-outside" }
+  ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,

@@ -8,6 +8,7 @@ const postHelpers = require("./helpers");
 const PostPhoto = require("./models/PostPhoto");
 const { updatePost } = require("./controller");
 const { update } = require("./models/Post");
+const profileHelpers = require("../profile/helpers");
 const Op = require("sequelize").Op;
 
 exports.createPost = async ({
@@ -112,7 +113,9 @@ exports.getPostById = async (id) => {
   return { data: { post }, message: "Post by id fetched" };
 };
 
-exports.getPost = async () => [];
+exports.getPostsCount = async () => {
+  return await PostModel.count();
+};
 
 exports.getPosts = async ({
   order = "DESC",
@@ -129,7 +132,6 @@ exports.getPosts = async ({
     where.title = {
       [Op.like]: `%${search}%`,
     };
-  const postCount = await PostModel.count();
   const posts = await PostModel.findAll({
     attributes: {
       exclude: ["updatedAt", "deletedAt"],
@@ -153,9 +155,10 @@ exports.getPosts = async ({
       },
     ],
   });
+  let parsePost = profileHelpers.parsePosts(posts);
 
   return {
-    data: { items: posts, count: postCount },
+    data: { items: parsePost },
     message: "Fetch all post",
   };
 };

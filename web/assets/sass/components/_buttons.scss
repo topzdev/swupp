@@ -42,6 +42,28 @@ button {
     }
   }
 
+  &--search {
+    background: var(--color-primary);
+    height: 100%;
+    width: 100%;
+    font-size: 18px;
+    color: var(--color-white);
+    font-weight: 600;
+
+    @include flex-middle();
+    @include transition;
+
+    &:hover {
+      background: var(--color-primary-dark);
+    }
+
+    svg {
+      height: 35px;
+      width: 35px;
+      fill: var(--color-white);
+    }
+  }
+
   &--text {
     background: none;
     color: inherit;

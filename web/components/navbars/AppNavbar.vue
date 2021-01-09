@@ -19,6 +19,7 @@
           <button-icon
             :active="menu.navbar"
             @click.native="menu.navbar = !menu.navbar"
+            v-click-outside="hideMenu"
             class="menu-icon"
             :icon="icons.menu"
           />
@@ -56,6 +57,11 @@ export default {
         menu: mdiMenuDown,
       },
     };
+  },
+  methods: {
+    hideMenu() {
+      this.menu.navbar = false;
+    },
   },
   mixins: [authMixin],
 };

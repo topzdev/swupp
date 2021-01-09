@@ -35,7 +35,7 @@
         <div class="card--post__description">
           <div class="card--post__price mr-auto">{{ post.price }}</div>
 
-          <badge variant="success">{{ category }} - {{ condition }}</badge>
+          <badge variant="success">{{ condition }}</badge>
         </div>
       </div>
     </nuxt-link>
