@@ -121,18 +121,19 @@ exports.getPosts = async ({
   order = "DESC",
   limit = 25,
   page = 1,
-  categoryId,
-  conditionId,
+  category,
+  condition,
   search,
 }) => {
   let where = {};
-  if (categoryId) where.categoryId = categoryId;
-  if (conditionId) where.conditionId = conditionId;
+  if (category) where.categoryId = category;
+  if (condition) where.conditionId = condition;
   if (search)
     where.title = {
-      [Op.like]: `%${search}%`,
+      [Op.iLike]: `%${search}%`,
     };
-  const posts = await PostModel.findAll({
+
+  const options = {
     attributes: {
       exclude: ["updatedAt", "deletedAt"],
     },
@@ -140,6 +141,10 @@ exports.getPosts = async ({
     limit,
     offset: (page - 1) * limit,
     where,
+  };
+  const count = await PostModel.count(options);
+  const posts = await PostModel.findAll({
+    ...options,
     include: [
       {
         model: UserModel,
@@ -158,7 +163,7 @@ exports.getPosts = async ({
   let parsePost = profileHelpers.parsePosts(posts);
 
   return {
-    data: { items: parsePost },
+    data: { items: parsePost, count },
     message: "Fetch all post",
   };
 };
