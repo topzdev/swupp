@@ -1,0 +1,27 @@
+.pagination {
+  display: flex;
+  list-style: none;
+
+  li {
+    border: 1px solid var(--color-primary);
+    border-radius: 3px;
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    &:first-child,
+    &:last-child {
+    }
+  }
+
+  a {
+    display: block;
+    padding: 10px 15px;
+    outline: none;
+  }
+
+  .active {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+}

@@ -1,13 +1,14 @@
 import apiClient from "./axiosClient";
 
 export default {
-  async getPosts({ order = "DESC", limit, page, categoryId, conditionId }) {
+  async getPosts({ order = "DESC", limit, page, category, condition, search }) {
     const response = await apiClient.$post("api/v1/post/get", {
       order,
       limit,
       page,
-      categoryId,
-      conditionId
+      category,
+      condition,
+      search
     });
     return response.data;
   },

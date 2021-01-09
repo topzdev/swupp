@@ -47,9 +47,6 @@ export default {
     await this.$store.dispatch("posts/" + types.actions.FETCH_POSTS_COUNT);
     await this.fetchPosts({ page: 1, limit: this.limit });
   },
-  // watch: {
-  //   "$route.query.page": "$fetch",
-  // },
   computed: {
     posts() {
       return this.$store.state.posts.homepage;
@@ -71,13 +68,16 @@ export default {
       });
     },
     async infiniteHandler($state) {
-      this.page++;
-      await this.fetchPosts();
-      if (this.posts.length >= this.postCount) {
-        $state.complete();
-      } else {
-        $state.loaded();
-      }
+      const self = this;
+      setTimeout(async () => {
+        self.page++;
+        await self.fetchPosts();
+        if (self.posts.length >= self.postCount) {
+          $state.complete();
+        } else {
+          $state.loaded();
+        }
+      }, 250);
     },
   },
 };

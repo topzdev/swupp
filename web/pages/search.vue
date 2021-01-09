@@ -2,17 +2,18 @@
   <auth-layout>
     <div class="container mt-3">
       <div class="row">
-        <div v-for="item in posts" :key="item.id" class="col-20 mb-3">
+        <div v-for="item in posts.items" :key="item.id" class="col-20 mb-3">
           <card-post :post="item" />
         </div>
       </div>
 
-      <div class="row">
+      <div v-if="pageCount" class="row">
         <div class="col-12">
           <paginate
             :page-count="pageCount"
             :prev-text="'Prev'"
             :next-text="'Next'"
+            :force-page="page"
             :click-handler="clickCallback"
             :container-class="'pagination'"
           >
@@ -30,42 +31,55 @@ export default {
   data() {
     return {
       page: 1,
-      limit: 8,
+      limit: 10,
     };
   },
   components: { Paginate },
   async fetch() {
-    await this.$store.dispatch("posts/" + types.actions.FETCH_POSTS_COUNT);
-    await this.fetchPosts({ page: 1, limit: this.limit });
+    await this.fetchPosts();
   },
   watch: {
-    "$route.query.page": "$fetch",
+    "$route.query": "$fetch",
   },
   computed: {
     posts() {
-      return this.$store.state.posts.homepage;
-    },
-
-    postCount() {
-      return this.$store.state.posts.postCount;
+      return this.$store.state.posts.search;
     },
 
     pageCount() {
-      return this.postCount !== 0 ? this.postCount / this.limit : 0;
+      if (this.posts.count === null) return null;
+      return this.postCount !== 0 ? this.posts.count / this.limit : 0;
     },
   },
   methods: {
     async clickCallback(page) {
-      this.$router.push({ query: { page } });
+      console.log(this.$route.query);
       this.page = page;
-      await this.fetchPosts();
+      this.$router.push({ ...this.$route.query, query: { page } });
     },
 
     async fetchPosts() {
-      await this.$store.dispatch("posts/" + types.actions.FETCH_HOME_POSTS, {
-        page: this.page,
-        limit: this.limit,
-      });
+      const self = this;
+      console.log("Fetching post");
+      const { search, condition, category, page } = self.$route.query;
+      let body = {
+        limit: self.limit,
+      };
+      if (search) body.search = search;
+      if (condition) body.condition = condition;
+      if (category) body.category = category;
+      if (page) {
+        self.page = parseInt(page);
+        body.page = page;
+      }
+
+      console.log("FETCH POSTS", body);
+
+      await self.$store.dispatch(
+        "posts/" + types.actions.FETCH_SEARCH_POSTS,
+        body
+      );
+      // await setTimeout(async () => {}, 250);
     },
   },
 };

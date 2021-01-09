@@ -3,15 +3,21 @@ import postsServices from "../services/posts";
 
 export const state = () => ({
   postCount: 0,
-  homepage: []
+  homepage: [],
+  search: {
+    items: [],
+    count: null
+  }
 });
 
 export const getters = {};
 
 export const mutations = {
   [types.mutations.SET_HOME_POSTS](state, posts) {
-    console.log("Mutation", posts);
     state.homepage = [...state.homepage, ...posts.items];
+  },
+  [types.mutations.SET_SEARCH_POSTS](state, posts) {
+    state.search = posts;
   },
   [types.mutations.SET_POSTS_COUNT](state, count) {
     state.postCount = count;
@@ -31,6 +37,21 @@ export const actions = {
       });
       console.log("Fetching post", data);
       commit(types.mutations.SET_HOME_POSTS, data);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async [types.actions.FETCH_SEARCH_POSTS](
+    { commit, state, dispatch, getters, rootState },
+    query
+  ) {
+    try {
+      const data = await postsServices.getPosts({
+        ...query,
+        order: "DESC"
+      });
+      console.log("Fetching post", data);
+      commit(types.mutations.SET_SEARCH_POSTS, data);
     } catch (error) {
       console.error(error);
     }
