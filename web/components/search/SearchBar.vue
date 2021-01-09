@@ -1,7 +1,7 @@
 <template>
   <div class="search-bar">
     <div class="search-bar__body">
-      <search-bar-input />
+      <search-bar-input v-model="search" />
       <search-select
         :options="options.category"
         v-model="category"
@@ -19,7 +19,7 @@
     </div>
 
     <div class="search-bar__action">
-      <button class="btn btn--search">
+      <button class="btn btn--search" @click="onSearch">
         <app-icon type="mdi" :path="icons.search"></app-icon>
       </button>
     </div>
@@ -35,6 +35,7 @@ export default {
       icons: {
         search: mdiMagnify,
       },
+      search: "",
       category: "all",
       condition: "all",
       options: {
@@ -42,6 +43,21 @@ export default {
         condition: [{ id: "all", value: "All" }, ...CONDITIONS],
       },
     };
+  },
+
+  methods: {
+    onSearch() {
+      const { search, category, condition } = this;
+      let query = {};
+
+      if (category !== "all") query.category = category;
+      if (condition !== "all") query.condition = condition;
+      if (search !== "") query.search = search;
+      this.$router.push({
+        path: "search",
+        query,
+      });
+    },
   },
 };
 </script>
