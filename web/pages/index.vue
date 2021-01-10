@@ -3,6 +3,11 @@
     <search-jumbotron />
 
     <div class="container mt-3">
+      <div class="row my-2">
+        <div class="col-12">
+          <h1 class="heading heading--primary">Recently Added</h1>
+        </div>
+      </div>
       <div class="row">
         <div v-for="item in posts" :key="item.id" class="col-20 mb-3">
           <card-post :post="item" />
@@ -47,9 +52,6 @@ export default {
     await this.$store.dispatch("posts/" + types.actions.FETCH_POSTS_COUNT);
     await this.fetchPosts({ page: 1, limit: this.limit });
   },
-  // watch: {
-  //   "$route.query.page": "$fetch",
-  // },
   computed: {
     posts() {
       return this.$store.state.posts.homepage;
@@ -71,13 +73,16 @@ export default {
       });
     },
     async infiniteHandler($state) {
-      this.page++;
-      await this.fetchPosts();
-      if (this.posts.length >= this.postCount) {
-        $state.complete();
-      } else {
-        $state.loaded();
-      }
+      const self = this;
+      setTimeout(async () => {
+        self.page++;
+        await self.fetchPosts();
+        if (self.posts.length >= self.postCount) {
+          $state.complete();
+        } else {
+          $state.loaded();
+        }
+      }, 250);
     },
   },
 };

@@ -49,10 +49,13 @@ export default {
 
   computed: {
     displayText() {
-      if (this.options.length)
+      if (this.options.length && this.itemValue !== undefined) {
         return this.options.filter(
           (item) => item[this.itemValue] === this.value
         )[0][this.itemText];
+      } else {
+        return this.value;
+      }
     },
   },
 

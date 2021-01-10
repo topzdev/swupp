@@ -3,9 +3,11 @@
     <div class="container">
       <app-logo class="navbar__logo" />
 
-      <div class="navbar__search">
-        <input-search />
+      <div :class="['navbar__search', backdrop ? 'over-backdrop' : '']">
+        <input-search :show-backdrop="showBackdrop" />
       </div>
+
+      <div v-if="backdrop" class="backdrop"></div>
 
       <div class="navbar__actions">
         <template v-if="loggedIn">
@@ -49,6 +51,7 @@ import authMixin from "@/mixins/auth";
 export default {
   data() {
     return {
+      backdrop: false,
       menu: {
         navbar: false,
       },
@@ -61,6 +64,10 @@ export default {
   methods: {
     hideMenu() {
       this.menu.navbar = false;
+    },
+
+    showBackdrop(value) {
+      this.backdrop = value;
     },
   },
   mixins: [authMixin],

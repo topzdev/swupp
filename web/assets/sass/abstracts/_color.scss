@@ -33,3 +33,8 @@
     @include colors(--color-light-gray, --color-white, --color-main);
   }
 }
+.text {
+  &--primary {
+    color: var(--color-primary);
+  }
+}

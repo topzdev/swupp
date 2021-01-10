@@ -39,6 +39,8 @@ export const CURRENT_DATE = (function() {
   };
 })();
 
+export const LIMIT = [10, 20, 40, 60, 100];
+
 export const CONDITIONS = [
   {
     id: "nw",
