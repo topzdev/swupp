@@ -1,6 +1,21 @@
 <template>
   <auth-layout>
     <div class="container mt-3">
+      <div class="row mb-2">
+        <div class="col-6" v-if="searched">
+          <h1 class="heading heading--primary">
+            Searched <span class="text--primary">"{{ searched }}"</span>
+          </h1>
+        </div>
+
+        <div class="col-auto ml-auto">
+          <search-select
+            :options="options.limit"
+            v-model="limit"
+            label="Page limit"
+          />
+        </div>
+      </div>
       <div class="row">
         <div v-for="item in posts.items" :key="item.id" class="col-20 mb-3">
           <card-post :post="item" />
@@ -20,6 +35,15 @@
           </paginate>
         </div>
       </div>
+
+      <button-icon
+        v-if="loggedIn"
+        to="/new"
+        size="xl"
+        variant="primary"
+        fab
+        :icon="icons.plus"
+      />
     </div>
   </auth-layout>
 </template>
@@ -27,11 +51,21 @@
 <script>
 import { types } from "@/store/types";
 import Paginate from "vuejs-paginate/src/components/Paginate.vue";
+import { LIMIT } from "~/constants";
+import { mdiPlus } from "@mdi/js";
+import authMixin from "@/mixins/auth";
 export default {
+  mixins: [authMixin],
   data() {
     return {
       page: 1,
       limit: 10,
+      icons: {
+        plus: mdiPlus,
+      },
+      options: {
+        limit: LIMIT,
+      },
     };
   },
   components: { Paginate },
@@ -40,6 +74,9 @@ export default {
   },
   watch: {
     "$route.query": "$fetch",
+    limit: async function (newValue) {
+      await this.fetchPosts();
+    },
   },
   computed: {
     posts() {
@@ -49,6 +86,10 @@ export default {
     pageCount() {
       if (this.posts.count === null) return null;
       return this.postCount !== 0 ? this.posts.count / this.limit : 0;
+    },
+
+    searched() {
+      return this.$route.query.search;
     },
   },
   methods: {

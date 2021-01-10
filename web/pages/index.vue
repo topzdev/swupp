@@ -3,6 +3,11 @@
     <search-jumbotron />
 
     <div class="container mt-3">
+      <div class="row my-2">
+        <div class="col-12">
+          <h1 class="heading heading--primary">Recently Added</h1>
+        </div>
+      </div>
       <div class="row">
         <div v-for="item in posts" :key="item.id" class="col-20 mb-3">
           <card-post :post="item" />
