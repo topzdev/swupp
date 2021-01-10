@@ -1,9 +1,12 @@
 <template>
-  <nav class="navbar">
+  <nav class="navbar" :class="isPostVariant ? 'navbar-post' : ''">
     <div class="container">
       <app-logo class="navbar__logo" />
 
-      <div :class="['navbar__search', backdrop ? 'over-backdrop' : '']">
+      <div
+        v-if="!isPostVariant"
+        :class="['navbar__search', backdrop ? 'over-backdrop' : '']"
+      >
         <input-search :show-backdrop="showBackdrop" />
       </div>
 
@@ -12,6 +15,7 @@
       <div class="navbar__actions">
         <template v-if="loggedIn">
           <profile-icon
+            v-if="!isPostVariant"
             :to="profileLink"
             :photo="profilePhoto"
             :name="profile.firstname"
@@ -49,6 +53,12 @@
 import { mdiBell, mdiMenuDown } from "@mdi/js";
 import authMixin from "@/mixins/auth";
 export default {
+  props: {
+    variant: {
+      type: String,
+      default: "app",
+    },
+  },
   data() {
     return {
       backdrop: false,
@@ -60,6 +70,11 @@ export default {
         menu: mdiMenuDown,
       },
     };
+  },
+  computed: {
+    isPostVariant() {
+      return this.variant === "post";
+    },
   },
   methods: {
     hideMenu() {

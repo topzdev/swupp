@@ -9,7 +9,7 @@
       />
     </div>
 
-    <nuxt-link to="/" class="card--post__main">
+    <nuxt-link to="/post/1" class="card--post__main">
       <div class="card--post__header">
         <badge variant="primary">Open for trade</badge>
       </div>
