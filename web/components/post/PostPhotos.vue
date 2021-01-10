@@ -7,7 +7,7 @@
     <post-photos-preview :active="active" :next="next" :prev="previous" />
 
     <post-photos-thumbnails
-      :photos="photos"
+      :photos="postPhotos"
       :active="active"
       :set-active="setActive"
     />
@@ -19,7 +19,7 @@ import { SAMPLE_POST_PHOTS } from "~/constants";
 export default {
   data() {
     return {
-      current: 1,
+      current: 0,
       active: {
         publicId: "1",
         url:
@@ -32,30 +32,51 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    post() {
+      return this.$store.state.preview.post;
+    },
+    postPhotos() {
+      return this.post.photos;
+    },
+  },
+
+  watch: {
+    postPhotos(newValue) {
+      this.initActivePhoto(newValue);
+    },
+  },
 
   methods: {
     setActive(photo) {
       const self = this;
-      this.photos.forEach((item, idx) => {
+      this.postPhotos.forEach((item, idx) => {
         if (item.publicId === photo.publicId) self.current = idx;
       });
       this.active = photo;
     },
 
     next() {
-      if (this.current >= this.photos.length - 1)
-        return (this.current = this.photos.length);
+      if (this.current >= this.postPhotos.length - 1)
+        return (this.current = this.postPhotos.length);
       this.current += 1;
-      this.active = this.photos[this.current];
+      this.active = this.postPhotos[this.current];
     },
 
     previous() {
       if (this.current <= 0) return (this.current = 1);
-
       this.current -= 1;
-      this.active = this.photos[this.current];
+      this.active = this.postPhotos[this.current];
     },
+
+    initActivePhoto(photos) {
+      if (this.post === null) return;
+      this.active = photos[0];
+    },
+  },
+
+  created() {
+    this.initActivePhoto(this.postPhotos);
   },
 };
 </script>

@@ -16,5 +16,22 @@ export default {
   async getPostCount() {
     const response = await apiClient.$get("api/v1/post/count");
     return response;
+  },
+
+  async getPostPreviewById(id) {
+    const response = await apiClient.$get(`api/v1/post/get/preview/${id}`);
+
+    return {
+      ...response.data.post,
+      count: {
+        views: 0,
+        likes: 0,
+        offers: 0
+      },
+      location: {
+        lat: 0,
+        lng: 0
+      }
+    };
   }
 };

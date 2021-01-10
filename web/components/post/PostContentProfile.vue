@@ -3,11 +3,13 @@
     <p class="overline mb-1">Posted By</p>
     <div class="post-content-profile__body">
       <div class="post-content-profile__photo">
-        <profile-photo></profile-photo>
+        <profile-photo :url="profile.profile.profilePhoto.url"></profile-photo>
       </div>
 
       <div class="post-content-profile__name">
-        <p class="fullname">{{ profile.fullname }}</p>
+        <p class="fullname">
+          {{ profile.profile.firstname + " " + profile.profile.lastname }}
+        </p>
         <p class="username">@{{ profile.username }}</p>
       </div>
 

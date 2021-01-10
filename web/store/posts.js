@@ -10,8 +10,6 @@ export const state = () => ({
   }
 });
 
-export const getters = {};
-
 export const mutations = {
   [types.mutations.SET_HOME_POSTS](state, posts) {
     state.homepage = [...state.homepage, ...posts.items];
