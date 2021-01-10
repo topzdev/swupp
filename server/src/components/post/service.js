@@ -1,6 +1,7 @@
 const PostModel = require("./models/Post");
 const PostPhotoModel = require("./models/PostPhoto");
 const UserModel = require("../user/models/User");
+const ProfileModel = require("../profile/models/Profile");
 const photoServices = require("../photo/services");
 const sequelize = require("../../config/sequelize");
 const photoHelpers = require("../photo/helpers");
@@ -10,6 +11,7 @@ const { updatePost } = require("./controller");
 const { update } = require("./models/Post");
 const profileHelpers = require("../profile/helpers");
 const Op = require("sequelize").Op;
+const ProfilePhotoModel = require("../profile/models/ProfilePhoto");
 
 exports.createPost = async ({
   title,
@@ -89,6 +91,49 @@ exports.createPost = async ({
 exports.getCurrentUserPosts = async ({ userId }) => {
   const posts = await PostModel.findAll({ where: { userId } });
   return { data: { posts }, message: "Fetch all current post" };
+};
+
+exports.getPreviewPostById = async (id) => {
+  let post = await PostModel.findByPk(id, {
+    include: [
+      {
+        model: UserModel,
+        as: "user",
+        attributes: ["username", "id"],
+        include: [
+          {
+            model: ProfileModel,
+            attributes: ["firstname", "lastname"],
+            include: [
+              {
+                model: ProfilePhotoModel,
+                as: "profilePhoto",
+                attributes: ["publicId", "url", "securedUrl", "id"],
+              },
+            ],
+          },
+        ],
+      },
+
+      {
+        model: PostPhotoModel,
+        as: "photos",
+      },
+    ],
+  });
+
+  // post.count =;
+
+  // post.location = {
+  //   lat: 0,
+  //   long: 0,
+  // };
+  return {
+    data: {
+      post,
+    },
+    message: "Fetch Preview Post",
+  };
 };
 
 exports.getPostById = async (id) => {

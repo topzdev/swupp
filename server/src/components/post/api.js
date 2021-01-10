@@ -10,6 +10,10 @@ router.get("/get/:id", async (req, res) => {
   res.json(await postController.getPostById(req, res));
 });
 
+router.get("/get/preview/:id", async (req, res) => {
+  res.json(await postController.getPreviewPostById(req, res));
+});
+
 router.get("/count", async (req, res) => {
   res.json(await postController.getPostCount(req, res));
 });
