@@ -20,6 +20,7 @@ exports.signUp = async ({
   username,
   birthdate,
 }) => {
+    //Checks if the username has already been used or it already existed
   const isExist = await User.findOne({ where: { username } });
 
   if (isExist) {
@@ -98,6 +99,7 @@ exports.signUp = async ({
   };
 };
 
+//This function allows to sign in to their accounts using their email and password
 exports.signIn = async ({ usernameOrEmail, password, rememberMe }) => {
   const user = await User.findOne({
     where: {
@@ -105,7 +107,9 @@ exports.signIn = async ({ usernameOrEmail, password, rememberMe }) => {
     },
   });
 
+  //checks if the username or email is valid
   if (!user) return returnError("usernameOrEmail", "User not exist");
+  //checks the if the password is mathched to the users password
   if (!(await authHelpers.verifyPassword(password, user.password)))
     return returnError("password", "password not match");
 
@@ -118,6 +122,7 @@ exports.signIn = async ({ usernameOrEmail, password, rememberMe }) => {
   };
 };
 
+// content of the profile of the user.
 exports.me = async (userId) => {
   if (!userId) return null;
 
@@ -153,6 +158,7 @@ exports.me = async (userId) => {
   };
 };
 
+// This function verifies the transaction using password
 exports.transactVerify = async ({ id, password }) => {
   const user = await User.findByPk(id, { attributes: ["password"] });
 
@@ -161,5 +167,5 @@ exports.transactVerify = async ({ id, password }) => {
 
   return true;
 };
-
+//Logouts the account of the user
 exports.logout = async (req) => {};
