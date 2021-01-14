@@ -29,8 +29,9 @@ export default {
         offers: 0
       },
       location: {
-        lat: 0,
-        lng: 0
+        city: "Metro, Manila",
+        lat: 14.6091,
+        lng: 121.0223
       }
     };
   }

@@ -5,6 +5,9 @@
     <p v-if="preffered" class="paragraph paragraph--primary">
       {{ preffered }}
     </p>
+    <badge variant="success" class="d-inline-flex badge--large">{{
+      condition
+    }}</badge>
 
     <div class="post-content-offers">
       <p class="post-content-price">{{ price }}</p>
@@ -14,6 +17,7 @@
 </template>
 
 <script>
+import { CONDITIONS } from "@/constants";
 import { mdiFacebookMessenger } from "@mdi/js";
 export default {
   props: {
@@ -34,6 +38,10 @@ export default {
     price() {
       if (!this.post.price) return;
       return `₱ ${this.post.price}`;
+    },
+    condition() {
+      return CONDITIONS.filter((item) => item.id === this.post.conditionId)[0]
+        .value;
     },
   },
 };

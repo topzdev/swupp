@@ -1,4 +1,7 @@
 export default {
+  env: {
+    GOOGLE_MAP_API_KEY: process.env.GOOGLE_MAP_API_KEY
+  },
   cloudinary: {
     cloudName: "topzdev",
     apiSecret: "nbVhrwCnYxHIJqrsgXPdt0mxbb8",
@@ -30,7 +33,8 @@ export default {
     "~/plugins/vee-validate.js",
     "~/plugins/axios-port.js",
     { src: "~/plugins/infinite-loading", ssr: false },
-    { src: "~/plugins/click-outside" }
+    { src: "~/plugins/click-outside" },
+    { src: "~/plugins/gmap", ssr: false }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
