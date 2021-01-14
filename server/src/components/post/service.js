@@ -86,6 +86,7 @@ exports.createPost = async ({
   }
 };
 
+// This function gets the current or the new post item of the user
 exports.getCurrentUserPosts = async ({ userId }) => {
   const posts = await PostModel.findAll({ where: { userId } });
   return { data: { posts }, message: "Fetch all current post" };
@@ -184,7 +185,7 @@ exports.updatePost = async ({
   updatedPhotos,
 }) => {
   /*
-  1. Update post information
+  1. Update post information.
     
   2. Update post photo
     - check photos if there is new uploaded photo
@@ -239,11 +240,13 @@ exports.updatePost = async ({
         transaction: t,
       });
 
+      //Storing new photos to the cloudinary
       console.log("Collecting photoIds...");
       newPhotoIds = postHelpers.collectPhotoIds(postPhotos);
       console.log("new photos uploaded", newPhotoIds);
     }
-
+    
+    //Deleting photos to that is already stored in the cloudinary
     if (deletedPhotoIds && deletedPhotoIds.length) {
       console.log("Deleting photos...");
       const publicIds = deletedPhotoIds;
