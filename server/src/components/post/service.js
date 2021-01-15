@@ -1,5 +1,6 @@
 const PostModel = require("./models/Post");
 const PostPhotoModel = require("./models/PostPhoto");
+const PostLocationModel = require("./models/PostLocation");
 const UserModel = require("../user/models/User");
 const ProfileModel = require("../profile/models/Profile");
 const photoServices = require("../photo/services");
@@ -44,8 +45,17 @@ exports.createPost = async ({
         prefered,
         userId,
         isDraft,
+        postLocation: {
+          lat: 0,
+          lng: 0,
+          location: "Manila, Metro Manila",
+        },
       },
-      { transaction: t }
+
+      {
+        transaction: t,
+        include: { model: PostLocationModel, as: "postLocation" },
+      }
     );
     console.log("Post Created", post);
 
@@ -94,6 +104,8 @@ exports.getCurrentUserPosts = async ({ userId }) => {
 };
 
 exports.getPreviewPostById = async (id) => {
+  console.log("Preview Post");
+  await this.viewed({ id });
   let post = await PostModel.findByPk(id, {
     include: [
       {
@@ -369,4 +381,14 @@ exports.removePost = async ({ id }) => {
     await t.rollback();
     throw { error: "Something wrong with server" };
   }
+};
+
+exports.viewed = async ({ id }) => {
+  await PostModel.update(
+    { views: sequelize.literal("views + 1") },
+    { where: { id } }
+  );
+  return {
+    message: "Post Viewed",
+  };
 };

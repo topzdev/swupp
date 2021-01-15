@@ -4,6 +4,7 @@ const User = require("./components/user/models/User");
 const Profile = require("./components/profile/models/Profile");
 const ProfilePhoto = require("./components/profile/models/ProfilePhoto");
 const CoverPhoto = require("./components/profile/models/CoverPhoto");
+const PostLocation = require("./components/post/models/PostLocation");
 const drop = async () => {
   await Profile.drop();
   await PostPhoto.drop();
@@ -17,6 +18,7 @@ const create = async () => {
   await User.sync({ alter: true });
   await Post.sync({ alter: true });
   await PostPhoto.sync({ alter: true });
+  await PostLocation.sync({ alter: true });
   await ProfilePhoto.sync({ alter: true });
   await CoverPhoto.sync({ alter: true });
   await Profile.sync({ alter: true });
@@ -28,6 +30,9 @@ const associations = async () => {
 
   await User.hasMany(Post, { foreignKey: "userId", as: "post" });
   await Post.belongsTo(User, { as: "user" });
+
+  await Post.hasOne(PostLocation);
+  await PostLocation.belongsTo(Post);
 
   await ProfilePhoto.hasOne(Profile, {
     foreignKey: "profilePhotoId",
@@ -52,6 +57,7 @@ const associations = async () => {
 const sync = async () => {
   await associations();
   await create();
+  // await Post.update({ views: 0 }, { where: { views: null } });
 };
 
 module.exports = async () => {
