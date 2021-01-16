@@ -2,13 +2,8 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../../../config/sequelize");
 
 const Post = sequelize.define(
-  "postLikes",
+  "postSaves",
   {
-    postId: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-
     userId: {
       type: DataTypes.DOUBLE,
       allowNull: false,

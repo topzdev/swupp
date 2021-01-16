@@ -3,7 +3,11 @@ import postsServices from "../services/posts";
 
 export const state = () => ({
   postCount: 0,
-  homepage: [],
+  homepage: {
+    items: [],
+    count: null,
+    last: false
+  },
   search: {
     items: [],
     count: null
@@ -12,7 +16,10 @@ export const state = () => ({
 
 export const mutations = {
   [types.mutations.SET_HOME_POSTS](state, posts) {
-    state.homepage = [...state.homepage, ...posts.items];
+    state.homepage = {
+      ...posts,
+      items: [...state.homepage.items, ...posts.items]
+    };
   },
   [types.mutations.SET_SEARCH_POSTS](state, posts) {
     state.search = posts;

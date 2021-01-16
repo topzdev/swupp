@@ -13,9 +13,9 @@ const Post = sequelize.define(
       type: DataTypes.DOUBLE,
       allowNull: false,
     },
-    location: {
+    name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   },
   { timestamps: false, freezeTableName: true, paranoid: true }

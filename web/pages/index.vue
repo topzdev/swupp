@@ -1,5 +1,5 @@
 <template>
-  <auth-layout>
+  <auth-layout title="Homepage">
     <search-jumbotron />
 
     <div class="container mt-3">
@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="row">
-        <div v-for="item in posts" :key="item.id" class="col-20 mb-3">
+        <div v-for="item in posts.items" :key="item.id" class="col-20 mb-3">
           <card-post :post="item" />
         </div>
       </div>
@@ -44,7 +44,7 @@ import { types } from "@/store/types";
 export default {
   data() {
     return {
-      page: 1,
+      page: 2,
       limit: 10,
     };
   },
@@ -66,23 +66,21 @@ export default {
     },
   },
   methods: {
-    async fetchPosts() {
+    async fetchPosts({ page, limit }) {
       await this.$store.dispatch("posts/" + types.actions.FETCH_HOME_POSTS, {
-        page: this.page,
-        limit: this.limit,
+        page: page,
+        limit: limit,
       });
     },
     async infiniteHandler($state) {
       const self = this;
+
       setTimeout(async () => {
-        self.page++;
-        await self.fetchPosts();
-        if (self.posts.length >= self.postCount) {
-          $state.complete();
-        } else {
-          $state.loaded();
-        }
-      }, 250);
+        if (self.posts.last) $state.complete();
+        await self.fetchPosts({ page: self.page, limit: self.limit });
+        self.page += 1;
+        $state.loaded();
+      }, 500);
     },
   },
 };

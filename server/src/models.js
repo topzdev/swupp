@@ -5,9 +5,13 @@ const Profile = require("./components/profile/models/Profile");
 const ProfilePhoto = require("./components/profile/models/ProfilePhoto");
 const CoverPhoto = require("./components/profile/models/CoverPhoto");
 const PostLocation = require("./components/post/models/PostLocation");
+const PostLikes = require("./components/post/models/PostLikes");
+const PostSaves = require("./components/post/models/PostSaves");
+
 const drop = async () => {
   await Profile.drop();
   await PostPhoto.drop();
+  await PostLocation.drop();
   await Post.drop();
   await User.drop();
   await CoverPhoto.drop();
@@ -17,6 +21,9 @@ const drop = async () => {
 const create = async () => {
   await User.sync({ alter: true });
   await Post.sync({ alter: true });
+  await PostSaves.sync({ alter: true });
+  await PostLikes.sync({ alter: true });
+  // await PostLikes.sync({ alter: true });
   await PostPhoto.sync({ alter: true });
   await PostLocation.sync({ alter: true });
   await ProfilePhoto.sync({ alter: true });
@@ -33,6 +40,11 @@ const associations = async () => {
 
   await Post.hasOne(PostLocation);
   await PostLocation.belongsTo(Post);
+  await Post.hasMany(PostLikes, { foreignKey: "postId", as: "likes" });
+  // await PostLikes.belongsTo(Post);
+  // await User.hasMany(PostLikes);
+
+  // await ProfilePhoto.belongsTo(User);
 
   await ProfilePhoto.hasOne(Profile, {
     foreignKey: "profilePhotoId",
@@ -61,6 +73,11 @@ const sync = async () => {
 };
 
 module.exports = async () => {
-  sync();
+  try {
+    sync();
+    // await PostLikes.drop();
+  } catch (error) {
+    console.error(error);
+  }
   // drop();
 };

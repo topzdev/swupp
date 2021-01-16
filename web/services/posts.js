@@ -18,21 +18,18 @@ export default {
     return response;
   },
 
+  async getPlaces() {
+    const response = await apiClient.$get(
+      "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=(cities)&key=AIzaSyDksdbqnNWl73-PMGqsXxe8dD67s0G0dpY"
+    );
+    return response;
+  },
+
   async getPostPreviewById(id) {
     const response = await apiClient.$get(`api/v1/post/get/preview/${id}`);
 
     return {
-      ...response.data.post,
-      count: {
-        views: 0,
-        likes: 0,
-        offers: 0
-      },
-      location: {
-        city: "Metro, Manila",
-        lat: 14.6091,
-        lng: 121.0223
-      }
+      ...response.data.post
     };
   }
 };

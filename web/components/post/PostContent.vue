@@ -8,7 +8,10 @@
 
       <post-content-description :description="post.body" />
 
-      <post-content-location :location="post.location" />
+      <post-content-location
+        v-if="post.postLocation"
+        :location="post.postLocation"
+      />
 
       <post-content-profile :profile="post.user" />
     </div>

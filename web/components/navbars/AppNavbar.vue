@@ -16,7 +16,7 @@
         <template v-if="loggedIn">
           <profile-icon
             v-if="!isPostVariant"
-            :to="profileLink"
+            :username="user.username"
             :photo="profilePhoto"
             :name="profile.firstname"
           />

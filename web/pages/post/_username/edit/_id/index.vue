@@ -1,5 +1,5 @@
 <template>
-  <AuthLayout title="Create Post">
+  <AuthLayout title="Update Post">
     <div class="container">
       <div class="new-post mb-5">
         <update-post-form />

@@ -6,6 +6,8 @@ exports.createPost = async (req, res) => {
     const files = req.files;
     const body = req.body;
     const post = parsePostData(files, body);
+    console.log(post);
+    // const data = null;
     const data = await postService.createPost({
       ...post,
       userId: req.session.userId,
@@ -17,11 +19,14 @@ exports.createPost = async (req, res) => {
   }
 };
 
-exports.getPostById = async (req, res) => {
+exports.getUserPostById = async (req, res) => {
   try {
     const id = req.params.id;
     console.log(id);
-    const result = await postService.getPostById(id);
+    const result = await postService.getPostById({
+      id,
+      userId: req.session.userId,
+    });
     res.status(200).json(result);
   } catch (error) {
     res.status(400).json(error);

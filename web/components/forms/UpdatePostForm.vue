@@ -82,6 +82,21 @@
               label="Prefered"
             ></input-field>
           </div>
+          <div class="col-12 mb-2">
+            <client-only>
+              <input-location
+                :value="post.postLocation.name"
+                :left-icon="icons.marker"
+                :location="post.postLocation"
+                :rules="rules.postLocation"
+                id="location"
+                name="location"
+                @input="onChange('postLocation', $event)"
+                label="Location"
+                placeholder="Enter your location"
+              ></input-location>
+            </client-only>
+          </div>
         </div>
 
         <div class="card__actions px-2">
@@ -109,15 +124,27 @@ import { mapActions } from "vuex";
 import { types } from "@/store/types";
 import { CATEGORIES, CONDITIONS } from "@/constants";
 import { ValidationObserver, extend, validate } from "vee-validate";
+import { mdiMapMarker } from "@mdi/js";
 
 export default {
   components: { ValidationObserver },
+  async fetch() {
+    const id = this.$route.params.id;
+
+    if (id) await this.$store.dispatch(types.actions.FETCH_POST, id);
+  },
+  watch: {
+    "$route.params.id": "$fetch",
+  },
   data() {
     return {
       loading: false,
       options: {
         categories: CATEGORIES,
         conditions: CONDITIONS,
+      },
+      icons: {
+        marker: mdiMapMarker,
       },
 
       rules: {
@@ -154,12 +181,22 @@ export default {
 
     async onSubmit(e) {
       e.preventDefault();
+
+      if (!this.post.postLocation.name) {
+        this.$router.push(this.$route.path + "#location");
+        return this.$refs.form.setErrors({
+          location: ["Please select your location"],
+        });
+      }
+
       const length = this.post.photos.filter((item) => item.flag !== "deleted")
         .length;
-      if (length < 2)
+      if (length < 2) {
+        this.$router.push(this.$route.path + "#photos");
         return this.$refs.form.setErrors({
           photos: ["Oh noh!, i need atleast two photos to upload this post."],
         });
+      }
       this.loading = true;
       await this.onPostUpdate();
       this.loading = false;
@@ -176,14 +213,6 @@ export default {
       onPostUpdate: types.actions.POST_UPDATE,
       onPostRemove: types.actions.POST_REMOVE,
     }),
-  },
-  mounted() {
-    const id = this.$route.params.id;
-    if (id === undefined) this.$router.back();
-
-    if (parseInt(id) !== this.post.id) {
-      this.$store.dispatch(types.actions.FETCH_POST, this.$route.params.id);
-    }
   },
 };
 </script>

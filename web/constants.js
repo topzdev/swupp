@@ -124,6 +124,11 @@ export const initPost = {
   body: "",
   prefered: "",
   photos: [],
+  postLocation: {
+    name: "",
+    lat: 0,
+    lng: 0
+  },
   isPriceHidden: false,
   isDraft: false
 };
@@ -139,7 +144,46 @@ export const initUpdatePost = {
   isPriceHidden: false,
   isDraft: false,
   deletetedPhotoIds: [],
-  newPhotos: []
+  newPhotos: [],
+  postLocation: {
+    name: "",
+    lat: 0,
+    lng: 0
+  }
+};
+
+export const initProfile = {
+  firstname: "",
+  lastname: "",
+  postCount: 0,
+  profilePhoto: {
+    url: "",
+    securedUrl: "",
+    publicId: ""
+  },
+  coverPhoto: {
+    url: "",
+    securedUrl: "",
+    publicId: ""
+  },
+  username: "",
+
+  about: {
+    overview: {
+      phoneNumber: "",
+      email: "",
+      address: "",
+      birthday: ""
+    },
+    socials: {
+      fbUrl: "",
+      instaUrl: "",
+      websiteUrl: "",
+      twitterUrl: "",
+      birthdate: ""
+    },
+    addresses: [{}]
+  }
 };
 
 export const SAMPLE_POST_PHOTS = [

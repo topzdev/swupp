@@ -3,13 +3,15 @@ exports.parsePosts = (posts) => {
 
   temp = temp.map((item) => {
     const coverPhoto = item.photos[0];
+    const views = item.views;
     delete item.photos;
+    delete item.views;
 
     return {
       ...item,
       price: item.isPriceHidden ? "$$$" : 0,
       coverPhoto,
-      counts: { comments: 0, views: 0 },
+      counts: { comments: 0, views },
     };
   });
 

@@ -1,6 +1,8 @@
 const PostModel = require("./models/Post");
 const PostPhotoModel = require("./models/PostPhoto");
 const PostLocationModel = require("./models/PostLocation");
+const PostLikesModel = require("./models/PostLikes");
+const PostSaveModel = require("./models/PostSaves");
 const UserModel = require("../user/models/User");
 const ProfileModel = require("../profile/models/Profile");
 const photoServices = require("../photo/services");
@@ -21,6 +23,7 @@ exports.createPost = async ({
   isPriceHidden,
   categoryId,
   conditionId,
+  postLocation,
   prefered,
   userId,
   isDraft,
@@ -45,11 +48,7 @@ exports.createPost = async ({
         prefered,
         userId,
         isDraft,
-        postLocation: {
-          lat: 0,
-          lng: 0,
-          location: "Manila, Metro Manila",
-        },
+        postLocation,
       },
 
       {
@@ -109,6 +108,11 @@ exports.getPreviewPostById = async (id) => {
   let post = await PostModel.findByPk(id, {
     include: [
       {
+        model: PostLocationModel,
+        as: "postLocation",
+        attributes: ["lat", "lng", "name"],
+      },
+      {
         model: UserModel,
         as: "user",
         attributes: ["username", "id"],
@@ -134,24 +138,33 @@ exports.getPreviewPostById = async (id) => {
     ],
   });
 
-  // post.count =;
+  let plainPost = post.get({ plain: true });
 
-  // post.location = {
-  //   lat: 0,
-  //   long: 0,
-  // };
+  let count = {
+    views: plainPost.views,
+  };
+
+  delete plainPost.views;
+
+  plainPost.count = count;
+
   return {
     data: {
-      post,
+      post: plainPost,
     },
     message: "Fetch Preview Post",
   };
 };
 
-exports.getPostById = async (id) => {
-  const post = await PostModel.findByPk(id, {
+exports.getPostById = async ({ id, userId }) => {
+  const post = await PostModel.findOne({
+    where: { id, userId },
     include: [
       { model: UserModel, attributes: ["username"], as: "user" },
+      {
+        model: PostLocationModel,
+        attributes: ["lat", "lng", "name", "id"],
+      },
       {
         model: PostPhoto,
         attributes: [
@@ -167,7 +180,16 @@ exports.getPostById = async (id) => {
     ],
   });
 
-  return { data: { post }, message: "Post by id fetched" };
+  let plainPost = post.get({ plain: true });
+
+  if (!plainPost.postLocation)
+    plainPost.postLocation = {
+      name: "",
+      lat: 0,
+      lng: 0,
+    };
+
+  return { data: plainPost, message: "Post by id fetched" };
 };
 
 exports.getPostsCount = async () => {
@@ -185,10 +207,12 @@ exports.getPosts = async ({
   let where = {};
   if (category) where.categoryId = category;
   if (condition) where.conditionId = condition;
-  if (search)
+  if (search) {
     where.title = {
       [Op.iLike]: `%${search}%`,
     };
+    where.isDraft = false;
+  }
 
   const options = {
     attributes: {
@@ -207,6 +231,20 @@ exports.getPosts = async ({
         model: UserModel,
         as: "user",
         attributes: ["username", "id"],
+
+        include: [
+          {
+            model: ProfileModel,
+            attributes: ["firstname", "lastname"],
+            include: [
+              {
+                model: ProfilePhotoModel,
+                as: "profilePhoto",
+                attributes: ["publicId", "url", "securedUrl", "id"],
+              },
+            ],
+          },
+        ],
       },
       {
         model: PostPhotoModel,
@@ -220,7 +258,7 @@ exports.getPosts = async ({
   let parsePost = profileHelpers.parsePosts(posts);
 
   return {
-    data: { items: parsePost, count },
+    data: { items: parsePost, count, last: count <= page * limit },
     message: "Fetch all post",
   };
 };
@@ -239,6 +277,7 @@ exports.updatePost = async ({
   newPhotos,
   deletedPhotoIds,
   updatedPhotos,
+  postLocation,
 }) => {
   /*
   1. Update post information
@@ -271,8 +310,25 @@ exports.updatePost = async ({
         userId,
         isDraft,
       },
+
       { where: { id }, transaction: t }
     );
+
+    // if post location is avaialble and has id then update post location model
+    if (postLocation.id) {
+      console.log("Post location available then updating");
+      await PostLocationModel.update(postLocation, {
+        where: { id: postLocation.id },
+        transaction: t,
+      });
+    } else {
+      // if post location is not available then create post location base on post id
+      console.log("No postLocation then creating a new one");
+      await PostLocationModel.create(
+        { ...postLocation, postId: id },
+        { transaction: t }
+      );
+    }
 
     if (updatedPhotos && updatedPhotos.length) {
       console.log("Updating exisiting photos");
@@ -392,3 +448,5 @@ exports.viewed = async ({ id }) => {
     message: "Post Viewed",
   };
 };
+
+exports.likePost = async ({ postId, userId }) => {};

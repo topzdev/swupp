@@ -12,16 +12,25 @@
   border: none;
   background: none;
   font: inherit;
-  &__left-icon {
+
+  &--primary &__field {
+    border: 1px solid rgba(var(--color-primary-rgb), 0.8);
+    width: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
   }
+
   &--primary {
     input,
     select,
     textarea {
-      border: 1px solid rgba(var(--color-primary-rgb), 0.8);
-      padding: 12px 20px;
       width: 100%;
-      border-radius: 6px;
+
+      margin: 0;
+      background: none;
+      border: none;
+      padding: 12px 20px 12px 15px;
     }
 
     textarea {
@@ -129,6 +138,16 @@
   // inpout style properties
 
   &__right-icon {
+    margin-right: 10px;
+  }
+
+  &__left-icon {
+    margin-left: 10px;
+  }
+
+  &__right-icon,
+  &__left-icon {
+    fill: var(--color-primary);
   }
 
   &__label {
@@ -146,6 +165,7 @@
   }
 
   &__field {
+    display: flex;
     position: relative;
   }
 
@@ -214,8 +234,7 @@
 }
 
 .is-error {
-  input,
-  select,
+  .inp__field,
   .checkmark {
     border-color: var(--color-accent) !important;
   }

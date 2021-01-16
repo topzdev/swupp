@@ -6,8 +6,8 @@ router.post("/get", async (req, res) => {
   res.json(await postController.getPosts(req, res));
 });
 
-router.get("/get/:id", async (req, res) => {
-  res.json(await postController.getPostById(req, res));
+router.get("/get/:id", auth, async (req, res) => {
+  res.json(await postController.getUserPostById(req, res));
 });
 
 router.get("/get/preview/:id", async (req, res) => {

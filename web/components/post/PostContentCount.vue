@@ -3,15 +3,15 @@
     <ul>
       <li>
         <app-icon :path="icons.views" />
-        <span> {{ count.views }} Views </span>
+        <span> {{ plural(count.views, "View") }} </span>
       </li>
       <li>
         <app-icon :path="icons.likes" />
-        <span> {{ count.likes }} Likes </span>
+        <span> {{ plural(count.likes, "Like") }} </span>
       </li>
       <li>
         <app-icon :path="icons.offer" />
-        <span> {{ count.offers }} Views </span>
+        <span> {{ plural(count.offers, "Offer") }} </span>
       </li>
     </ul>
   </div>
@@ -30,6 +30,12 @@ export default {
         likes: mdiHeartOutline,
       },
     };
+  },
+
+  methods: {
+    plural(count, word) {
+      return `${count ? count : 0} ${count >= 2 ? word + "s" : word}`;
+    },
   },
 };
 </script>
