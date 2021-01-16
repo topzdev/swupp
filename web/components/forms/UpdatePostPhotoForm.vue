@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push(`/update/${this.post.id}`);
+      this.$router.push({ name: "post-username-edit-id" });
     },
     onChange(key, value) {
       this.$store.commit(types.mutations.CHANGE_POST, {
@@ -72,6 +72,10 @@ export default {
         crud: "update",
       });
     },
+  },
+
+  created() {
+    console.log(this.$route);
   },
 };
 </script>

@@ -33,3 +33,9 @@
     @include svg-size(30px);
   }
 }
+
+.navbar-post {
+  .container {
+    width: auto !important;
+  }
+}

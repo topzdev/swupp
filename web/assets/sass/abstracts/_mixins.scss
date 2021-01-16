@@ -50,7 +50,7 @@
 }
 
 @mixin menu-active-state {
-  background-color: rgba(var(--color-light-gray-rgb), 0.5) !important;
+  background-color: rgba(var(--color-light-gray-rgb), 0.5);
 }
 
 @mixin backdrop($alpha) {
@@ -91,8 +91,8 @@
 }
 
 @mixin svg-size($size) {
-  height: $size;
-  width: $size;
+  height: $size !important;
+  width: $size !important;
 }
 
 @mixin square-size($size) {

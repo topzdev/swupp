@@ -1,3 +1,31 @@
+exports.primitiveData = (body) => {
+  let post = {};
+  for (let properties in body) {
+    console.log(properties);
+    if (
+      !properties.startsWith("postLocation.") &&
+      !properties.startsWith("photos.") &&
+      !properties.startsWith("newPhotos.") &&
+      !properties.startsWith("updatedPhotos.")
+    ) {
+      if (properties === "price") {
+        post[properties] = parseFloat(body[properties]);
+      } else if (properties === "isPriceHidden" || properties === "isDraft") {
+        post[properties] = body[properties] === "true";
+      } else {
+        post[properties] = body[properties];
+      }
+    } else if (properties.startsWith("postLocation.")) {
+      post.postLocation = {};
+      post.postLocation.lng = parseFloat(body["postLocation.lng"]);
+      post.postLocation.lat = parseFloat(body["postLocation.lat"]);
+      post.postLocation.name = body["postLocation.name"];
+    }
+  }
+
+  return post;
+};
+
 exports.parsePostData = (files, body) => {
   let photos = [];
   let length = Object.keys(files).length;
@@ -9,20 +37,7 @@ exports.parsePostData = (files, body) => {
       isCover: body[`photos.isCover${i}`] === "true",
     });
   }
-  const post = {};
-
-  for (let properties in body) {
-    console.log(properties);
-    if (!properties.startsWith("photos.")) {
-      if (properties === "price") {
-        post[properties] = parseFloat(body[properties]);
-      } else if (properties === "isPriceHidden" || properties === "isDraft") {
-        post[properties] = body[properties] === "true";
-      } else {
-        post[properties] = body[properties];
-      }
-    }
-  }
+  let post = this.primitiveData(body);
 
   post.photos = photos;
 
@@ -51,22 +66,7 @@ exports.parsePostUpdate = (files, body) => {
     });
   }
 
-  const post = {};
-
-  for (let properties in body) {
-    if (
-      !properties.startsWith("newPhotos.") &&
-      !properties.startsWith("updatedPhotos.")
-    ) {
-      if (properties === "price") {
-        post[properties] = parseFloat(body[properties]);
-      } else if (properties === "isPriceHidden" || properties === "isDraft") {
-        post[properties] = body[properties] === "true";
-      } else {
-        post[properties] = body[properties];
-      }
-    }
-  }
+  let post = this.primitiveData(body);
 
   post.newPhotos = newPhotos;
   post.updatedPhotos = updatedPhotos;

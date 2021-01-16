@@ -16,5 +16,20 @@ export default {
   async getPostCount() {
     const response = await apiClient.$get("api/v1/post/count");
     return response;
+  },
+
+  async getPlaces() {
+    const response = await apiClient.$get(
+      "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=(cities)&key=AIzaSyDksdbqnNWl73-PMGqsXxe8dD67s0G0dpY"
+    );
+    return response;
+  },
+
+  async getPostPreviewById(id) {
+    const response = await apiClient.$get(`api/v1/post/get/preview/${id}`);
+
+    return {
+      ...response.data.post
+    };
   }
 };

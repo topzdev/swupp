@@ -3,6 +3,7 @@ button {
 }
 
 .btn {
+  cursor: pointer;
   &--disabled {
     background-color: var(--color-light-gray) !important;
     color: var(--color-dark) !important;
@@ -16,7 +17,7 @@ button {
   &--primary {
     display: inline-flex;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 6px;
     font-weight: 600;
     color: var(--color-white);
     text-align: center;
@@ -153,10 +154,11 @@ button {
   }
 
   &--large {
-    height: 50px;
-    width: 50px;
+    height: 55px;
+    width: 55px;
     svg {
-      height: 24px;
+      height: 30px !important;
+      width: 30px !important;
     }
   }
   &--xl {

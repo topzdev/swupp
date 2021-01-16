@@ -3,7 +3,7 @@
     <app-connection />
     <header>
       <!-- <client-only> -->
-      <app-navbar />
+      <app-navbar v-if="showNavbar" />
       <!-- </client-only> -->
     </header>
 
@@ -20,6 +20,10 @@ export default {
     title: {
       type: String,
       default: "Swupp",
+    },
+    showNavbar: {
+      type: Boolean,
+      default: true,
     },
     description: String,
   },

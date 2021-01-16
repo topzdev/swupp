@@ -1,6 +1,6 @@
 import { types } from "./types";
 import { initPost, initUpdatePost } from "../constants";
-
+import postServices from "../services/post";
 export const namespaced = false;
 
 export const state = () => ({
@@ -50,10 +50,12 @@ export const mutations = {
 
 export const actions = {
   async [types.actions.FETCH_POST]({ commit }, id) {
+    commit(types.mutations.SET_POST_UPDATE, initUpdatePost);
     try {
-      const result = await this.$axios.$get("/api/v1/post/get/" + id);
+      let result = await postServices.getUserPostById(id);
+      console.log(result);
       commit(types.mutations.SET_POST_UPDATE, {
-        ...result.data.post
+        ...result
       });
     } catch (error) {}
   },
@@ -70,8 +72,19 @@ export const actions = {
       const post = state.create;
 
       for (let property in post) {
-        if (post.hasOwnProperty(property) && property !== "photos") {
+        console.log(property);
+        if (
+          post.hasOwnProperty(property) &&
+          property !== "photos" &&
+          property !== "postLocation"
+        ) {
           formData.append(property, post[property]);
+        }
+
+        if (property === "postLocation") {
+          formData.append(property + ".lng", post[property].lng);
+          formData.append(property + ".lat", post[property].lat);
+          formData.append(property + ".name", post[property].name);
         }
       }
 
@@ -136,8 +149,18 @@ export const actions = {
       const post = state.update;
 
       for (let property in post) {
-        if (post.hasOwnProperty(property) && property !== "photos") {
+        if (
+          post.hasOwnProperty(property) &&
+          property !== "photos" &&
+          property !== "postLocation"
+        ) {
           formData.append(property, post[property]);
+        }
+
+        if (property === "postLocation") {
+          formData.append(property + ".lng", post[property].lng);
+          formData.append(property + ".lat", post[property].lat);
+          formData.append(property + ".name", post[property].name);
         }
       }
 
@@ -178,6 +201,7 @@ export const actions = {
         { root: true }
       );
 
+      // $nuxt.refresh();
       $nuxt.$router.push("/");
 
       commit(types.mutations.CLEAR_FIELDS, "update");

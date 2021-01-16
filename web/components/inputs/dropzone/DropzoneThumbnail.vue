@@ -50,9 +50,7 @@ export default {
         : "No caption added, Click edit photos to add caption for this photo";
     },
     goto() {
-      return this.crud === "create"
-        ? `/new/photos#photo-${this.index}`
-        : `/update/photos/${this.$route.params.id}#photo-${this.index}`;
+      return `${this.$route.path}/photos/#photo-${this.index}`;
     },
   },
 };
