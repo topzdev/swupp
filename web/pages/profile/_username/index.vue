@@ -1,7 +1,7 @@
 <template>
   <auth-layout :title="title">
     <div v-if="!$fetch.pending">
-      <app-errors v-if="serNotFound" error="no-user-found" />
+      <app-errors v-if="userNotFound" error="no-user-found" />
       <template v-else>
         <profile />
         <profile-post />
