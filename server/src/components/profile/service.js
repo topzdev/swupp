@@ -13,9 +13,13 @@ const CoverPhotoModel = require("./models/CoverPhoto");
 const profileHelpers = require("./helpers");
 const { Op } = require("sequelize");
 
+// allows the user to check the about section of the users profile
 exports.getProfileAbout = async (username) => {
+  //if the username does not match to username needed it will throw an error saying the message below.
   if (!username) throw returnError("username", "username not provided");
 
+  // if the username is correct it will find the matching user profile and display the personal information
+  //of the user that may be seen in the about section.
   let data = await ProfileModel.findOne({
     attributes: ["fbUrl", "instaUrl", "websiteUrl", "twitterUrl", "birthdate"],
     include: [
@@ -33,7 +37,9 @@ exports.getProfileAbout = async (username) => {
   return data;
 };
 
+// This function enables the user to check their profile.
 exports.getProfile = async (username) => {
+  //finds a username that will match an existing account or checks if the username match the username needed
   if (!username) throw returnError("username", "username not provided");
   const data = await ProfileModel.findOne({
     attributes: [
@@ -46,7 +52,9 @@ exports.getProfile = async (username) => {
         "postCount",
       ],
     ],
+  
 
+    // this includes all the items or data that will be displayed in the profile of the user
     include: [
       {
         model: UserModel,
@@ -67,12 +75,14 @@ exports.getProfile = async (username) => {
       },
     ],
   });
-
+ 
+  // if the data is incorrect it returns the error message below.
   if (!data) throw returnError("profile", "profile not exist");
 
   return data;
 };
 
+// Gets the number of items that the user had posted
 exports.getPostCountByUser = async (username) => {
   return PostModel.count({
     include: {
@@ -84,6 +94,7 @@ exports.getPostCountByUser = async (username) => {
   });
 };
 
+// This function gets the profile post of the user.
 exports.getProfilePost = async (username) => {
   if (!username) throw returnError("username", "username not provided");
   const posts = await PostModel.findAll({
@@ -109,7 +120,8 @@ exports.getProfilePost = async (username) => {
       },
     ],
   });
-
+ 
+  //break up new posts into parts or its category 
   let newPost = profileHelpers.parsePosts(posts);
 
   return {
