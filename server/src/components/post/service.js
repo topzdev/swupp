@@ -56,6 +56,7 @@ exports.createPost = async ({
         include: { model: PostLocationModel, as: "postLocation" },
       }
     );
+    //Post sucessfully created and stored
     console.log("Post Created", post);
 
     // uploading photos to cloudinary
@@ -103,6 +104,7 @@ exports.getCurrentUserPosts = async ({ userId }) => {
   return { data: { posts }, message: "Fetch all current post" };
 };
 
+//Getting and displaying the attributes that will be seen in your post
 exports.getPreviewPostById = async (id) => {
   console.log("Preview Post");
   await this.viewed({ id });
@@ -141,6 +143,7 @@ exports.getPreviewPostById = async (id) => {
 
   let plainPost = post.get({ plain: true });
 
+  //counts the number of items post by user
   let count = {
     views: plainPost.views,
   };
@@ -149,6 +152,7 @@ exports.getPreviewPostById = async (id) => {
 
   plainPost.count = count;
 
+  //fetching a preview of the items posted by the user
   return {
     data: {
       post: plainPost,
@@ -157,6 +161,7 @@ exports.getPreviewPostById = async (id) => {
   };
 };
 
+//Fetching post from database using the ID of the user
 exports.getPostById = async ({ id, userId }) => {
   const post = await PostModel.findOne({
     where: { id, userId },
@@ -193,10 +198,12 @@ exports.getPostById = async ({ id, userId }) => {
   return { data: plainPost, message: "Post by id fetched" };
 };
 
+// Counts the number of post items of the user.
 exports.getPostsCount = async () => {
   return await PostModel.count();
 };
 
+// Allows the user to determine the state of the item they were purchasing
 exports.getPosts = async ({
   order = "DESC",
   limit = 25,
@@ -205,6 +212,7 @@ exports.getPosts = async ({
   condition,
   search,
 }) => {
+  //allowing the data to be placed to its right destination
   let where = {};
   if (category) where.categoryId = category;
   if (condition) where.conditionId = condition;
@@ -214,7 +222,7 @@ exports.getPosts = async ({
     };
     where.isDraft = false;
   }
-
+ // allows the user to choose if they want to delete,create or update the posts.
   const options = {
     attributes: {
       exclude: ["updatedAt", "deletedAt"],
@@ -225,6 +233,7 @@ exports.getPosts = async ({
     where,
   };
   const count = await PostModel.count(options);
+  // reading and fetching data from the database
   const posts = await PostModel.findAll({
     ...options,
     include: [
@@ -256,14 +265,15 @@ exports.getPosts = async ({
       },
     ],
   });
+  //break apart new posts that user uploaded
   let parsePost = profileHelpers.parsePosts(posts);
-
+  //fetching all post
   return {
     data: { items: parsePost, count, last: count <= page * limit },
     message: "Fetch all post",
   };
 };
-
+//updates the given information about the item the user posted
 exports.updatePost = async ({
   id,
   title,
@@ -297,6 +307,7 @@ exports.updatePost = async ({
   const t = await sequelize.transaction();
   let newPhotoIds = null;
 
+   // updating existing information in the database
   try {
     console.log("Updating existing info...");
     const post = await PostModel.update(
@@ -331,6 +342,7 @@ exports.updatePost = async ({
       );
     }
 
+    // updating existing photos and storing it to the cloudinary
     if (updatedPhotos && updatedPhotos.length) {
       console.log("Updating exisiting photos");
       let resultUpdate = [];
@@ -368,6 +380,7 @@ exports.updatePost = async ({
         where: { [Op.and]: { postId: id, publicId: publicIds } },
         transaction: t,
       });
+      //List of deleted photos in the database
       console.log(deletedPhoto);
       const cloudDelete = await photoServices.deletePostPhotos(publicIds);
       console.log("List of deleted from cloud", cloudDelete);
@@ -441,7 +454,7 @@ exports.removePost = async ({ id }) => {
     throw { error: "Something wrong with server" };
   }
 };
-
+// check the numbers of views of the posted item and increment if their is more viewers
 exports.viewed = async ({ id }) => {
   await PostModel.update(
     { views: sequelize.literal("views + 1") },
@@ -451,5 +464,5 @@ exports.viewed = async ({ id }) => {
     message: "Post Viewed",
   };
 };
-
+// Items that has been liked by viewers or userss
 exports.likePost = async ({ postId, userId }) => {};
