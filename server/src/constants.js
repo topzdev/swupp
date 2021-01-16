@@ -1,11 +1,23 @@
-exports.PORT = 5000;
-exports.DB_PASSWORD = "dev123";
-exports.DB_USERNAME = "postgres";
-exports.JWT_SECRET = "secret@123";
-exports.COOKIE_NAME = "swupp-qid";
-exports.SESSION_SECRET = "ilovecats";
+const dotenv = require("dotenv");
+const path = require("path");
+
+dotenv.config({
+  path: path.resolve(__dirname, "../" + process.env.NODE_ENV + ".env"),
+});
+
+console.log(process.env.DB_PASSWORD);
+
 exports.__prod__ = process.env.NODE_ENV === "production";
-exports.CLOUDINARY_CLOUD_NAME = "topzdev";
-exports.CLOUDINARY_API_KEY = "298988348888179";
-exports.CLOUDINARY_API_SECRET = "nbVhrwCnYxHIJqrsgXPdt0mxbb8";
-exports.CLOUDINARY_FOLDER = "swupp-dev";
+exports.PORT = process.env.PORT;
+exports.DB_NAME = process.env.DB_NAME;
+exports.DB_HOST = process.env.DB_HOST;
+exports.DB_DIALECT = process.env.DB_DIALECT;
+exports.DB_PASSWORD = process.env.DB_PASSWORD;
+exports.DB_USERNAME = process.env.DB_USERNAME;
+exports.JWT_SECRET = process.env.JWT_SECRET;
+exports.COOKIE_NAME = process.env.COOKIE_NAME;
+exports.SESSION_SECRET = process.env.SESSION_SECRET;
+exports.CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
+exports.CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
+exports.CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
+exports.CLOUDINARY_FOLDER = process.env.CLOUDINARY_FOLDER;

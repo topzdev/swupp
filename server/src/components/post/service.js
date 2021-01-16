@@ -358,7 +358,7 @@ exports.updatePost = async ({
       newPhotoIds = postHelpers.collectPhotoIds(postPhotos);
       console.log("new photos uploaded", newPhotoIds);
     }
-    
+
     //Deleting photos to that is already stored in the cloudinary
     if (deletedPhotoIds && deletedPhotoIds.length) {
       console.log("Deleting photos...");

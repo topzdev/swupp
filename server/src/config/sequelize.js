@@ -1,10 +1,16 @@
 const { Sequelize } = require("sequelize");
-const { DB_PASSWORD, DB_USERNAME } = require("../constants");
+const {
+  DB_PASSWORD,
+  DB_USERNAME,
+  DB_NAME,
+  DB_HOST,
+  DB_DIALECT,
+} = require("../constants");
 
 const sequelize = new Sequelize({
-  host: "localhost",
-  dialect: "postgres",
-  database: "swupp-local-dev-db",
+  host: DB_HOST,
+  dialect: DB_DIALECT,
+  database: DB_NAME,
   username: DB_USERNAME,
   password: DB_PASSWORD,
 });
