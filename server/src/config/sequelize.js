@@ -5,14 +5,17 @@ const {
   DB_NAME,
   DB_HOST,
   DB_DIALECT,
+  __prod__,
 } = require("../constants");
 
-const sequelize = new Sequelize({
-  host: DB_HOST,
-  dialect: DB_DIALECT,
-  database: DB_NAME,
-  username: DB_USERNAME,
-  password: DB_PASSWORD,
-});
+const sequelize = __prod__
+  ? new Sequelize(process.env.DATABASE_URL)
+  : new Sequelize({
+      host: DB_HOST,
+      dialect: DB_DIALECT,
+      database: DB_NAME,
+      username: DB_USERNAME,
+      password: DB_PASSWORD,
+    });
 
 module.exports = sequelize;

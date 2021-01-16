@@ -7,6 +7,7 @@ const CoverPhoto = require("./components/profile/models/CoverPhoto");
 const PostLocation = require("./components/post/models/PostLocation");
 const PostLikes = require("./components/post/models/PostLikes");
 const PostSaves = require("./components/post/models/PostSaves");
+const { __prod__ } = require("./constants");
 
 const drop = async () => {
   await Profile.drop();
@@ -18,16 +19,16 @@ const drop = async () => {
   await ProfilePhoto.drop();
 };
 
-const create = async () => {
-  await User.sync({ alter: true });
-  await Post.sync({ alter: true });
-  // await PostSaves.sync({ alter: true });
-  await PostLikes.sync({ alter: true });
-  await PostPhoto.sync({ alter: true });
-  await PostLocation.sync({ alter: true });
-  await ProfilePhoto.sync({ alter: true });
-  await CoverPhoto.sync({ alter: true });
-  await Profile.sync({ alter: true });
+const create = async (alter) => {
+  await User.sync({ alter });
+  await Post.sync({ alter });
+  // await PostSaves.sync({ alter });
+  await PostLikes.sync({ alter });
+  await PostPhoto.sync({ alter });
+  await PostLocation.sync({ alter });
+  await ProfilePhoto.sync({ alter });
+  await CoverPhoto.sync({ alter });
+  await Profile.sync({ alter });
 };
 
 const associations = async () => {
@@ -68,13 +69,13 @@ const associations = async () => {
 
 const sync = async () => {
   await associations();
-  await create();
+  __prod__ ? await create(false) : await create(true);
   // await Post.update({ views: 0 }, { where: { views: null } });
 };
 
 module.exports = async () => {
   try {
-    sync();
+    await sync();
     // drop();
   } catch (error) {
     console.error(error);

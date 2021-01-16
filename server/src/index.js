@@ -14,7 +14,6 @@ const fileUpload = require("express-fileupload");
 require("./config/cloudinary");
 
 const main = async () => {
-  console.log(process.env.DB_PASSWORD);
   try {
     await sequelize.authenticate();
     await models();
