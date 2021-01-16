@@ -21,9 +21,8 @@ const drop = async () => {
 const create = async () => {
   await User.sync({ alter: true });
   await Post.sync({ alter: true });
-  await PostSaves.sync({ alter: true });
+  // await PostSaves.sync({ alter: true });
   await PostLikes.sync({ alter: true });
-  // await PostLikes.sync({ alter: true });
   await PostPhoto.sync({ alter: true });
   await PostLocation.sync({ alter: true });
   await ProfilePhoto.sync({ alter: true });
@@ -40,9 +39,10 @@ const associations = async () => {
 
   await Post.hasOne(PostLocation);
   await PostLocation.belongsTo(Post);
-  await Post.hasMany(PostLikes, { foreignKey: "postId", as: "likes" });
+  await Post.hasMany(PostLikes);
+  await User.hasMany(PostLikes);
   // await PostLikes.belongsTo(Post);
-  // await User.hasMany(PostLikes);
+  // await User.hasMany(PostLikes, {foreignKey: ''});
 
   // await ProfilePhoto.belongsTo(User);
 
@@ -75,9 +75,8 @@ const sync = async () => {
 module.exports = async () => {
   try {
     sync();
-    // await PostLikes.drop();
+    // drop();
   } catch (error) {
     console.error(error);
   }
-  // drop();
 };

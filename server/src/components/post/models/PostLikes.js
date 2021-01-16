@@ -3,17 +3,7 @@ const sequelize = require("../../../config/sequelize");
 
 const Post = sequelize.define(
   "postLikes",
-  {
-    postId: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-
-    userId: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-  },
+  {},
   { timestamps: false, freezeTableName: true, paranoid: true }
 );
 
