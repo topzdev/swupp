@@ -18,6 +18,7 @@
     "core-js": "^3.6.5",
     "dayjs": "^1.9.3",
     "debounce": "^1.2.0",
+    "dot-env": "^0.0.1",
     "nuxt": "^2.14.6",
     "object-to-formdata": "^4.1.0",
     "uuid": "^8.3.1",
