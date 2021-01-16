@@ -9,9 +9,28 @@
       />
     </div>
 
-    <nuxt-link to="/" class="card--post__main">
+    <div class="card--post__main" @click.stop="view">
       <div class="card--post__header">
-        <badge variant="primary">Open for trade</badge>
+        <profile-icon
+          v-if="!isProfilePage"
+          :username="post.user.username"
+          :name="post.user.username"
+          :photo="profilePhoto"
+        />
+
+        <button
+          @click.stop="toggleMenu"
+          v-click-outside="hideMenu"
+          class="card--post__options"
+        >
+          <app-icon :path="icons.options"></app-icon>
+        </button>
+
+        <card-post-options-menu
+          v-if="menu.options"
+          :id="post.id"
+          :user="post.user"
+        />
       </div>
       <div class="card--post__body">
         <ul class="card--post__others">
@@ -35,15 +54,15 @@
         <div class="card--post__description">
           <div class="card--post__price mr-auto">{{ post.price }}</div>
 
-          <badge variant="success">{{ category }} - {{ condition }}</badge>
+          <badge variant="success">{{ condition }}</badge>
         </div>
       </div>
-    </nuxt-link>
+    </div>
   </div>
 </template>
 
 <script>
-import { mdiEyeOutline, mdiCommentOutline } from "@mdi/js";
+import { mdiEyeOutline, mdiCommentOutline, mdiDotsVertical } from "@mdi/js";
 import { CONDITIONS, CATEGORIES } from "@/constants";
 import truncate from "cli-truncate";
 export default {
@@ -55,8 +74,26 @@ export default {
       icons: {
         views: mdiEyeOutline,
         comment: mdiCommentOutline,
+        options: mdiDotsVertical,
+      },
+      menu: {
+        options: false,
       },
     };
+  },
+
+  methods: {
+    view() {
+      this.$router.push(`/post/${this.post.id}`);
+    },
+
+    toggleMenu() {
+      this.menu.options = !this.menu.options;
+    },
+
+    hideMenu() {
+      this.menu.options = false;
+    },
   },
 
   computed: {
@@ -80,6 +117,21 @@ export default {
 
     prefered() {
       return this.post.prefered ? `I prefered - ${this.post.prefered}` : ``;
+    },
+
+    isProfilePage() {
+      return this.$route.name === "profile-username";
+    },
+
+    profilePhoto() {
+      const user = this.post.user;
+      return user && user.profile && user.profile.profilePhoto.publicId
+        ? this.$cloudinary.image.url(user.profile.profilePhoto.publicId, {
+            height: 45,
+            quality: "auto",
+            crop: "scale",
+          })
+        : null;
     },
 
     postCoverPhoto() {

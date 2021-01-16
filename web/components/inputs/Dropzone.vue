@@ -78,9 +78,7 @@ export default {
       else return "Drag photos or click to upload";
     },
     toPage() {
-      return this.crud === "update"
-        ? "/update/photos/" + this.$route.params.id
-        : "/new/photos";
+      return this.$route.path + "/photos";
     },
   },
 

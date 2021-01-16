@@ -3,6 +3,7 @@ button {
 }
 
 .btn {
+  cursor: pointer;
   &--disabled {
     background-color: var(--color-light-gray) !important;
     color: var(--color-dark) !important;
@@ -16,7 +17,7 @@ button {
   &--primary {
     display: inline-flex;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 6px;
     font-weight: 600;
     color: var(--color-white);
     text-align: center;
@@ -39,6 +40,28 @@ button {
 
     &__label {
       margin: 0 auto;
+    }
+  }
+
+  &--search {
+    background: var(--color-primary);
+    height: 100%;
+    width: 100%;
+    font-size: 18px;
+    color: var(--color-white);
+    font-weight: 600;
+
+    @include flex-middle();
+    @include transition;
+
+    &:hover {
+      background: var(--color-primary-dark);
+    }
+
+    svg {
+      height: 35px;
+      width: 35px;
+      fill: var(--color-white);
     }
   }
 
@@ -131,10 +154,11 @@ button {
   }
 
   &--large {
-    height: 50px;
-    width: 50px;
+    height: 55px;
+    width: 55px;
     svg {
-      height: 24px;
+      height: 30px !important;
+      width: 30px !important;
     }
   }
   &--xl {

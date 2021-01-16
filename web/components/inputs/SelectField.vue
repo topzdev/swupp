@@ -40,10 +40,7 @@ export default {
   props: {
     value: [String, Number],
     name: String,
-    textarea: {
-      type: Boolean,
-      default: true,
-    },
+
     label: String,
     type: String,
     id: String,

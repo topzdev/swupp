@@ -1,40 +1,9 @@
 import { types } from "./types";
 import profileServices from "../services/profile";
+import { initProfile } from "../constants";
 
 export const state = () => ({
-  current: {
-    firstname: "",
-    lastname: "",
-    postCount: 0,
-    profilePhoto: {
-      url: "",
-      securedUrl: "",
-      publicId: ""
-    },
-    coverPhoto: {
-      url: "",
-      securedUrl: "",
-      publicId: ""
-    },
-    username: "",
-
-    about: {
-      overview: {
-        phoneNumber: "",
-        email: "",
-        address: "",
-        birthday: ""
-      },
-      socials: {
-        fbUrl: "",
-        instaUrl: "",
-        websiteUrl: "",
-        twitterUrl: "",
-        birthdate: ""
-      },
-      addresses: [{}]
-    }
-  },
+  current: initProfile,
   posts: {
     count: 5,
     cursor: null,

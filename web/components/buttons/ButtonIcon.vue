@@ -2,8 +2,7 @@
   <component
     :is="!to ? 'button' : 'nuxt-link'"
     :to="to"
-    class="btn btn--icon"
-    :class="[variantClass, sizeClass, fabClass, activeClass]"
+    :class="[variantClass, sizeClass, fabClass, activeClass, 'btn btn--icon']"
   >
     <app-icon type="mdi" :path="icon" />
   </component>

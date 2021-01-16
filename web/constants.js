@@ -39,6 +39,8 @@ export const CURRENT_DATE = (function() {
   };
 })();
 
+export const LIMIT = [10, 20, 40, 60, 100];
+
 export const CONDITIONS = [
   {
     id: "nw",
@@ -122,6 +124,11 @@ export const initPost = {
   body: "",
   prefered: "",
   photos: [],
+  postLocation: {
+    name: "",
+    lat: 0,
+    lng: 0
+  },
   isPriceHidden: false,
   isDraft: false
 };
@@ -137,5 +144,95 @@ export const initUpdatePost = {
   isPriceHidden: false,
   isDraft: false,
   deletetedPhotoIds: [],
-  newPhotos: []
+  newPhotos: [],
+  postLocation: {
+    name: "",
+    lat: 0,
+    lng: 0
+  }
 };
+
+export const initProfile = {
+  firstname: "",
+  lastname: "",
+  postCount: 0,
+  profilePhoto: {
+    url: "",
+    securedUrl: "",
+    publicId: ""
+  },
+  coverPhoto: {
+    url: "",
+    securedUrl: "",
+    publicId: ""
+  },
+  username: "",
+
+  about: {
+    overview: {
+      phoneNumber: "",
+      email: "",
+      address: "",
+      birthday: ""
+    },
+    socials: {
+      fbUrl: "",
+      instaUrl: "",
+      websiteUrl: "",
+      twitterUrl: "",
+      birthdate: ""
+    },
+    addresses: [{}]
+  }
+};
+
+export const SAMPLE_POST_PHOTS = [
+  {
+    publicId: "2",
+    url:
+      "https://res.cloudinary.com/topzdev/image/upload/v1610257367/swupp-dev/1_noppru.jpg",
+    caption:
+      "Brooklyn green juice XOXO PBR&B lomo freegan salvia polaroid seitan. Authentic skateboard semiotics sustainable green juice XOXO unicorn vice shabby chic fanny pack. Vice selvage YOLO asymmetrical, celiac pug thundercats ethical. Synth normcore PBR&B letterpress, selvage fam listicle blog plaid gochujang ugh chambray fixie pug air plant. Yr art party occupy hella pug la croix godard, locavore austin butcher man braid."
+  },
+  {
+    publicId: "3",
+    url:
+      "https://res.cloudinary.com/topzdev/image/upload/v1610257367/swupp-dev/g_bq9mni.jpg",
+    caption: ""
+  },
+  {
+    publicId: "4",
+    url:
+      "https://res.cloudinary.com/topzdev/image/upload/v1610257366/swupp-dev/r_fkzopp.jpg",
+    caption:
+      "Jean shorts vape shaman taiyaki coloring book art party scenester poke schlitz freegan aesthetic artisan. Microdosing beard drinking vinegar green juice art party banh mi pickled. Hella occupy gochujang, you probably haven't heard of them church-key selvage freegan vaporware pour-over helvetica waistcoat air plant. Etsy messenger bag fanny pack ennui YOLO direct trade tote bag cliche synth. Vaporware snackwave lomo, seitan af wayfarers chambray marfa yuccie. Literally keffiyeh helvetica, single-origin coffee asymmetrical iceland hoodie shaman lo-fi adaptogen. Ennui everyday carry iceland hella kale chips master cleanse intelligentsia post-ironic."
+  },
+  {
+    publicId: "1",
+    url:
+      "https://res.cloudinary.com/topzdev/image/upload/v1610257367/swupp-dev/i_vsvnng.jpg",
+    isCover: true,
+    caption:
+      "I'm baby shoreditch meh helvetica gluten-free vexillologist. 8-bit marfa YOLO jianbing tbh synth, thundercats scenester enamel pin. Put a bird on it tacos before they sold out, 3 wolf moon ramps tumeric tote bag tousled heirloom air plant lomo YOLO whatever fixie vape. Franzen microdosing schlitz poke four dollar toast narwhal. Literally vape dreamcatcher PBR&B, intelligentsia adaptogen art party. Street art vaporware vegan beard"
+  },
+  {
+    publicId: "5",
+    url:
+      "https://res.cloudinary.com/topzdev/image/upload/v1610257365/swupp-dev/u_s0dfzs.jpg",
+    caption: "I'm baby roof party raw denim four dollar toast non."
+  },
+  {
+    publicId: "6",
+    url:
+      "https://res.cloudinary.com/topzdev/image/upload/v1610257365/swupp-dev/gs_wa3e4n.jpg",
+    caption:
+      "Actually offal enamel pin tousled forage, dolore commodo aesthetic. Everyday carry thundercats YOLO tattooed. Locavore drinking vinegar pariatur swag mlkshk consectetur ipsum. "
+  },
+  {
+    publicId: "7",
+    url:
+      "https://res.cloudinary.com/topzdev/image/upload/v1610257365/swupp-dev/l_nzk3k4.jpg",
+    caption:
+      "Small batch food truck proident quinoa, hell of farm-to-table meh XOXO readymade franzen vegan tbh green juice twee. Ethical letterpress palo santo crucifix +1 cold-pressed copper mug lo-fi neutra commodo. "
+  }
+];

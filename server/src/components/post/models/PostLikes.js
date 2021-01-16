@@ -1,11 +1,10 @@
-import { Schema, model } from "mongoose";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../../config/sequelize");
 
-const likesShema = new Schema(
-  {
-    userId: String,
-    postId: String,
-  },
-  { timestamps: true }
+const Post = sequelize.define(
+  "postLikes",
+  {},
+  { timestamps: false, freezeTableName: true, paranoid: true }
 );
 
-export default model("PostLikes", likesShema);
+module.exports = Post;

@@ -28,6 +28,10 @@ const Post = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    views: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
     isPriceHidden: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

@@ -2,7 +2,7 @@
   <div class="menu">
     <profile-icon
       class="menu__profile"
-      :to="profileLink"
+      :username="user.username"
       :photo="profilePhoto"
       :name="myFullname"
       caption="Visit your profile"
