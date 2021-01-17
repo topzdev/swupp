@@ -52,7 +52,9 @@ const main = async () => {
       tempFileDir: "/tmp/",
     })
   );
-
+  app.get("/", (req, res) => {
+    res.send("Welcome to SWUPP SERVER API");
+  });
   app.use("/api/v1", apis);
   app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);

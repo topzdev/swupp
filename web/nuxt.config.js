@@ -13,6 +13,38 @@ export default {
     apiKey: process.env.CLOUDINARY_API_KEY,
     useComponent: true
   },
+  generate: {
+    devtools: false, //true
+    collapseBooleanAttributes: true,
+    decodeEntities: true,
+    minifyCSS: true,
+    minifyJS: true,
+    processConditionalComments: true,
+    removeEmptyAttributes: true,
+    removeRedundantAttributes: true,
+    trimCustomFragments: true,
+    useShortDoctype: true
+  },
+
+  build: {
+    postcss: {
+      // Add plugin names as key and arguments as value
+      // Install them before as dependencies with npm or yarn
+      plugins: {
+        // Disable a plugin by passing false as value
+        "postcss-url": false,
+        "postcss-nested": {},
+        "postcss-responsive-type": {},
+        "postcss-hexrgba": {}
+      },
+      preset: {
+        // Change the postcss-preset-env settings
+        autoprefixer: {
+          grid: true
+        }
+      }
+    }
+  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: "swupp",
@@ -94,7 +126,7 @@ export default {
   },
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: "http://localhost:5000"
+    baseURL: process.env.BASE_URL || "http://localhost:5000"
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
