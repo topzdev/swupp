@@ -20,7 +20,6 @@ export default {
   watch: {
     "$nuxt.isOnline"(value) {
       const self = this;
-      console.log(value);
       this.online = value;
 
       setTimeout(() => {

@@ -3,6 +3,7 @@ const ProfilePhoto = require("./models/ProfilePhoto");
 const UserModel = require("../user/models/User");
 const CoverPhoto = require("./models/CoverPhoto");
 const PostModel = require("../post/models/Post");
+const PostLikesModel = require("../post/models/PostLikes");
 const returnError = require("../../utils/returnError");
 const Sequelize = require("sequelize");
 const sequelize = require("../../config/sequelize");
@@ -21,7 +22,6 @@ exports.getProfileAbout = async (username) => {
   // if the username is correct it will find the matching user profile and display the personal information
   //of the user that may be seen in the about section.
   let data = await ProfileModel.findOne({
-    attributes: ["fbUrl", "instaUrl", "websiteUrl", "twitterUrl", "birthdate"],
     include: [
       {
         model: UserModel,
@@ -45,6 +45,11 @@ exports.getProfile = async (username) => {
     attributes: [
       "firstname",
       "lastname",
+      "fbUrl",
+      "instaUrl",
+      "websiteUrl",
+      "twitterUrl",
+      "birthdate",
       [
         Sequelize.literal(
           `(SELECT COUNT(*) FROM "post" AS postcount WHERE postcount."userId" = "user".id)`
@@ -52,7 +57,6 @@ exports.getProfile = async (username) => {
         "postCount",
       ],
     ],
-  
 
     // this includes all the items or data that will be displayed in the profile of the user
     include: [
@@ -75,7 +79,7 @@ exports.getProfile = async (username) => {
       },
     ],
   });
- 
+
   // if the data is incorrect it returns the error message below.
   if (!data) throw returnError("profile", "profile not exist");
 
@@ -100,9 +104,21 @@ exports.getProfilePost = async (username) => {
   const posts = await PostModel.findAll({
     attributes: {
       exclude: ["updatedAt", "deletedAt"],
+      include: [
+        [
+          Sequelize.literal(
+            `(SELECT COUNT(*) FROM "postLikes" AS plikes WHERE plikes."postId" = "post".id)`
+          ),
+          "likes",
+        ],
+      ],
     },
     order: [["createdAt", "DESC"]],
     include: [
+      {
+        model: PostLikesModel,
+        attributes: [],
+      },
       {
         model: UserModel,
         as: "user",
@@ -120,8 +136,8 @@ exports.getProfilePost = async (username) => {
       },
     ],
   });
- 
-  //break up new posts into parts or its category 
+
+  //break up new posts into parts or its category
   let newPost = profileHelpers.parsePosts(posts);
 
   return {

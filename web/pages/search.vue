@@ -1,6 +1,7 @@
 <template>
   <auth-layout>
-    <div class="container mt-3">
+    <app-loading v-if="loading" />
+    <div v-else class="container mt-3">
       <div class="row mb-2">
         <div class="col-6" v-if="searched">
           <h1 class="heading heading--primary">
@@ -60,6 +61,7 @@ export default {
     return {
       page: 1,
       limit: 10,
+      loading: false,
       icons: {
         plus: mdiPlus,
       },
@@ -113,13 +115,16 @@ export default {
         self.page = parseInt(page);
         body.page = page;
       }
-
       console.log("FETCH POSTS", body);
+
+      this.loading = true;
 
       await self.$store.dispatch(
         "posts/" + types.actions.FETCH_SEARCH_POSTS,
         body
       );
+
+      this.loading = false;
       // await setTimeout(async () => {}, 250);
     },
   },

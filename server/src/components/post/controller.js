@@ -35,8 +35,9 @@ exports.getUserPostById = async (req, res) => {
 exports.getPreviewPostById = async (req, res) => {
   try {
     const id = req.params.id;
+    const userId = req.session.userId;
     console.log(id);
-    const result = await postService.getPreviewPostById(id);
+    const result = await postService.getPreviewPostById({ id, userId });
     res.status(200).json(result);
   } catch (error) {
     res.status(400).json(error);
@@ -87,6 +88,18 @@ exports.deletePost = async (req, res) => {
     const id = req.params.id;
     console.log("ID", id);
     const result = await postService.removePost({ id });
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+exports.likePost = async (req, res) => {
+  try {
+    const postId = req.body.postId;
+    const userId = req.session.userId;
+
+    const result = await postService.likePost({ postId, userId });
     res.status(200).json(result);
   } catch (error) {
     res.status(400).json(error);

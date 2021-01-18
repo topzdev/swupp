@@ -5,11 +5,11 @@ const Post = sequelize.define(
   "post",
   {
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     body: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     price: {
       type: DataTypes.DECIMAL,

@@ -42,8 +42,9 @@ const associations = async () => {
   await PostLocation.belongsTo(Post);
   await Post.hasMany(PostLikes);
   await User.hasMany(PostLikes);
-  // await PostLikes.belongsTo(Post);
-  // await User.hasMany(PostLikes, {foreignKey: ''});
+  await PostLikes.belongsTo(Post);
+  await User.hasOne(PostLikes);
+  await Post.hasMany(PostLikes);
 
   // await ProfilePhoto.belongsTo(User);
 
@@ -69,13 +70,14 @@ const associations = async () => {
 
 const sync = async () => {
   await associations();
-  __prod__ ? await create(false) : await create(true);
+  __prod__ ? await create(true) : await create(true);
   // await Post.update({ views: 0 }, { where: { views: null } });
 };
 
 module.exports = async () => {
   try {
     await sync();
+    // await PostLikes.drop();
     // drop();
   } catch (error) {
     console.error(error);

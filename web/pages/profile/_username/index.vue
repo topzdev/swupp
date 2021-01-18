@@ -1,9 +1,13 @@
 <template>
   <auth-layout :title="title">
-    <div v-if="!$fetch.pending">
-      <app-errors v-if="userNotFound" error="no-user-found" />
+    <div v-if="loading">
+      <app-loading />
+    </div>
+    <div v-else>
+      <app-errors v-if="!profile" error="no-user-found" />
+
       <template v-else>
-        <profile />
+        <profile v-if="profile" />
         <profile-post />
       </template>
     </div>
@@ -13,15 +17,20 @@
 <script>
 import { mdiCamera } from "@mdi/js";
 import profileMixin from "@/mixins/profile";
-import { types } from "@/store/types";
 export default {
   mixins: [profileMixin],
 
   async fetch() {
-    const params = this.$route.params;
-    await this.$store.dispatch("profile/" + types.actions.FETCH_PROFILE, {
-      username: params.username,
-    });
+    const username = this.$route.params.username;
+    if (!username) return;
+
+    this.loading = true;
+    await this.fetchProfile(username);
+    this.loading = false;
+  },
+
+  watch: {
+    "$route.params": "$fetch",
   },
 
   data() {
@@ -32,11 +41,6 @@ export default {
     };
   },
 
-  computed: {
-    userNotFound() {
-      return this.$store.state.profile.current.username === "";
-    },
-  },
   //   middleware: "auth",
 };
 </script>

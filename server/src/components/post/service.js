@@ -10,11 +10,10 @@ const sequelize = require("../../config/sequelize");
 const photoHelpers = require("../photo/helpers");
 const postHelpers = require("./helpers");
 const PostPhoto = require("./models/PostPhoto");
-const { updatePost } = require("./controller");
-const { update } = require("./models/Post");
 const profileHelpers = require("../profile/helpers");
 const Op = require("sequelize").Op;
 const ProfilePhotoModel = require("../profile/models/ProfilePhoto");
+const Sequelize = require("sequelize");
 
 exports.createPost = async ({
   title,
@@ -105,11 +104,25 @@ exports.getCurrentUserPosts = async ({ userId }) => {
 };
 
 //Getting and displaying the attributes that will be seen in your post
-exports.getPreviewPostById = async (id) => {
+exports.getPreviewPostById = async ({ id, userId }) => {
   console.log("Preview Post");
   await this.viewed({ id });
   let post = await PostModel.findByPk(id, {
+    attributes: {
+      include: [
+        [
+          Sequelize.literal(
+            `(SELECT COUNT(*) FROM "postLikes" AS plikes WHERE plikes."postId" = "post".id)`
+          ),
+          "likes",
+        ],
+      ],
+    },
     include: [
+      {
+        model: PostLikesModel,
+        attributes: [],
+      },
       {
         model: PostLocationModel,
         as: "postLocation",
@@ -141,17 +154,31 @@ exports.getPreviewPostById = async (id) => {
     ],
   });
 
+  let count = {};
   let plainPost = post.get({ plain: true });
 
-  //counts the number of items post by user
-  let count = {
-    views: plainPost.views,
-  };
+  if (plainPost) {
+    //counts the number of items post by user
+    count.views = plainPost.views;
+    delete plainPost.views;
 
-  delete plainPost.views;
+    if (plainPost.likes) {
+      count.likes = parseInt(plainPost.likes);
+      delete plainPost.likes;
+    }
 
-  plainPost.count = count;
+    plainPost.count = count;
+  }
 
+  plainPost.liked = null;
+  console.log("UserId", userId);
+  if (userId) {
+    const liked = await PostLikesModel.findOne({
+      where: { postId: id, userId },
+    });
+
+    plainPost.liked = liked;
+  }
   //fetching a preview of the items posted by the user
   return {
     data: {
@@ -222,10 +249,18 @@ exports.getPosts = async ({
     };
     where.isDraft = false;
   }
- // allows the user to choose if they want to delete,create or update the posts.
+  // allows the user to choose if they want to delete,create or update the posts.
   const options = {
     attributes: {
       exclude: ["updatedAt", "deletedAt"],
+      include: [
+        [
+          Sequelize.literal(
+            `(SELECT COUNT(*) FROM "postLikes" AS plikes WHERE plikes."postId" = "post".id)`
+          ),
+          "likes",
+        ],
+      ],
     },
     order: [["createdAt", order]],
     limit,
@@ -237,6 +272,10 @@ exports.getPosts = async ({
   const posts = await PostModel.findAll({
     ...options,
     include: [
+      {
+        model: PostLikesModel,
+        attributes: [],
+      },
       {
         model: UserModel,
         as: "user",
@@ -307,7 +346,7 @@ exports.updatePost = async ({
   const t = await sequelize.transaction();
   let newPhotoIds = null;
 
-   // updating existing information in the database
+  // updating existing information in the database
   try {
     console.log("Updating existing info...");
     const post = await PostModel.update(
@@ -465,4 +504,25 @@ exports.viewed = async ({ id }) => {
   };
 };
 // Items that has been liked by viewers or userss
-exports.likePost = async ({ postId, userId }) => {};
+exports.likePost = async ({ postId, userId }) => {
+  const liked = await PostLikesModel.findOne({
+    where: { postId, userId },
+    raw: true,
+  });
+
+  console.log(liked);
+
+  if (liked) {
+    await PostLikesModel.destroy({ where: { postId, userId } });
+
+    return {
+      liked: null,
+    };
+  } else {
+    const data = await PostLikesModel.create({ postId, userId }, { raw: true });
+
+    return {
+      liked: data,
+    };
+  }
+};
