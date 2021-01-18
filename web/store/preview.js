@@ -8,6 +8,16 @@ export const state = () => ({
 export const mutations = {
   [types.mutations.SET_PREVIEW_POST](state, post) {
     state.post = post;
+  },
+  [types.mutations.SET_PREVIEW_LIKES](state, liked) {
+    console.log("Like counts", liked);
+    state.post.liked = liked;
+
+    if (liked) {
+      state.post.count.likes++;
+    } else {
+      state.post.count.likes--;
+    }
   }
 };
 
@@ -34,6 +44,9 @@ export const actions = {
     } catch (error) {
       console.error(error);
     }
+  },
+  async [types.actions.TOGGLE_LIKES]({ state, commit }, liked) {
+    if (state.post) commit(types.mutations.SET_PREVIEW_LIKES, liked);
   },
   async [types.actions.CLEAR_PREVIEW_POST]({ commit }) {
     commit(types.mutations.SET_PREVIEW_POST, null);

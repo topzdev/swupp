@@ -1,13 +1,16 @@
 import { types } from "./types";
 import profileServices from "../services/profile";
 import { initProfile } from "../constants";
+import profile from "../services/profile";
 
 export const state = () => ({
-  current: initProfile,
+  current: null,
+  about: null,
   posts: {
     count: 5,
     cursor: null,
     hasNext: false,
+    username: null,
     items: []
   },
   modals: {
@@ -17,9 +20,12 @@ export const state = () => ({
 
 export const mutations = {
   [types.mutations.SET_CURRENT_PROFILE](state, data) {
-    console.log("Setting up profile", data);
-    state.current = { ...state.current, ...data };
+    state.current = data;
   },
+  [types.mutations.SET_ABOUT_PROFILE](state, data) {
+    state.about = data;
+  },
+
   [types.mutations.SET_CURRENT_PROFILE_POST](state, data) {
     state.posts = data;
   },
@@ -27,7 +33,6 @@ export const mutations = {
     state.modals.changePhotos = config;
   },
   [types.mutations.SET_CURRENT_PROFILE_PHOTO](state, data) {
-    console.log(data);
     state.current.profilePhoto = data;
   },
   [types.mutations.SET_CURRENT_COVER_PHOTO](state, data) {
@@ -36,11 +41,9 @@ export const mutations = {
 };
 
 export const actions = {
-  async [types.actions.FETCH_PROFILE]({ commit }, { username }) {
+  async [types.actions.FETCH_PROFILE]({ commit, state }, { username }) {
     try {
       const data = await profileServices.getProfile({ username });
-      console.log(data);
-
       commit(types.mutations.SET_CURRENT_PROFILE, data);
     } catch (error) {
       console.log(error);
@@ -50,10 +53,7 @@ export const actions = {
     try {
       const data = await profileServices.getProfileAbout({ username });
 
-      commit(types.mutations.SET_CURRENT_PROFILE, {
-        ...state.current,
-        about: data
-      });
+      commit(types.mutations.SET_ABOUT_PROFILE, { username, ...data });
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +62,7 @@ export const actions = {
     try {
       const data = await profileServices.getProfilePost({ username });
       console.log(data);
-      commit(types.mutations.SET_CURRENT_PROFILE_POST, data);
+      commit(types.mutations.SET_CURRENT_PROFILE_POST, { username, ...data });
     } catch (error) {
       console.log(error);
     }

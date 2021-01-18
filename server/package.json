@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "set NODE_ENV=development&& nodemon src/index",
-    "prod": "set NODE_ENV=production&& nodemon src/index",
+    "prod": "set NODE_ENV=production&& node src/index",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc"
   },
@@ -19,13 +19,12 @@
     "argon2": "^0.27.0",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.23.0",
-    "connect-redis": "^5.0.0",
+    "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "express-session": "^1.17.1",
-    "ioredis": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.8",

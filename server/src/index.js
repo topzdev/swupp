@@ -4,11 +4,10 @@ const apis = require("./apis");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const session = require("express-session");
-const Redis = require("ioredis");
-const connectRedis = require("connect-redis");
-const { COOKIE_NAME, SESSION_SECRET, __prod__ } = require("./constants");
+const { COOKIE_NAME, SESSION_SECRET, __prod__, PORT } = require("./constants");
 const models = require("./models");
 const fileUpload = require("express-fileupload");
+var cookieSession = require("cookie-session");
 
 // globally import cloudinary
 require("./config/cloudinary");
@@ -23,25 +22,31 @@ const main = async () => {
   }
 
   const app = express();
-  const RedisStore = connectRedis(session);
-  const redis = new Redis();
-  const PORT = 5000 || process.env.PORT;
 
   app.use(cors());
-  app.use(
-    session({
-      name: COOKIE_NAME,
-      store: new RedisStore({ client: redis, disableTouch: true }),
-      secret: SESSION_SECRET,
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
-        httpOnly: true,
-        sameSite: "lax",
-        secure: __prod__,
-      },
+  // app.use(
+  //   session({
+  //     name: COOKIE_NAME,
+  //     secret: SESSION_SECRET,
+  //     cookie: {
+  //       maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+  //       httpOnly: true,
+  //       sameSite: "lax",
+  //       secure: __prod__,
+  //     },
 
-      saveUninitialized: false,
-      resave: false,
+  //     saveUninitialized: false,
+  //     resave: false,
+  //   })
+  // );
+  app.use(
+    cookieSession({
+      name: COOKIE_NAME,
+      secret: SESSION_SECRET,
+      maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: __prod__,
     })
   );
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -52,7 +57,9 @@ const main = async () => {
       tempFileDir: "/tmp/",
     })
   );
-
+  app.get("/", (req, res) => {
+    res.send("Welcome to SWUPP SERVER API");
+  });
   app.use("/api/v1", apis);
   app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);

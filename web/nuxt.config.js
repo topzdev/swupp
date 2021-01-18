@@ -1,13 +1,32 @@
+// require("dotenv").config();
+
 export default {
   env: {
-    GOOGLE_MAP_API_KEY: process.env.GOOGLE_MAP_API_KEY
+    GOOGLE_MAP_API_KEY: process.env.GOOGLE_MAP_API_KEY,
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    BASE_URL: process.env.BASE_URL
   },
   cloudinary: {
-    cloudName: "topzdev",
-    apiSecret: "nbVhrwCnYxHIJqrsgXPdt0mxbb8",
-    useComponent: true,
-    apiKey: "swupp-dev"
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    apiSecret: process.env.CLOUDINARY_API_SECRET,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    useComponent: true
   },
+  generate: {
+    devtools: false, //true
+    collapseBooleanAttributes: true,
+    decodeEntities: true,
+    minifyCSS: true,
+    minifyJS: true,
+    processConditionalComments: true,
+    removeEmptyAttributes: true,
+    removeRedundantAttributes: true,
+    trimCustomFragments: true,
+    useShortDoctype: true
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: "swupp",
@@ -89,11 +108,25 @@ export default {
   },
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: "http://localhost:5000"
+    baseURL: process.env.BASE_URL || "https://swupp-server.herokuapp.com"
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_URL
+    }
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-    transpile: ["vee-validate/dist/rules"]
+    transpile: ["vee-validate/dist/rules"],
+    terser: {
+      // https://github.com/terser/terser#compress-options
+      terserOptions: {
+        compress: {
+          drop_console: true
+        }
+      }
+    }
   }
 };

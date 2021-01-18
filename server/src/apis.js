@@ -12,8 +12,4 @@ router.use("/post/", postAPI);
 router.use("/photo/", photoAPI);
 router.use("/profile/", profileAPI);
 
-router.use("/", (req, res) => {
-  res.send("Hello, World");
-});
-
 module.exports = router;

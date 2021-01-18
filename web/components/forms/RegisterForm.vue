@@ -142,16 +142,14 @@
 
 <script>
 import dayjs from "dayjs";
-import { debounce } from "debounce";
 import isEmptyFields from "@/utils/isEmptyFields";
 import { ValidationObserver, extend, validate } from "vee-validate";
 import { CURRENT_DATE, DAYS, MONTHS, YEARS } from "@/constants";
 import { types } from "@/store/types";
+import authServices from "@/services/auth";
 
 const usernameOrEmailExist = async (value) => {
-  return (
-    await fetch("http://localhost:5000/api/v1/user/is-exist/" + value)
-  ).json();
+  return await authServices.isUserExist(value);
 };
 
 extend("username_exist", {
@@ -244,7 +242,7 @@ export default {
       this.loading = true;
       try {
         const { bdMonth, bdDay, bdYear } = this.bd;
-        const res = await this.$axios.$post("/api/v1/auth/sign-up", {
+        const res = await authServices.register({
           ...this.user,
           birthdate: dayjs(`${bdMonth}/${bdDay}/${bdYear}`).format(
             "YYYY-MM-DD"

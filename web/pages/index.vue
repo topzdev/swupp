@@ -52,6 +52,9 @@ export default {
     await this.$store.dispatch("posts/" + types.actions.FETCH_POSTS_COUNT);
     await this.fetchPosts({ page: 1, limit: this.limit });
   },
+
+  
+
   computed: {
     posts() {
       return this.$store.state.posts.homepage;

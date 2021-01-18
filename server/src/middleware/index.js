@@ -23,3 +23,21 @@ exports.auth = (req, res, next) => {
     return res.status(401).send("Auth token is not supplied");
   }
 };
+
+exports.guest = (req, res, next) => {
+  let token = req.headers["x-access-token"] || req.headers["authorization"];
+
+  if (token && token.startsWith("Bearer "))
+    token = token.slice(7, token.length);
+
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      console.log(decoded);
+      req.session.userId = decoded.id;
+      next();
+    } catch (error) {}
+  } else {
+    next();
+  }
+};

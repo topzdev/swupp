@@ -1,9 +1,9 @@
 <template>
   <div class="card--post__options-list">
     <ul>
-      <li v-if="isMyPost" @click.stop="gotoEdit">
+      <!-- <li v-if="isMyPost" @click.stop="gotoEdit">
         <app-icon class="icons" :path="icons.edit"></app-icon> Edit
-      </li>
+      </li> -->
       <li><app-icon class="icons" :path="icons.report"></app-icon> Report</li>
     </ul>
   </div>
