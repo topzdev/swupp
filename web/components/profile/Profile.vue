@@ -5,7 +5,7 @@
         <img v-if="coverPhoto" :src="coverPhoto" alt="Cover photo" />
 
         <button-primary
-          v-if="user"
+          v-if="isMyProfile"
           label="Change Cover Photo"
           :icon-left="icons.camera"
           @click.native="open('change-photo')"
@@ -16,7 +16,7 @@
         <div class="profile__photo">
           <profile-photo :url="profilePhoto" />
           <button-icon
-            v-if="user"
+            v-if="isMyProfile"
             class="profile__photo-btn"
             :icon="icons.camera"
             @click.native="open('change-photo')"
@@ -67,8 +67,9 @@ export default {
   },
 
   computed: {
-    profile() {
-      return this.$store.state.profile.current;
+    isMyProfile() {
+      if (!this.user) return false;
+      return this.profile.username === this.user.username;
     },
     username() {
       if (this.profile.username) return `@${this.profile.username}`;

@@ -19,7 +19,7 @@
           </div>
         </div>
 
-        <div class="col-8">
+        <div v-if="items" class="col-8">
           <div class="profile-about__content">
             <div class="profile-about__list">
               <template v-for="(item, idx) in items">
@@ -62,12 +62,6 @@ import profileMixin from "@/mixins/profile";
 import { types } from "@/store/types";
 export default {
   mixins: [profileMixin],
-  async fetch() {
-    const params = this.$route.params;
-    await this.$store.dispatch("profile/" + types.actions.FETCH_PROFILE_ABOUT, {
-      username: params.username,
-    });
-  },
   data() {
     return {
       icons: {
@@ -78,21 +72,16 @@ export default {
         birthday: mdiCakeVariant,
         address: mdiMapMarker,
       },
-
-      // overview: {
-      //   phoneNumber: "09286665903",
-      //   email: "christianlugod05@gmail.com",
-      //   address: "1320 A 48 Cp Gacia st Tondo, Manila",
-      //   birthday: "May 15, 2000",
-      // },
     };
   },
   computed: {
+    profile() {
+      return this.$store.state.profile.current;
+    },
     overview() {
-      return this.$store.state.profile.current.about.overview;
+      return this.$store.state.profile.about.overview;
     },
     items() {
-      console.log(this.overview.phoneNumber);
       return [
         {
           icon: this.icons.phone,

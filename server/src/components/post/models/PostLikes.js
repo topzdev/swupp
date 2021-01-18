@@ -4,7 +4,7 @@ const sequelize = require("../../../config/sequelize");
 const Post = sequelize.define(
   "postLikes",
   {},
-  { timestamps: false, freezeTableName: true, paranoid: true }
+  { timestamps: true, freezeTableName: true, paranoid: false }
 );
 
 module.exports = Post;

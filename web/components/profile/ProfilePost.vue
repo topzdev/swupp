@@ -4,7 +4,7 @@
     <app-errors v-else-if="postCount === 0" error="user-no-post" />
     <template v-else>
       <div class="row">
-        <div v-for="item in posts" :key="item.id" class="col-20 mb-2">
+        <div v-for="item in posts.items" :key="item.id" class="col-20 mb-2">
           <card-post :post="item" />
         </div>
       </div>
@@ -39,15 +39,16 @@ export default {
     postCount() {
       return parseInt(this.$store.state.profile.current.postCount);
     },
-    posts() {
-      return this.$store.state.profile.posts.items;
-    },
   },
   async fetch() {
-    const params = this.$route.params;
-    await this.$store.dispatch("profile/" + types.actions.FETCH_PROFILE_POSTS, {
-      username: params.username,
-    });
+    const username = this.$route.params.username;
+
+    if (!username);
+    await this.fetchPost(username);
+  },
+
+  watch: {
+    $route: "$fetch",
   },
 };
 </script>

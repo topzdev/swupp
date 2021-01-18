@@ -39,8 +39,8 @@
             <span>{{ post.counts.views }}</span>
           </li>
           <li class="card--post__others-item">
-            <app-icon :path="icons.comment" type="mdi" />
-            <span>{{ post.counts.comments }}</span>
+            <app-icon :path="icons.likes" type="mdi" />
+            <span>{{ post.counts.likes }}</span>
           </li>
         </ul>
         <h3 class="card--post__title" :title="post.title">
@@ -54,7 +54,7 @@
         <div class="card--post__description">
           <div class="card--post__price mr-auto">{{ post.price }}</div>
 
-          <badge variant="success">{{ condition }}</badge>
+          <badge variant="primary">{{ condition }}</badge>
         </div>
       </div>
     </div>
@@ -62,7 +62,12 @@
 </template>
 
 <script>
-import { mdiEyeOutline, mdiCommentOutline, mdiDotsVertical } from "@mdi/js";
+import {
+  mdiEyeOutline,
+  mdiCommentOutline,
+  mdiDotsVertical,
+  mdiHeartOutline,
+} from "@mdi/js";
 import { CONDITIONS, CATEGORIES } from "@/constants";
 import truncate from "cli-truncate";
 export default {
@@ -75,6 +80,7 @@ export default {
         views: mdiEyeOutline,
         comment: mdiCommentOutline,
         options: mdiDotsVertical,
+        likes: mdiHeartOutline,
       },
       menu: {
         options: false,
@@ -102,7 +108,9 @@ export default {
     },
 
     truncatedPrefered() {
-      return truncate(this.post.prefered, 40);
+      return this.post.prefered
+        ? "Prefered: " + truncate(this.post.prefered, 30)
+        : "";
     },
 
     category() {

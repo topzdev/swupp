@@ -1,6 +1,6 @@
 <template>
   <div class="post-content-header">
-    <post-content-action :id="post.id" :user="post.user" />
+    <post-content-action :liked="post.liked" :id="post.id" :user="post.user" />
     <h1 class="heading heading--primary">{{ post.title }}</h1>
     <p v-if="preffered" class="paragraph paragraph--primary">
       {{ preffered }}

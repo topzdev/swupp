@@ -9,7 +9,9 @@
     "prod:web": "yarn --cwd web start ",
     "prod:server": "yarn --cwd server prod",
 
-    "dev": "concurrently \"yarn dev:server\" \"yarn dev:web\""
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:web\"",
+    "prod": "concurrently \"yarn dev:server\" \"yarn dev:web\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --cwd web &&  yarn prod:web"
   },
   "author": "dev404",
   "license": "ISC",

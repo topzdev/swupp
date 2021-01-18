@@ -5,10 +5,8 @@ dotenv.config({
   path: path.resolve(__dirname, "../" + process.env.NODE_ENV + ".env"),
 });
 
-console.log(process.env.DB_PASSWORD);
-
 exports.__prod__ = process.env.NODE_ENV === "production";
-exports.PORT = process.env.PORT;
+exports.PORT = process.env.PORT || 5000;
 exports.DB_NAME = process.env.DB_NAME;
 exports.DB_HOST = process.env.DB_HOST;
 exports.DB_DIALECT = process.env.DB_DIALECT;
