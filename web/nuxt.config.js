@@ -108,14 +108,15 @@ export default {
   },
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.BASE_URL || "https://swupp-server.herokuapp.com"
+    // baseURL: process.env.BASE_URL || "https://swupp-server.herokuapp.com"
+    baseURL: process.env.BASE_URL 
   },
 
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: process.env.BROWSER_BASE_URL
-    }
-  },
+  // publicRuntimeConfig: {
+  //   axios: {
+  //     browserBaseURL: process.env.BROWSER_BASE_URL
+  //   }
+  // },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {

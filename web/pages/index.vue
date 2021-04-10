@@ -1,42 +1,15 @@
 <template>
-  <auth-layout title="Homepage">
-    <search-jumbotron />
-
-    <div class="container mt-3">
-      <div class="row my-2">
-        <div class="col-12">
-          <h1 class="heading heading--primary">Recently Added</h1>
-        </div>
-      </div>
-      <div class="row">
-        <div v-for="item in posts.items" :key="item.id" class="col-20 mb-3">
-          <card-post :post="item" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <!--  <paginate
-            :page-count="pageCount"
-            :prev-text="'Prev'"
-            :next-text="'Next'"
-            :click-handler="clickCallback"
-            :container-class="'pagination'"
-          >
-          </paginate> -->
-          <client-only>
-            <infinite-loading spinner="spiral" @infinite="infiniteHandler">
-              <div slot="spinner">
-                <search-progress />
-              </div>
-              <div slot="no-more">All loaded</div>
-              <div slot="no-results">All loaded</div>
-            </infinite-loading>
-          </client-only>
-        </div>
-      </div>
-    </div>
-  </auth-layout>
+  <div class="container">
+    <template v-if="$auth.loggedIn">
+      <h1 class="heading--primary">Hello User!</h1>
+      <button class="btn" @click="$auth.logout()">Logout</button>
+    </template>
+    <template v-else>
+      <h1 class="heading--primary">Welcome to Swupp!</h1>
+      <nuxt-link class="mr-1" to="/login">Login</nuxt-link>
+      <nuxt-link to="/register">Register</nuxt-link>
+    </template>
+  </div>
 </template>
 
 <script>
@@ -49,11 +22,9 @@ export default {
     };
   },
   async fetch() {
-    await this.$store.dispatch("posts/" + types.actions.FETCH_POSTS_COUNT);
-    await this.fetchPosts({ page: 1, limit: this.limit });
+    // await this.$store.dispatch("posts/" + types.actions.FETCH_POSTS_COUNT);
+    // await this.fetchPosts({ page: 1, limit: this.limit });
   },
-
-  
 
   computed: {
     posts() {

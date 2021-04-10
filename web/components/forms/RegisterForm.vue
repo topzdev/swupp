@@ -252,7 +252,8 @@ export default {
         await this.$auth.setUserToken(res.data.token);
 
         if (this.$auth.loggedIn) {
-          this.$router.push("/profile/" + this.$auth.user.username);
+          // this.$router.push("/profile/" + this.$auth.user.username);
+          this.$router.push("/");
           this.$store.dispatch(types.actions.SHOW_SNACKBAR, {
             title: "Greetings from Swupp!",
             body: `Hi!, ${this.$auth.user.username} `,

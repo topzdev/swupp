@@ -99,7 +99,8 @@ export default {
         console.log(this.$auth.user);
 
         if (this.$auth.loggedIn) {
-          this.$router.push("/profile/" + this.$auth.user.username);
+          // this.$router.push("/profile/" + this.$auth.user.username);
+          this.$router.push("/");
         }
       } catch (error) {
         console.log(error);
