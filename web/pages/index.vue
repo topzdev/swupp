@@ -14,8 +14,8 @@ export default {
     };
   },
   async fetch() {
-    await this.$store.dispatch("posts/" + types.actions.FETCH_POSTS_COUNT);
-    await this.fetchPosts({ page: 1, limit: this.limit });
+    // await this.$store.dispatch("posts/" + types.actions.FETCH_POSTS_COUNT);
+    // await this.fetchPosts({ page: 1, limit: this.limit });
   },
 
   computed: {
@@ -39,14 +39,14 @@ export default {
       });
     },
     async infiniteHandler($state) {
-      const self = this;
+      // const self = this;
 
-      setTimeout(async () => {
-        if (self.posts.last) $state.complete();
-        await self.fetchPosts({ page: self.page, limit: self.limit });
-        self.page += 1;
-        $state.loaded();
-      }, 500);
+      // setTimeout(async () => {
+      //   if (self.posts.last) $state.complete();
+      //   await self.fetchPosts({ page: self.page, limit: self.limit });
+      //   self.page += 1;
+      //   $state.loaded();
+      // }, 500);
     },
   },
 };
