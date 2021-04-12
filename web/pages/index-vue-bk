@@ -53,8 +53,6 @@ export default {
     await this.fetchPosts({ page: 1, limit: this.limit });
   },
 
-  
-
   computed: {
     posts() {
       return this.$store.state.posts.homepage;
@@ -88,5 +86,3 @@ export default {
   },
 };
 </script>
-
-

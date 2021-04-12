@@ -9,8 +9,9 @@ const CoverPhoto = require("../profile/models/CoverPhoto");
 const ProfilePhotoModel = require("../profile/models/ProfilePhoto");
 const CoverPhotoModel = require("../profile/models/CoverPhoto");
 const jwt = require("jsonwebtoken");
-const { EMAIL_SECRET } = require("../../constants");
+const { EMAIL_SECRET, BASE_URL } = require("../../constants");
 const transporter = require("../../config/transporter");
+const emailConfirmationEmai = require("../../templates/emailConfirmationEmai");
 // @ts-check
 
 exports.signUp = async ({
@@ -104,11 +105,15 @@ exports.signUp = async ({
     (err, emailToken) => {
       if (err) return console.log(err);
 
-      const url = `http://localhost:3000/confirmation/${emailToken}`;
+      const url = `${BASE_URL}/confirmation/${emailToken}`;
       transporter.sendMail({
         to: user.email,
         subject: "Confirm Email",
-        html: `Please click this email to confirm your email: <a href="${url}" target="_blank">${url}</a>`,
+        html: emailConfirmationEmai({
+          firstname: user.username,
+          email: user.email,
+          link: url,
+        }),
       });
     }
   );

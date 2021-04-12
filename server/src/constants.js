@@ -19,4 +19,5 @@ exports.CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
 exports.CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
 exports.CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
 exports.CLOUDINARY_FOLDER = process.env.CLOUDINARY_FOLDER;
-exports.EMAIL_SECRET = "swupp-email";
+exports.EMAIL_SECRET = process.env.BASE_URL;
+exports.BASE_URL = process.env.BASE_URL;

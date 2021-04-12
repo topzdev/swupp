@@ -22,14 +22,14 @@
             size="lg"
           />
         </div>
-        <div class="col-5">
+        <!-- <div class="col-5">
           <button-primary
             to="/new"
             label="New Post"
             :is-full-width="true"
             size="lg"
           />
-        </div>
+        </div> -->
       </template>
       <template v-else>
         <div class="col-4">

@@ -1,47 +1,12 @@
 <template>
-  <auth-layout title="Homepage">
-    <search-jumbotron />
-
-    <div class="container mt-3">
-      <div class="row my-2">
-        <div class="col-12">
-          <h1 class="heading heading--primary">Recently Added</h1>
-        </div>
-      </div>
-      <div class="row">
-        <div v-for="item in posts.items" :key="item.id" class="col-20 mb-3">
-          <card-post :post="item" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <!--  <paginate
-            :page-count="pageCount"
-            :prev-text="'Prev'"
-            :next-text="'Next'"
-            :click-handler="clickCallback"
-            :container-class="'pagination'"
-          >
-          </paginate> -->
-          <client-only>
-            <infinite-loading spinner="spiral" @infinite="infiniteHandler">
-              <div slot="spinner">
-                <search-progress />
-              </div>
-              <div slot="no-more">All loaded</div>
-              <div slot="no-results">All loaded</div>
-            </infinite-loading>
-          </client-only>
-        </div>
-      </div>
-    </div>
-  </auth-layout>
+  <specs />
 </template>
 
 <script>
 import { types } from "@/store/types";
+import specs from "~/components/placeholder/specs.vue";
 export default {
+  components: { specs },
   data() {
     return {
       page: 2,
