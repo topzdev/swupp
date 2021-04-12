@@ -28,6 +28,20 @@ exports.signIn = async (req, res) => {
   }
 };
 
+exports.confirmEmail = async (req, res) => {
+  try {
+    const token = req.params.token;
+    console.log("Token", token);
+    const data = await authService.confirmEmail(token);
+
+    if (data.error) return res.json(data);
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
 exports.me = async (req, res) => {
   try {
     const userId = req.session.userId;

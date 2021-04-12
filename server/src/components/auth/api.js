@@ -15,4 +15,6 @@ router.post("/change-password", authController.changePassword);
 
 router.post("/transact-verify", auth, authController.transactVerifiy);
 
+router.post("/confirmation/:token", authController.confirmEmail);
+
 module.exports = router;

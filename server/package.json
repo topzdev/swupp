@@ -29,6 +29,7 @@
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.8",
     "ms": "^2.1.2",
+    "nodemailer": "^6.5.0",
     "password-validator": "^5.1.0",
     "pg": "^8.4.0",
     "pg-hstore": "^2.3.3",

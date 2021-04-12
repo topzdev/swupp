@@ -37,14 +37,14 @@
         </div>
       </div>
 
-      <button-icon
+      <!-- <button-icon
         v-if="loggedIn"
         to="/new"
         size="xl"
         variant="primary"
         fab
         :icon="icons.plus"
-      />
+      /> -->
     </div>
   </auth-layout>
 </template>

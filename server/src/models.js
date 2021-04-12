@@ -13,6 +13,7 @@ const drop = async () => {
   await Profile.drop();
   await PostPhoto.drop();
   await PostLocation.drop();
+  await PostLikes.drop();
   await Post.drop();
   await User.drop();
   await CoverPhoto.drop();
@@ -78,7 +79,7 @@ module.exports = async () => {
   try {
     await sync();
     // await PostLikes.drop();
-    // drop();
+    // await drop();
   } catch (error) {
     console.error(error);
   }

@@ -8,6 +8,9 @@ const ProfilePhoto = require("../profile/models/ProfilePhoto");
 const CoverPhoto = require("../profile/models/CoverPhoto");
 const ProfilePhotoModel = require("../profile/models/ProfilePhoto");
 const CoverPhotoModel = require("../profile/models/CoverPhoto");
+const jwt = require("jsonwebtoken");
+const { EMAIL_SECRET } = require("../../constants");
+const transporter = require("../../config/transporter");
 // @ts-check
 
 exports.signUp = async ({
@@ -20,7 +23,7 @@ exports.signUp = async ({
   username,
   birthdate,
 }) => {
-    //Checks if the username has already been used or it already existed
+  //Checks if the username has already been used or it already existed
   const isExist = await User.findOne({ where: { username } });
 
   if (isExist) {
@@ -87,16 +90,47 @@ exports.signUp = async ({
     }
   );
 
-  console.log("User Created", user.toJSON());
-
   /* tokenized user */
-  const token = authHelpers.signToken(user.id);
+  // const token = authHelpers.signToken(user.id);
+
+  const emailToken = jwt.sign(
+    {
+      id: user.id,
+    },
+    EMAIL_SECRET,
+    {
+      expiresIn: "1d",
+    },
+    (err, emailToken) => {
+      if (err) return console.log(err);
+
+      const url = `http://localhost:3000/confirmation/${emailToken}`;
+      transporter.sendMail({
+        to: user.email,
+        subject: "Confirm Email",
+        html: `Please click this email to confirm your email: <a href="${url}" target="_blank">${url}</a>`,
+      });
+    }
+  );
 
   return {
-    data: {
-      token,
-    },
+    registered: true,
   };
+};
+
+exports.confirmEmail = async (token) => {
+  console.log("Service token", token);
+
+  try {
+    const { id } = await jwt.verify(token, EMAIL_SECRET);
+    await User.update({ confirmed: true }, { where: { id } });
+    return {
+      verified: true,
+    };
+  } catch (error) {
+    console.log(error);
+    return returnError("token", "Token is not acceptable");
+  }
 };
 
 //This function allows to sign in to their accounts using their email and password
@@ -109,6 +143,10 @@ exports.signIn = async ({ usernameOrEmail, password, rememberMe }) => {
 
   //checks if the username or email is valid
   if (!user) return returnError("usernameOrEmail", "User not exist");
+
+  if (!user.confirmed)
+    return returnError("password", "User email is not yet confirmed");
+
   //checks the if the password is mathched to the users password
   if (!(await authHelpers.verifyPassword(password, user.password)))
     return returnError("password", "password not match");

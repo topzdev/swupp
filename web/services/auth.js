@@ -16,5 +16,10 @@ export default {
   async register(input) {
     const response = await apiClient.$post("api/v1/auth/sign-up", input);
     return response;
+  },
+
+  async confirmation(token) {
+    const response = await apiClient.$post(`api/v1/auth/confirmation/${token}`);
+    return response;
   }
 };

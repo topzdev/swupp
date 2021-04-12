@@ -19,6 +19,10 @@ const User = sequelize.define(
     },
     phoneNumber: DataTypes.STRING,
     isActive: { type: DataTypes.BOOLEAN, defaultValue: true },
+    confirmed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   { timestamps: true, freezeTableName: true }
 );
