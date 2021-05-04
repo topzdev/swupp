@@ -78,7 +78,6 @@ const sync = async () => {
 module.exports = async () => {
   try {
     await sync();
-    await User.bulkCreate({ confirmed: true }, { updateOnDuplicate: ["id"] });
     // await drop();
   } catch (error) {
     console.error(error);

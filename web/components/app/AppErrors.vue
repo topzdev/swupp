@@ -12,7 +12,7 @@
         Welcome {{ myFullname }}! This is your time to post your first barter in
         this app
       </p>
-      <!-- <button-primary to="/new" size="md" label="Create post" /> -->
+      <button-primary to="/new" size="md" label="Create post" />
     </div>
     <div v-if="error === 'user-no-post'" class="error errors--no-post">
       <img

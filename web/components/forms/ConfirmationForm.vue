@@ -47,7 +47,7 @@ export default {
   },
   data() {
     return {
-      confirmed: false,
+      confirmed: true,
       error: false,
       alert: {
         message: null,

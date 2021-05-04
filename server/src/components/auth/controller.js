@@ -1,8 +1,11 @@
-const authService = require("./service");
+const AuthServices = require("./service");
+
+const authService = new AuthServices();
 
 exports.signUp = async (req, res) => {
   try {
     const input = req.body;
+    console.log("Value", input);
     const data = await authService.signUp(input);
 
     if (data.error) return res.status(401).json(data);

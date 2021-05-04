@@ -100,6 +100,12 @@ export default {
 
         if (this.$auth.loggedIn) {
           // this.$router.push("/profile/" + this.$auth.user.username);
+
+          this.credential = {
+            usernameOrEmail: "",
+            password: "",
+          };
+
           this.$router.push("/");
         }
       } catch (error) {
