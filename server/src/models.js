@@ -7,6 +7,8 @@ const CoverPhoto = require("./components/profile/models/CoverPhoto");
 const PostLocation = require("./components/post/models/PostLocation");
 const PostLikes = require("./components/post/models/PostLikes");
 const PostSaves = require("./components/post/models/PostSaves");
+const Trades = require("./components/trades/models/Trades");
+const TradeMessages = require("./components/trades/models/TradeMessages");
 const { __prod__ } = require("./constants");
 
 const drop = async () => {
@@ -18,6 +20,8 @@ const drop = async () => {
   await User.drop();
   await CoverPhoto.drop();
   await ProfilePhoto.drop();
+  await Trades.drop();
+  await TradeMessages.drop();
 };
 
 const create = async (alter) => {
@@ -30,6 +34,9 @@ const create = async (alter) => {
   await ProfilePhoto.sync({ alter });
   await CoverPhoto.sync({ alter });
   await Profile.sync({ alter });
+
+  await Trades.sync({ alter });
+  await TradeMessages.sync({ alter });
 };
 
 const associations = async () => {
@@ -46,6 +53,20 @@ const associations = async () => {
   await PostLikes.belongsTo(Post);
   await User.hasOne(PostLikes);
   await Post.hasMany(PostLikes);
+
+  await Post.hasMany(Trades, { foreignKey: "postId", as: "post" });
+  await Post.hasMany(Trades, { foreignKey: "offerId", as: "offer" });
+  await User.hasMany(Trades, {
+    foreignKey: "offerCreatorId",
+    as: "offerCreator",
+  });
+  await User.hasMany(Trades, {
+    foreignKey: "postCreatorId",
+    as: "postCreator",
+  });
+
+  Trades.hasMany(TradeMessages, { foreignKey: "tradeId" });
+  User.hasMany(TradeMessages, { foreignKey: "userId" });
 
   // await ProfilePhoto.belongsTo(User);
 
