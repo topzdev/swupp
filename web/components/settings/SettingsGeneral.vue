@@ -1,12 +1,12 @@
 <template>
   <div class="settings row">
-    <div class="col-12 mb-2">
+    <div class="mb-2 col-12">
       <change-account-info />
     </div>
-    <div class="col-12 mb-2">
+    <div class="mb-2 col-12">
       <change-username />
     </div>
-    <div class="col-12 mb-2">
+    <div class="mb-2 col-12">
       <change-email />
     </div>
   </div>

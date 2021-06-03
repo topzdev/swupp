@@ -12,3 +12,8 @@
 
 **For WEB DEPLOYMENT RUN THIS ON ROOT FOLDER CONSOLE**
 `git subtree push --prefix web heroku-web master`
+
+###Updates
+1. Modals in components folder `MakeOfferListModal.vue`  `SendOfferModal.vue`
+2. Message page frontend `localhost:3000/messages`
+

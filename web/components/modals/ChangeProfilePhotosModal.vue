@@ -90,22 +90,22 @@ export default {
       loading: false,
       icons: {
         close: mdiClose,
-        camera: mdiCamera,
+        camera: mdiCamera
       },
       edit: {
         profilePhoto: {
           id: null,
           url: null,
           photo: null,
-          flag: null,
+          flag: null
         },
         coverPhoto: {
           id: null,
           url: null,
           photo: null,
-          flag: null,
-        },
-      },
+          flag: null
+        }
+      }
     };
   },
   computed: {
@@ -120,7 +120,7 @@ export default {
         : this.$cloudinary.image.url(this.current.profilePhoto.publicId, {
             width: 150,
             quality: "auto",
-            crop: "scale",
+            crop: "scale"
           });
     },
 
@@ -131,13 +131,13 @@ export default {
         : this.$cloudinary.image.url(this.current.coverPhoto.publicId, {
             height: 250,
             quality: "auto",
-            crop: "scale",
+            crop: "scale"
           });
     },
 
     show() {
       return this.$store.state.profile.modals.changePhotos;
-    },
+    }
   },
 
   methods: {
@@ -147,20 +147,20 @@ export default {
         id: this.current.coverPhoto.id,
         publicId: this.current.coverPhoto.publicId,
         photo: this.edit.coverPhoto.photo,
-        flag: this.edit.coverPhoto.flag,
+        flag: this.edit.coverPhoto.flag
       };
       const profilePhoto = {
         id: this.current.profilePhoto.id,
         publicId: this.current.profilePhoto.publicId,
         photo: this.edit.profilePhoto.photo,
-        flag: this.edit.profilePhoto.flag,
+        flag: this.edit.profilePhoto.flag
       };
 
       await this.$store.dispatch(
         "profile/" + types.actions.UPDATE_PROFILE_PHOTOS,
         {
           profilePhoto,
-          coverPhoto,
+          coverPhoto
         }
       );
 
@@ -173,7 +173,7 @@ export default {
         this.edit[where] = {
           url: await parseBlobToData(photo[0]),
           photo: photo[0],
-          flag: "update",
+          flag: "update"
         };
     },
     close() {
@@ -185,13 +185,12 @@ export default {
           id: null,
           url: null,
           photo: null,
-          flag: "deleted",
+          flag: "deleted"
         };
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

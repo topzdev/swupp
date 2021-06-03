@@ -11,7 +11,12 @@
 
     <div class="post-content-offers">
       <p class="post-content-price">{{ price }}</p>
-      <button-primary size="sm" label="Make a offer" :icon-left="icons.offer" />
+      <button-primary
+        size="sm"
+        label="Make a offer"
+        :icon-left="icons.offer"
+        @click.native="open('change-photo')"
+      />
     </div>
   </div>
 </template>
@@ -19,15 +24,16 @@
 <script>
 import { CONDITIONS } from "@/constants";
 import { mdiFacebookMessenger } from "@mdi/js";
+import { types } from "@/store/types";
 export default {
   props: {
-    post: Object,
+    post: Object
   },
   data() {
     return {
       icons: {
-        offer: mdiFacebookMessenger,
-      },
+        offer: mdiFacebookMessenger
+      }
     };
   },
   computed: {
@@ -40,12 +46,21 @@ export default {
       return `₱ ${this.post.price}`;
     },
     condition() {
-      return CONDITIONS.filter((item) => item.id === this.post.conditionId)[0]
+      return CONDITIONS.filter(item => item.id === this.post.conditionId)[0]
         .value;
-    },
+    }
   },
+  methods: {
+    open(type) {
+      if (type === "change-photo") {
+        this.$store.commit(
+          "profile/" + types.mutations.SET_PROFILE_MODAL,
+          true
+        );
+      }
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -1,13 +1,13 @@
 <template>
   <auth-layout :title="title">
-    <div class="container mt-2">
+    <div class="mt-2 message_container ">
       <div class="row">
-        <div class="col-3">
-          <settings-sidebar />
+        <div class="col-4">
+          <message-sidebar />
         </div>
 
-        <div class="col-9">
-          <settings-content />
+        <div class="col-8">
+          <message-content />
         </div>
       </div>
     </div>

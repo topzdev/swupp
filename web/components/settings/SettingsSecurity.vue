@@ -1,9 +1,9 @@
 <template>
   <div class="settings row">
-    <div class="col-12 mb-2">
+    <div class="mb-2 col-12">
       <change-password />
     </div>
-    <div class="col-12 mb-2">
+    <div class="mb-2 col-12">
       <deactivate-account />
     </div>
   </div>

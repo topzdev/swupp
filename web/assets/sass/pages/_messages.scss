@@ -1,0 +1,72 @@
+.message-container {
+    margin: 50px;
+}
+
+.message {
+    margin-left: 50px;
+    .message-sidebar {
+        &__details {
+            margin-top: 15px;
+            display: flex;
+            flex: row;
+            .message-photo {
+                width: 50px;
+            }
+            .message-content {
+                margin-left: 15px;
+            }
+        }
+    }
+}
+
+.message-header {
+    &__photo {
+        width: 50px;
+    }
+    &__content {
+        margin-left: 20px;
+        p {
+            span {
+                margin-left: 5px;
+                font-weight: bold;
+            }
+        }
+    }
+    &__trade {
+        margin: 20px;
+        position: absolute;
+        img {
+            width: 30px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        .arrow {
+            margin-top: 5px;
+            margin-left: 15px;
+            width: 12px;
+            height: 12px;
+        }
+        .message-swap {
+            width: auto;
+            background-color: #f8d88e;
+            padding: 7px;
+            margin-left: 15px;
+            border-radius: 5px;
+            img {
+                width: 30px;
+            }
+        }
+    }
+}
+
+.bottom-chat {
+    display: flex;
+    height: 70vh;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 90%;
+    span {
+        margin-bottom: 35px;
+        color: #f9b006;
+    }
+}

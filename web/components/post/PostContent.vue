@@ -53,10 +53,9 @@ export default {
   computed: {
     post() {
       return this.$store.state.preview.post;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>
