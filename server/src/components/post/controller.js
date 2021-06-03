@@ -44,8 +44,16 @@ exports.getPreviewPostById = async (req, res) => {
   }
 };
 
-exports.getCurrentUserPost = async (req) => {
-  return true;
+exports.getCurrentUserPosts = async (req, res) => {
+  try {
+    const body = req.body;
+    const userId = req.session.userId;
+    console.log("Fetching user...");
+    const result = await postService.getCurrentUserPosts({ ...body, userId });
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 };
 
 exports.getPosts = async (req, res) => {

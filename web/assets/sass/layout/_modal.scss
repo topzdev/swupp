@@ -1,52 +1,85 @@
 .make-offer {
-    z-index: 9999;
-    &__header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+  z-index: 9999;
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  &__content {
+    margin-bottom: 30px;
+    padding: 10px 0;
+    font-family: var(--font-regular);
+  }
+  &__message {
+    padding: 10px;
+    h5 {
+      font-size: 18px;
+      margin-bottom: 15px;
     }
-    &__content {
-        margin-bottom: 30px;
+  }
+}
+
+.offer-selected {
+  background-color: rgba(var(--color-main-rgb), 0.1) !important;
+  border-bottom-color: transparent !important;
+}
+
+.message-offer {
+  display: flex;
+  flex-direction: row;
+  padding: 15px;
+  align-items: center;
+  //   background-color: rgba($color: #d3d3d3, $alpha: 0.8);
+  border-bottom: rgb(201, 201, 201) solid 0.2px;
+  cursor: pointer;
+  @include transition;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: rgba(var(--color-main-rgb), 0.1) !important;
+  }
+
+  &__photo {
+    height: 60px;
+    width: 60px;
+    min-width: 60px;
+    overflow: hidden;
+    margin-right: 8px;
+    border-radius: 100%;
+
+    position: relative;
+    border: 1px solid rgba(var(--color-main-rgb), 0.4);
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 100%;
     }
-    &__message {
-        padding: 10px;
-        h5 {
-            font-size: 15px;
-            margin-bottom: 15px;
-        }
+  }
+  &__content {
+    margin-left: 15px;
+    margin-top: 10px;
+    h5 {
+      font-family: var(--font-regular);
+      font-size: 18px;
     }
-    .message-offer {
-        display: flex;
-        flex-direction: row;
-        padding: 20px;
-        background-color: rgba($color: #d3d3d3, $alpha: 0.8);
-        border-bottom: rgb(201, 201, 201) solid 0.2px;
-        &__photo {
-            width: 50px;
-            margin-right: 15px;
-        }
-        &__content {
-            margin-left: 15px;
-            margin-top: 10px;
-            h5 {
-                font-size: 18px;
-            }
-            span {
-                font-size: 13px;
-            }
-        }
-        &__next {
-            float: right;
-        }
-        &__buttons {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            padding: 15px;
-            button {
-                font-weight: 700;
-                margin-left: 30px;
-            }
-        }
+    span {
+      font-family: var(--font-regular);
+      font-size: 13px;
     }
+  }
+  &__next {
+    float: right;
+  }
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+    button {
+      font-weight: 700;
+      margin-left: 30px;
+    }
+  }
 }

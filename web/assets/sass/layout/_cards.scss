@@ -4,6 +4,10 @@
   overflow: hidden;
   background-color: var(--color-background);
 
+  &__action {
+    display: flex;
+  }
+
   .progress {
     position: absolute;
     top: 0;

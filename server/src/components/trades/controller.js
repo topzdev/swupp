@@ -39,7 +39,7 @@ exports.addMessage = async (req, res) => {
     const params = {
       userId: req.session.userId || 1,
       text: body.text,
-      tradeId: body.tradeId || 1,
+      tradeId: body.tradeId,
     };
     const data = await tradeServices.addMessages(params);
     res.status(200).json(data);

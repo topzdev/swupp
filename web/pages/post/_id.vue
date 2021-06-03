@@ -4,7 +4,6 @@
     <div v-else class="post-preview">
       <post-photos v-if="post"></post-photos>
       <post-content v-if="post"></post-content>
-      <make-offer-list-modal />
     </div>
   </auth-layout>
 </template>
@@ -14,7 +13,7 @@ import { types } from "@/store/types";
 export default {
   data() {
     return {
-      loading: false
+      loading: false,
     };
   },
   async fetch() {
@@ -32,7 +31,7 @@ export default {
   },
 
   watch: {
-    $route: "$fetch"
+    $route: "$fetch",
   },
   computed: {
     post() {
@@ -40,8 +39,8 @@ export default {
     },
     title() {
       return this.post ? this.post.title : "Preview";
-    }
-  }
+    },
+  },
 };
 </script>
 

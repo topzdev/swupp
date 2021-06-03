@@ -13,6 +13,16 @@ export default {
     return response.data;
   },
 
+  async getCurrentUserPosts({ order = "DESC", limit, page, search }) {
+    const response = await apiClient.$post("api/v1/post/get-user-post", {
+      order,
+      limit,
+      page,
+      search
+    });
+    return response.data;
+  },
+
   async getPostCount() {
     const response = await apiClient.$get("api/v1/post/count");
     return response;

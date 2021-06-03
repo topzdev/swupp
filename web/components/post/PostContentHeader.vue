@@ -12,12 +12,17 @@
     <div class="post-content-offers">
       <p class="post-content-price">{{ price }}</p>
       <button-primary
+        v-if="post.user.id !== user.id"
         size="sm"
         label="Make a offer"
         :icon-left="icons.offer"
-        @click.native="open('change-photo')"
+        @click.native="toggleOfferModal(true)"
       />
     </div>
+    <make-offer-list-modal
+      v-if="showOfferModal"
+      :toggle-modal="toggleOfferModal"
+    />
   </div>
 </template>
 
@@ -25,15 +30,18 @@
 import { CONDITIONS } from "@/constants";
 import { mdiFacebookMessenger } from "@mdi/js";
 import { types } from "@/store/types";
+import authMixin from "@/mixins/auth";
 export default {
+  mixins: [authMixin],
   props: {
-    post: Object
+    post: Object,
   },
   data() {
     return {
       icons: {
-        offer: mdiFacebookMessenger
-      }
+        offer: mdiFacebookMessenger,
+      },
+      showOfferModal: true,
     };
   },
   computed: {
@@ -46,20 +54,15 @@ export default {
       return `₱ ${this.post.price}`;
     },
     condition() {
-      return CONDITIONS.filter(item => item.id === this.post.conditionId)[0]
+      return CONDITIONS.filter((item) => item.id === this.post.conditionId)[0]
         .value;
-    }
+    },
   },
   methods: {
-    open(type) {
-      if (type === "change-photo") {
-        this.$store.commit(
-          "profile/" + types.mutations.SET_PROFILE_MODAL,
-          true
-        );
-      }
-    }
-  }
+    toggleOfferModal(show) {
+      this.showOfferModal = show;
+    },
+  },
 };
 </script>
 

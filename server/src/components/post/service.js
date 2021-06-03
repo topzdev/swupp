@@ -98,8 +98,44 @@ exports.createPost = async ({
 };
 
 // This function gets the current or the new post item of the user
-exports.getCurrentUserPosts = async ({ userId }) => {
-  const posts = await PostModel.findAll({ where: { userId } });
+exports.getCurrentUserPosts = async ({
+  userId,
+  order = "DESC",
+  limit = 5,
+  page = 1,
+  search,
+}) => {
+  let where = {
+    userId,
+    isDraft: false,
+  };
+  if (search) {
+    console.log(search);
+    where.title = {
+      [Op.iLike]: `%${search}%`,
+    };
+  }
+
+  console.log(where);
+
+  const posts = await PostModel.findAll({
+    where,
+    attributes: ["title", "body", "id"],
+    include: [
+      {
+        model: PostPhotoModel,
+        as: "photos",
+        limit: 1,
+        where: {
+          isCover: true,
+        },
+      },
+    ],
+    order: [["createdAt", order]],
+    limit,
+    offset: (page - 1) * limit,
+  });
+
   return { data: { posts }, message: "Fetch all current post" };
 };
 

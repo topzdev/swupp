@@ -10,6 +10,8 @@ router.get("/get/:id", auth, async (req, res) => {
   res.json(await postController.getUserPostById(req, res));
 });
 
+router.post("/get-user-post", auth, postController.getCurrentUserPosts);
+
 router.get("/get/preview/:id", guest, async (req, res) => {
   res.json(await postController.getPreviewPostById(req, res));
 });
