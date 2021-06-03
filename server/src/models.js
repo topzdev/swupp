@@ -20,8 +20,8 @@ const drop = async () => {
   await User.drop();
   await CoverPhoto.drop();
   await ProfilePhoto.drop();
-  await Trades.drop();
   await TradeMessages.drop();
+  await Trades.drop();
 };
 
 const create = async (alter) => {
@@ -54,19 +54,44 @@ const associations = async () => {
   await User.hasOne(PostLikes);
   await Post.hasMany(PostLikes);
 
-  await Post.hasMany(Trades, { foreignKey: "postId", as: "post" });
-  await Post.hasMany(Trades, { foreignKey: "offerId", as: "offer" });
+  await Post.hasMany(Trades, {
+    foreignKey: { name: "postId" },
+    as: "mainPost",
+  });
+  await Trades.belongsTo(Post, {
+    foreignKey: { name: "postId" },
+    as: "mainPost",
+  });
+
+  await Post.hasMany(Trades, {
+    foreignKey: { name: "offerId" },
+    as: "offerPost",
+  });
+  await Trades.belongsTo(Post, {
+    foreignKey: { name: "offerId" },
+    as: "offerPost",
+  });
+
   await User.hasMany(Trades, {
+    foreignKey: "offerCreatorId",
+  });
+  await Trades.belongsTo(User, {
     foreignKey: "offerCreatorId",
     as: "offerCreator",
   });
+
   await User.hasMany(Trades, {
+    foreignKey: "postCreatorId",
+  });
+  await Trades.belongsTo(User, {
     foreignKey: "postCreatorId",
     as: "postCreator",
   });
 
-  Trades.hasMany(TradeMessages, { foreignKey: "tradeId" });
-  User.hasMany(TradeMessages, { foreignKey: "userId" });
+  await Trades.hasMany(TradeMessages, { foreignKey: "tradeId" });
+  await TradeMessages.belongsTo(Trades, { foreignKey: "tradeId" });
+  await User.hasMany(TradeMessages, { foreignKey: "userId" });
+  await TradeMessages.belongsTo(User, { foreignKey: "userId" });
 
   // await ProfilePhoto.belongsTo(User);
 
@@ -100,6 +125,8 @@ module.exports = async () => {
   try {
     await sync();
     // await drop();
+    // await TradeMessages.drop();
+    // await Trades.drop();
   } catch (error) {
     console.error(error);
   }

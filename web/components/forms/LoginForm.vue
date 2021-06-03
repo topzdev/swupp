@@ -58,9 +58,9 @@
     </p>
 
     <div class="card--form__forgot">
-      <nuxt-link class="btn--links" to="/forgot-password"
+      <!-- <nuxt-link class="btn--links" to="/forgot-password"
         >Forgot Password</nuxt-link
-      >
+      > -->
     </div>
   </div>
 </template>

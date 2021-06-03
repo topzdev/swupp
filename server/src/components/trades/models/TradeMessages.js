@@ -6,6 +6,7 @@ const Trades = sequelize.define(
   {
     text: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     isDeleted: {
       type: DataTypes.BOOLEAN,
