@@ -32,18 +32,17 @@ export default {
   },
 
   watch: {
-    "$route.params": "$fetch",
+    "$route.params": "$fetch"
   },
 
   data() {
     return {
       icons: {
-        camera: mdiCamera,
-      },
+        camera: mdiCamera
+      }
     };
-  },
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>
