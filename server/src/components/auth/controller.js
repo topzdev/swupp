@@ -61,6 +61,8 @@ exports.me = async (req, res) => {
 
 exports.logout = async (req, res) => {
   try {
+    await authService.logout(req);
+    res.status(200).json(data);
   } catch (error) {
     res.status(400).json(error);
   }

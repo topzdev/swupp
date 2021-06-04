@@ -211,7 +211,9 @@ class AuthServices {
     return true;
   }
   //Logouts the account of the user
-  async logout(req) {}
+  async logout(req) {
+    req.session.userId = null;
+  }
 }
 
 module.exports = AuthServices;

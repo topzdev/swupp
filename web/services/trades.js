@@ -29,6 +29,14 @@ export default {
     return response.data;
   },
 
+  async getTradeById({ tradeId }) {
+    const response = await apiClient.$get(
+      "api/v1/trades/getTradeById/" + tradeId
+    );
+
+    return response.data;
+  },
+
   async addTradeMessage({ text, tradeId }) {
     const response = await apiClient.$post("api/v1/trades/add-message", {
       text,
