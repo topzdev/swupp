@@ -1,18 +1,21 @@
 <template>
   <div class="trade-content">
-    <trade-header :header="chatHeader" />
+    <trade-header v-if="chatHeader" :header="chatHeader" />
     <trade-chat />
-    <trade-chat-bottom />
+    <trade-chat-bottom v-if="chatHeader" />
   </div>
 </template>
 
 <script>
+import { types } from "@/store/types";
 export default {
   computed: {
     chatHeader() {
       return this.$store.state.trade.current.header;
     },
   },
+
+  methods: {},
 };
 </script>
 

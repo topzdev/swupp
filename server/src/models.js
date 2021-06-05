@@ -55,49 +55,53 @@ const associations = async () => {
   await Post.hasMany(PostLikes);
 
   await Post.hasMany(Trades, {
-    foreignKey: { name: "postId" },
+    foreignKey: { name: "postId", allowNull: false },
     as: "mainPost",
   });
   await Trades.belongsTo(Post, {
-    foreignKey: { name: "postId" },
+    foreignKey: { name: "postId", allowNull: false },
     as: "mainPost",
   });
 
   await Post.hasMany(Trades, {
-    foreignKey: { name: "offerId" },
+    foreignKey: { name: "offerId", allowNull: false },
     as: "offerPost",
   });
   await Trades.belongsTo(Post, {
-    foreignKey: { name: "offerId" },
+    foreignKey: { name: "offerId", allowNull: false },
     as: "offerPost",
   });
 
   await User.hasMany(Trades, {
-    foreignKey: "offerCreatorId",
+    foreignKey: { name: "offerCreatorId", allowNull: false },
   });
   await Trades.belongsTo(User, {
-    foreignKey: "offerCreatorId",
+    foreignKey: { name: "offerCreatorId" },
     as: "offerCreator",
   });
 
   await User.hasMany(Trades, {
-    foreignKey: "postCreatorId",
+    foreignKey: { name: "postCreatorId", allowNull: false },
   });
   await Trades.belongsTo(User, {
     foreignKey: "postCreatorId",
     as: "postCreator",
   });
 
-  await Trades.hasMany(TradeMessages, { foreignKey: "tradeId" });
+  await Trades.hasMany(TradeMessages, {
+    foreignKey: { name: "tradeId", allowNull: false },
+    as: "tradeMessages",
+  });
   await TradeMessages.belongsTo(Trades, { foreignKey: "tradeId" });
-  await User.hasMany(TradeMessages, { foreignKey: "userId" });
+  await User.hasMany(TradeMessages, {
+    foreignKey: { name: "userId", allowNull: false },
+  });
   await TradeMessages.belongsTo(User, { foreignKey: "userId" });
 
   // await ProfilePhoto.belongsTo(User);
 
   await ProfilePhoto.hasOne(Profile, {
     foreignKey: "profilePhotoId",
-    as: "profilePhoto",
   });
 
   await Profile.belongsTo(ProfilePhoto, {

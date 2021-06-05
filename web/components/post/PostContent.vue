@@ -4,7 +4,7 @@
 
     <div class="post-content__body">
       <post-content-header :post="post" />
-      <post-content-count :count="post.count" />
+      <post-content-count v-if="!post.isTraded" :count="post.count" />
 
       <post-content-description :description="post.body" />
 

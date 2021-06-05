@@ -20,7 +20,11 @@
             :photo="profilePhoto"
             :name="profile.firstname"
           />
-          <button-icon class="mx-1" :icon="icons.notif" />
+          <button-icon
+            class="mx-1"
+            :icon="icons.message"
+            @click.native="gotoTradeChat"
+          />
 
           <button-icon
             :active="menu.navbar"
@@ -50,7 +54,7 @@
 </template>
 
 <script>
-import { mdiBell, mdiMenuDown } from "@mdi/js";
+import { mdiBell, mdiMenuDown, mdiFacebookMessenger } from "@mdi/js";
 import authMixin from "@/mixins/auth";
 export default {
   props: {
@@ -68,6 +72,7 @@ export default {
       icons: {
         notif: mdiBell,
         menu: mdiMenuDown,
+        message: mdiFacebookMessenger,
       },
     };
   },
@@ -83,6 +88,10 @@ export default {
 
     showBackdrop(value) {
       this.backdrop = value;
+    },
+
+    gotoTradeChat() {
+      this.$router.push("/trade");
     },
   },
   mixins: [authMixin],

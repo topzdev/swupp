@@ -14,6 +14,7 @@ const profileHelpers = require("../profile/helpers");
 const Op = require("sequelize").Op;
 const ProfilePhotoModel = require("../profile/models/ProfilePhoto");
 const Sequelize = require("sequelize");
+const TradeModel = require("../trades/models/Trades");
 
 exports.createPost = async ({
   title,
@@ -152,6 +153,12 @@ exports.getPreviewPostById = async ({ id, userId }) => {
           ),
           "likes",
         ],
+        [
+          Sequelize.literal(
+            `(SELECT COUNT(*) FROM "trades" AS oTrades WHERE oTrades."offerId" = "post".id)`
+          ),
+          "offers",
+        ],
       ],
     },
     include: [
@@ -196,7 +203,13 @@ exports.getPreviewPostById = async ({ id, userId }) => {
   if (plainPost) {
     //counts the number of items post by user
     count.views = plainPost.views;
+    count.offers = plainPost.offers;
     delete plainPost.views;
+
+    if (plainPost.offers) {
+      count.offers = parseInt(plainPost.offers);
+      delete plainPost.offers;
+    }
 
     if (plainPost.likes) {
       count.likes = parseInt(plainPost.likes);
@@ -276,7 +289,9 @@ exports.getPosts = async ({
   search,
 }) => {
   //allowing the data to be placed to its right destination
-  let where = {};
+  let where = {
+    isTraded: false,
+  };
   if (category) where.categoryId = category;
   if (condition) where.conditionId = condition;
   if (search) {
@@ -296,6 +311,12 @@ exports.getPosts = async ({
           ),
           "likes",
         ],
+        [
+          Sequelize.literal(
+            `(SELECT COUNT(*) FROM "trades" AS oTrades WHERE oTrades."offerId" = "post".id)`
+          ),
+          "offers",
+        ],
       ],
     },
     order: [["createdAt", order]],
@@ -307,6 +328,7 @@ exports.getPosts = async ({
   // reading and fetching data from the database
   const posts = await PostModel.findAll({
     ...options,
+
     include: [
       {
         model: PostLikesModel,
@@ -509,11 +531,11 @@ exports.removePost = async ({ id }) => {
     // removing post info
     await PostModel.destroy({ where: { id }, transaction: t });
 
-    // removing post photo info...
-    await PostPhotoModel.destroy({
-      where: { [Op.and]: { postId: id } },
-      transaction: t,
-    });
+    // // removing post photo info...
+    // await PostPhotoModel.destroy({
+    //   where: { [Op.and]: { postId: id } },
+    //   transaction: t,
+    // });
 
     await t.commit();
 

@@ -189,8 +189,9 @@ export default {
         });
       }
 
-      const length = this.post.photos.filter((item) => item.flag !== "deleted")
-        .length;
+      const length = this.post.photos.filter(
+        (item) => item.flag !== "deleted"
+      ).length;
       if (length < 2) {
         this.$router.push(this.$route.path + "#photos");
         return this.$refs.form.setErrors({

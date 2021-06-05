@@ -10,11 +10,18 @@ const ProfileModel = require("../profile/models/Profile");
 const ProfilePhotoModel = require("../profile/models/ProfilePhoto");
 const PostPhotoModel = require("../post/models/PostPhoto");
 
-exports.findTrade = async ({ postId, offerId }) => {
-  return TradesModel.findOne({
+exports.isExist = async ({ postId, offerId }) => {
+  return await TradesModel.findOne({
     where: { postId, offerId },
-    attributes: ["isTraded"],
+    attributes: ["id"],
   });
+};
+
+exports.isTraded = async ({ tradeId }) => {
+  const trade = await TradesModel.findOne({
+    where: { id: tradeId, isTraded: true },
+  });
+  return trade === null ? false : true;
 };
 
 exports.createTrade = async ({
@@ -26,64 +33,73 @@ exports.createTrade = async ({
 }) => {
   // check if
   const t = await sequelize.transaction();
+  try {
+    const isExist = await this.isExist({ postId, offerId });
 
-  const isExist = await this.findTrade({ postId, offerId });
-
-  if (isExist) {
-    return {
-      success: false,
-      message: "Trade room already exist",
-    };
-  }
-
-  const post = await PostModel.findByPk(postId, {
-    include: [
-      {
-        model: UserModel,
-        as: "user",
-        attributes: ["id"],
-      },
-    ],
-    transaction: t,
-  });
-
-  console.log("POST", post);
-  if (!post) {
-    return {
-      success: false,
-      message: "Post does not available or deleted",
-    };
-  }
-
-  const trade = await TradesModel.create(
-    {
-      offerCreatorId,
-      postCreatorId: 2,
-      postId,
-      offerId,
-      message,
-    },
-    { transaction: t }
-  );
-  console.log("TRADE", trade);
-  const initMessage = await TradeMessagesModel.create(
-    { text: message, tradeId: trade.id, userId: offerCreatorId },
-    {
-      transaction: t,
+    if (isExist) {
+      return {
+        success: false,
+        data: {
+          isExist: true,
+        },
+        message: "Trade room already exist",
+      };
     }
-  );
 
-  console.log("MESSAGE:", initMessage);
-  await t.commit();
+    const post = await PostModel.findByPk(postId, {
+      include: [
+        {
+          model: UserModel,
+          as: "user",
+          attributes: ["id"],
+        },
+      ],
+      transaction: t,
+    });
 
-  return {
-    success: true,
-    data: {
-      tradeId: trade.id,
-      messageId: initMessage.id,
-    },
-    message: "Trade room created",
-  };
+    console.log("POST", post);
+
+    if (!post) {
+      return {
+        success: false,
+        message: "Post does not available or deleted",
+      };
+    }
+    console.log("Creating room...");
+
+    const trade = await TradesModel.create(
+      {
+        offerCreatorId,
+        postCreatorId: 2,
+        postId,
+        offerId,
+        message,
+      },
+      { transaction: t }
+    );
+    console.log("TRADE", trade);
+    const initMessage = await TradeMessagesModel.create(
+      { text: message, tradeId: trade.id, userId: offerCreatorId },
+      {
+        transaction: t,
+      }
+    );
+
+    console.log("MESSAGE:", initMessage);
+
+    await t.commit();
+
+    return {
+      success: true,
+      data: {
+        tradeId: trade.id,
+        messageId: initMessage.id,
+      },
+      message: "Trade room created",
+    };
+  } catch (error) {
+    await t.rollback();
+  }
 };
 
 exports.getCurrentUserTrades = async ({
@@ -162,7 +178,7 @@ exports.getCurrentUserTrades = async ({
         model: TradeMessagesModel,
         foreignKey: "tradeId",
         limit: 1,
-        // as: "lastMessage",
+        as: "tradeMessages",
         order: [["createdAt", "DESC"]],
         include: [
           {
@@ -194,14 +210,47 @@ exports.getCurrentUserTrades = async ({
 };
 
 exports.addMessages = async ({ userId, tradeId, text }) => {
-  const message = await TradeMessagesModel.create({ userId, tradeId, text });
+  console.log("Services test", userId, tradeId);
+  const t = await sequelize.transaction();
 
-  return {
-    success: true,
-    data: {
-      messageId: message.id,
-    },
-  };
+  try {
+    const message = await TradeMessagesModel.create(
+      { userId, tradeId, text },
+      { transaction: t }
+    );
+
+    const messageBody = await TradeMessagesModel.findByPk(message.id, {
+      include: [
+        {
+          model: UserModel,
+          attributes: ["username", "id"],
+          include: [
+            {
+              model: ProfileModel,
+              attributes: ["firstname", "lastname"],
+              include: [
+                {
+                  model: ProfilePhotoModel,
+                  as: "profilePhoto",
+                  attributes: ["publicId", "url", "securedUrl", "id"],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      transaction: t,
+    });
+    await t.commit();
+    return {
+      success: true,
+      data: {
+        message: messageBody,
+      },
+    };
+  } catch (error) {
+    await t.rollback();
+  }
 };
 
 exports.getTradeMessages = async ({
@@ -210,7 +259,7 @@ exports.getTradeMessages = async ({
   limit = 10,
   page = 1,
 }) => {
-  const messages = await TradeMessagesModel.findAll({
+  const messages = await TradeMessagesModel.findAndCountAll({
     where: { tradeId },
     order: [["createdAt", order]],
     limit,
@@ -239,7 +288,13 @@ exports.getTradeMessages = async ({
   return {
     success: true,
     data: {
-      messages,
+      messages: {
+        ...messages,
+        last: messages.count <= page * limit,
+        limit,
+        page,
+        order,
+      },
     },
   };
 };
@@ -279,7 +334,12 @@ exports.getTradeById = async ({ tradeId }) => {
     ],
   };
 
-  const trade = await TradesModel.findByPk(tradeId, {
+  console.log("TradeId", tradeId);
+
+  const trade = await TradesModel.findOne({
+    where: {
+      id: tradeId,
+    },
     include: [
       {
         ...userOption,
@@ -301,7 +361,7 @@ exports.getTradeById = async ({ tradeId }) => {
 
   const messages = await this.getTradeMessages({ tradeId });
 
-  console.log(trade);
+  console.log("Current Trade", trade);
   return {
     success: true,
     data: {
@@ -310,4 +370,40 @@ exports.getTradeById = async ({ tradeId }) => {
     },
     message: "Trade Fetched",
   };
+};
+
+exports.acceptTrade = async ({ tradeId }) => {
+  console.log("Accept Trade", tradeId);
+  const t = await sequelize.transaction();
+  try {
+    const updatedTrade = await TradesModel.update(
+      { isTraded: true },
+      { where: { id: tradeId }, transaction: t }
+    );
+
+    const trade = await TradesModel.findByPk(tradeId);
+
+    console.log(trade, updatedTrade);
+    const offerPost = await PostModel.update(
+      { isTraded: true },
+      { where: { id: trade.offerId }, transaction: t }
+    );
+
+    const mainPost = await PostModel.update(
+      { isTraded: true },
+      { where: { id: trade.postId }, transaction: t }
+    );
+
+    await t.commit();
+    return {
+      success: true,
+      data: {
+        accepted: true,
+      },
+      message: "Trade Accepted",
+    };
+  } catch (error) {
+    await t.rollback();
+    throw error;
+  }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="card--offers__photo">
+  <div class="card--chat__photo">
     <div class="offer">
       <img :src="offerPhoto.securedUrl" alt="Offer Item Photo" />
     </div>

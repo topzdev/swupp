@@ -1,11 +1,13 @@
 <template>
   <div class="trade-header">
     <div class="trade-header__photo">
-      <trade-message-photo :offerPhoto="offerPhoto" :postPhoto="postPhoto" />
+      <trade-chat-photo :offerPhoto="offerPhoto" :postPhoto="postPhoto" />
     </div>
     <div class="trade-header__content">
       <div class="trade-header__title">
-        <p><span>Jm Figueroa</span> want to swap</p>
+        <p>
+          <span>{{ mainChatTitle }}</span> want to swap
+        </p>
       </div>
       <div class="trade-header__trade">
         <trade-tag-item :post="offerPost" type="offer" />
@@ -19,7 +21,7 @@
         <trade-tag-item :post="mainPost" type="post" />
       </div>
     </div>
-    <div class="trade-header__action ml-auto">
+    <div v-if="!isTraded" class="trade-header__action ml-auto">
       <button-primary
         size="sm"
         label="Accept the offer"
@@ -30,8 +32,11 @@
 </template>
 
 <script>
+import authMixin from "@/mixins/auth";
+import { types } from "@/store/types";
 import { mdiSwapHorizontal, mdiHandshakeOutline } from "@mdi/js";
 export default {
+  mixins: [authMixin],
   props: {
     header: Object,
   },
@@ -44,19 +49,19 @@ export default {
     };
   },
   computed: {
-    offerCreatorName() {
-      return this.header.offerCreator.profile.firstname;
+    isTraded() {
+      return this.$store.getters[types.getters.IS_TRADED];
+    },
+    offerCreatorFullName() {
+      const { firstname, lastname } = this.header.offerCreator.profile;
+      return `${firstname} ${lastname}`;
     },
     mainChatTitle() {
-      return this.header.mainPost.title;
+      return this.user.id === this.header.offerCreator.id
+        ? "You"
+        : this.offerCreatorFullName;
     },
-    lastMessage() {
-      const { user, text } = this.header.tradeMessages[0];
-      return {
-        sender: user.id === this.user.id ? "You" : user.profile.firstname,
-        message: text,
-      };
-    },
+
     offerPhoto() {
       return this.header.offerPost.photos[0];
     },

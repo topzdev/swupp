@@ -33,16 +33,21 @@
         />
       </div>
       <div class="card--post__body">
-        <ul class="card--post__others">
-          <li class="card--post__others-item">
-            <app-icon :path="icons.views" type="mdi" />
-            <span>{{ post.counts.views }}</span>
-          </li>
-          <li class="card--post__others-item">
-            <app-icon :path="icons.likes" type="mdi" />
-            <span>{{ post.counts.likes }}</span>
-          </li>
-        </ul>
+        <template v-if="!post.isTraded">
+          <ul class="card--post__others">
+            <li class="card--post__others-item">
+              <app-icon :path="icons.views" type="mdi" />
+              <span>{{ post.counts.views }}</span>
+            </li>
+            <li class="card--post__others-item">
+              <app-icon :path="icons.likes" type="mdi" />
+              <span>{{ post.counts.likes }}</span>
+            </li>
+          </ul>
+        </template>
+        <template v-else>
+          <div class="card--post__traded">This post is already traded</div>
+        </template>
         <h3 class="card--post__title" :title="post.title">
           {{ truncatedTitle }}
         </h3>

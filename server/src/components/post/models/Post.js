@@ -36,6 +36,10 @@ const Post = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    isTraded: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   { timestamps: true, freezeTableName: true, paranoid: true }
 );

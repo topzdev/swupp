@@ -1,13 +1,13 @@
 <template>
-  <div class="card--offers">
-    <trade-message-photo :offerPhoto="offerPhoto" :postPhoto="postPhoto" />
-    <div class="card--offers__content">
-      <p class="card--offers__title">
+  <div class="card--chat" :class="activeClass" @click="changeCurrentChat">
+    <trade-chat-photo :offerPhoto="offerPhoto" :postPhoto="postPhoto" />
+    <div class="card--chat__content">
+      <p class="card--chat__title">
         <span class="name">{{ offerCreatorName }}</span>
         <span>-</span>
         <span class="title">{{ mainChatTitle }}</span>
       </p>
-      <p class="card--offers__last-offers">
+      <p class="card--chat__last-chat">
         <span class="sender">{{ lastMessage.sender }}: </span>
         <span class="message">{{ lastMessage.message }} </span>
       </p>
@@ -17,6 +17,7 @@
 
 <script>
 import authMixin from "@/mixins/auth";
+import { types } from "@/store/types";
 export default {
   mixins: [authMixin],
   props: {
@@ -24,6 +25,12 @@ export default {
   },
 
   computed: {
+    current() {
+      return this.$store.state.trade.current;
+    },
+    activeClass() {
+      return this.chat.id === this.current.header.id ? "active-chat" : "";
+    },
     offerCreatorName() {
       return this.chat.offerCreator.profile.firstname;
     },
@@ -43,6 +50,15 @@ export default {
     },
     postPhoto() {
       return this.chat.mainPost.photos[0];
+    },
+  },
+
+  methods: {
+    async changeCurrentChat() {
+      await this.$store.dispatch(
+        types.actions.FETCH_CURRENT_CHAT,
+        this.chat.id
+      );
     },
   },
 };

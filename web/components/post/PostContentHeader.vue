@@ -1,6 +1,15 @@
 <template>
   <div class="post-content-header">
-    <post-content-action :liked="post.liked" :id="post.id" :user="post.user" />
+    <div v-if="post.isTraded" class="post-traded">
+      This post is already traded
+    </div>
+
+    <post-content-action
+      v-if="!post.isTraded"
+      :liked="post.liked"
+      :id="post.id"
+      :user="post.user"
+    />
     <h1 class="heading heading--primary">{{ post.title }}</h1>
     <p v-if="preffered" class="paragraph paragraph--primary">
       {{ preffered }}
@@ -12,7 +21,7 @@
     <div class="post-content-offers">
       <p class="post-content-price">{{ price }}</p>
       <button-primary
-        v-if="post.user.id !== user.id"
+        v-if="$auth.loggedIn && post.user.id !== user.id"
         size="sm"
         label="Make a offer"
         :icon-left="icons.offer"
@@ -20,7 +29,8 @@
       />
     </div>
     <make-offer-list-modal
-      v-if="showOfferModal"
+      v-if="$auth.loggedIn && post.user.id !== user.id && showOfferModal"
+      :postId="post.id"
       :toggle-modal="toggleOfferModal"
     />
   </div>
@@ -31,6 +41,7 @@ import { CONDITIONS } from "@/constants";
 import { mdiFacebookMessenger } from "@mdi/js";
 import { types } from "@/store/types";
 import authMixin from "@/mixins/auth";
+import tradeServices from "@/services/trades";
 export default {
   mixins: [authMixin],
   props: {
@@ -41,7 +52,7 @@ export default {
       icons: {
         offer: mdiFacebookMessenger,
       },
-      showOfferModal: true,
+      showOfferModal: false,
     };
   },
   computed: {
