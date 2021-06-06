@@ -9,6 +9,8 @@ const TradeMessagesModel = require("../trades/models/TradeMessages");
 const ProfileModel = require("../profile/models/Profile");
 const ProfilePhotoModel = require("../profile/models/ProfilePhoto");
 const PostPhotoModel = require("../post/models/PostPhoto");
+const pusher = require("../../config/pusher");
+const channels = require("../../config/channels");
 
 exports.isExist = async ({ postId, offerId }) => {
   return await TradesModel.findOne({
@@ -209,7 +211,7 @@ exports.getCurrentUserTrades = async ({
   };
 };
 
-exports.addMessages = async ({ userId, tradeId, text }) => {
+exports.addMessages = async ({ userId, tradeId, text, tempId }) => {
   console.log("Services test", userId, tradeId);
   const t = await sequelize.transaction();
 
@@ -219,34 +221,15 @@ exports.addMessages = async ({ userId, tradeId, text }) => {
       { transaction: t }
     );
 
-    const messageBody = await TradeMessagesModel.findByPk(message.id, {
-      include: [
-        {
-          model: UserModel,
-          attributes: ["username", "id"],
-          include: [
-            {
-              model: ProfileModel,
-              attributes: ["firstname", "lastname"],
-              include: [
-                {
-                  model: ProfilePhotoModel,
-                  as: "profilePhoto",
-                  attributes: ["publicId", "url", "securedUrl", "id"],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      transaction: t,
+    pusher.trigger(channels.tradeMessage, `trade-${tradeId}`, {
+      tempId,
+      message,
     });
+
     await t.commit();
+
     return {
       success: true,
-      data: {
-        message: messageBody,
-      },
     };
   } catch (error) {
     await t.rollback();
@@ -264,25 +247,25 @@ exports.getTradeMessages = async ({
     order: [["createdAt", order]],
     limit,
     offset: (page - 1) * limit,
-    include: [
-      {
-        model: UserModel,
-        attributes: ["username", "id"],
-        include: [
-          {
-            model: ProfileModel,
-            attributes: ["firstname", "lastname"],
-            include: [
-              {
-                model: ProfilePhotoModel,
-                as: "profilePhoto",
-                attributes: ["publicId", "url", "securedUrl", "id"],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    // include: [
+    //   {
+    //     model: UserModel,
+    //     attributes: ["username", "id"],
+    //     include: [
+    //       {
+    //         model: ProfileModel,
+    //         attributes: ["firstname", "lastname"],
+    //         include: [
+    //           {
+    //             model: ProfilePhotoModel,
+    //             as: "profilePhoto",
+    //             attributes: ["publicId", "url", "securedUrl", "id"],
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   },
+    // ],
   });
 
   return {
@@ -323,28 +306,69 @@ exports.getTradeById = async ({ tradeId }) => {
     ],
   };
 
-  var userOption = {
+  const userOption = {
     model: UserModel,
     attributes: ["username", "id"],
     include: [
       {
         model: ProfileModel,
         attributes: ["firstname", "lastname"],
+        include: [
+          {
+            model: ProfilePhotoModel,
+            as: "profilePhoto",
+            attributes: ["publicId", "url", "securedUrl", "id"],
+          },
+        ],
       },
     ],
   };
 
   console.log("TradeId", tradeId);
 
-  const trade = await TradesModel.findOne({
+  let trade = await TradesModel.findOne({
     where: {
       id: tradeId,
     },
+    plain: true,
     include: [
       {
-        ...userOption,
+        model: UserModel,
+        attributes: ["username", "id"],
+        include: [
+          {
+            model: ProfileModel,
+            attributes: ["firstname", "lastname"],
+            include: [
+              {
+                model: ProfilePhotoModel,
+                as: "profilePhoto",
+                attributes: ["publicId", "url", "securedUrl", "id"],
+              },
+            ],
+          },
+        ],
         foreignKey: "offerCreatorId",
         as: "offerCreator",
+      },
+      {
+        model: UserModel,
+        attributes: ["username", "id"],
+        include: [
+          {
+            model: ProfileModel,
+            attributes: ["firstname", "lastname"],
+            include: [
+              {
+                model: ProfilePhotoModel,
+                as: "profilePhoto",
+                attributes: ["publicId", "url", "securedUrl", "id"],
+              },
+            ],
+          },
+        ],
+        foreignKey: "postCreatorId",
+        as: "postCreator",
       },
       {
         ...postOption,
@@ -359,13 +383,25 @@ exports.getTradeById = async ({ tradeId }) => {
     ],
   });
 
-  const messages = await this.getTradeMessages({ tradeId });
+  let rawTrade = trade.get({ plain: true });
 
-  console.log("Current Trade", trade);
+  const members = {
+    [rawTrade.offerCreator.id]: rawTrade.offerCreator,
+    [rawTrade.postCreator.id]: rawTrade.postCreator,
+  };
+
+  delete rawTrade.offerCreator;
+  delete rawTrade.postCreator;
+
+  const messages = await this.getTradeMessages({ tradeId });
+  console.log("Current Trade", rawTrade);
+
+  // console.log("Current Trade", trade);
   return {
     success: true,
     data: {
-      header: trade,
+      header: rawTrade,
+      members,
       messages: messages.data.messages,
     },
     message: "Trade Fetched",
@@ -395,6 +431,12 @@ exports.acceptTrade = async ({ tradeId }) => {
     );
 
     await t.commit();
+
+    pusher.trigger(channels.tradeAccepted, `trade-${tradeId}`, {
+      accepted: true,
+      tradeId,
+    });
+
     return {
       success: true,
       data: {

@@ -105,10 +105,12 @@ exports.getCurrentUserPosts = async ({
   limit = 5,
   page = 1,
   search,
+  allowTraded,
 }) => {
   let where = {
     userId,
     isDraft: false,
+    isTraded: false,
   };
   if (search) {
     console.log(search);
@@ -116,7 +118,9 @@ exports.getCurrentUserPosts = async ({
       [Op.iLike]: `%${search}%`,
     };
   }
-
+  if (allowTraded) {
+    where.isTraded = true;
+  }
   console.log(where);
 
   const posts = await PostModel.findAll({

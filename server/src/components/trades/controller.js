@@ -41,8 +41,10 @@ exports.addMessage = async (req, res) => {
       userId: req.session.userId,
       text: body.text,
       tradeId: body.tradeId,
+      tempId: body.tempId,
     };
     const data = await tradeServices.addMessages(params);
+
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
@@ -84,6 +86,7 @@ exports.acceptTrade = async (req, res) => {
     const params = {
       tradeId: body.tradeId,
     };
+    console.log("Accept Trade", params);
     const data = await tradeServices.acceptTrade({ ...params });
     res.status(200).json(data);
   } catch (error) {

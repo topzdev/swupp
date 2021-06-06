@@ -31,8 +31,9 @@
     "ms": "^2.1.2",
     "nodemailer": "^6.5.0",
     "password-validator": "^5.1.0",
-    "pg": "^8.4.0",
+    "pg": "^8.6.0",
     "pg-hstore": "^2.3.3",
+    "pusher": "^5.0.0",
     "sequelize": "^6.3.5"
   }
 }

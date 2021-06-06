@@ -21,3 +21,7 @@ exports.CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
 exports.CLOUDINARY_FOLDER = process.env.CLOUDINARY_FOLDER;
 exports.EMAIL_SECRET = process.env.BASE_URL;
 exports.BASE_URL = process.env.BASE_URL;
+exports.PUSHER_APPID = process.env.PUSHER_APPID;
+exports.PUSHER_KEY = process.env.PUSHER_KEY;
+exports.PUSHER_SECRET = process.env.PUSHER_SECRET;
+exports.PUSHER_CLUSTER = process.env.PUSHER_CLUSTER;
