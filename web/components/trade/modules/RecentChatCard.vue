@@ -8,8 +8,12 @@
         <span class="title">{{ mainChatTitle }}</span>
       </p>
       <p class="card--chat__last-chat">
-        <span class="sender">{{ lastMessage.sender }}: </span>
-        <span class="message">{{ lastMessage.message }} </span>
+        <span class="sender" v-if="lastMessage"
+          >{{ lastMessage.sender }}:
+        </span>
+        <span class="message" v-if="lastMessage"
+          >{{ lastMessage.message }}
+        </span>
       </p>
     </div>
   </div>
@@ -29,7 +33,10 @@ export default {
       return this.$store.state.trade.current;
     },
     activeClass() {
-      return this.chat.id === this.current.header.id ? "active-chat" : "";
+      if (this.current.header) {
+        return this.chat.id === this.current.header.id ? "active-chat" : "";
+      }
+      return "";
     },
     offerCreatorName() {
       return this.chat.offerCreator.profile.firstname;
@@ -39,7 +46,6 @@ export default {
     },
     lastMessage() {
       const { user, text } = this.chat.tradeMessages[0];
-      console.log(this.user.id, user.id);
       return {
         sender: user.id === this.user.id ? "You" : user.profile.firstname,
         message: text,

@@ -38,9 +38,10 @@ export default {
     return response;
   },
 
-  async addTradeMessage({ text, tradeId }) {
+  async addTradeMessage({ text, tempId, tradeId }) {
     const response = await apiClient.$post("api/v1/trades/add-message", {
       text,
+      tempId,
       tradeId
     });
     return response;
@@ -58,6 +59,13 @@ export default {
     const response = await apiClient.$get("api/v1/trades/isTraded/" + tradeId, {
       offerId,
       postId
+    });
+    return response;
+  },
+
+  async acceptTrade({ tradeId }) {
+    const response = await apiClient.$post("api/v1/trades/acceptTrade/", {
+      tradeId
     });
     return response;
   }

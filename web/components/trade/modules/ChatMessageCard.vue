@@ -1,7 +1,7 @@
 <template>
   <div class="card--message" :class="myMessageClass">
     <nuxt-link to="/" class="card--message__image">
-      <profile-photo :src="photo" />
+      <profile-photo :url="photo" />
     </nuxt-link>
 
     <div class="card--message__content">
@@ -23,12 +23,18 @@ export default {
     message: Object,
   },
   computed: {
+    members() {
+      return this.$store.state.trade.current.members;
+    },
+    owner() {
+      return this.$store.state.trade.current.members[this.message.userId];
+    },
     myMessageClass() {
-      return this.user.id === this.message.user.id ? "my-message" : "";
+      return this.user.id === this.message.userId ? "my-message" : "";
     },
     name() {
-      const { lastname, firstname } = this.message.user.profile;
-      return this.user.id === this.message.user.id
+      const { lastname, firstname } = this.owner.profile;
+      return this.user.id === this.message.userId
         ? "You"
         : `${firstname} ${lastname}`;
     },
@@ -39,7 +45,7 @@ export default {
       return dayjs(this.message.createdAt).format("MMMM D, YYYY h:mm a");
     },
     photo() {
-      return this.message.user.profile.profilePhoto.securedUrl;
+      return this.owner.profile.profilePhoto.securedUrl;
     },
   },
 };

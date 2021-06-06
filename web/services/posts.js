@@ -13,12 +13,19 @@ export default {
     return response.data;
   },
 
-  async getCurrentUserPosts({ order = "DESC", limit, page, search }) {
+  async getCurrentUserPosts({
+    order = "DESC",
+    limit,
+    page,
+    search,
+    allowTraded
+  }) {
     const response = await apiClient.$post("api/v1/post/get-user-post", {
       order,
       limit,
       page,
-      search
+      search,
+      allowTraded
     });
     return response.data;
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="trade-content">
     <trade-header v-if="chatHeader" :header="chatHeader" />
-    <trade-chat />
+    <trade-chat v-if="chatHeader" />
     <trade-chat-bottom v-if="chatHeader" />
   </div>
 </template>

@@ -9,10 +9,29 @@
 <script>
 import { types } from "@/store/types";
 import debounce from "debounce";
+import Pusher from "pusher-js";
+
+const channels = {
+  tradeAccepted: "swupp-trade-accepted",
+  tradeMessage: "swupp-trade-message",
+};
+
 export default {
+  data() {
+    return {
+      pusher: null,
+      tradeMessagingChannel: null,
+    };
+  },
   computed: {
     messages() {
       return this.$store.getters[types.getters.GET_CURRENT_MESSAGE];
+    },
+    currentTradeId() {
+      return this.$store.state.trade.current.header.id;
+    },
+    members() {
+      return this.$store.state.trade.current.members;
     },
   },
 
@@ -35,10 +54,70 @@ export default {
         this.$store.dispatch(types.actions.FETCH_MORE_MESSAGES);
       }
     }, 500),
+
+    pusherSubscription() {
+      console.log("Updating..");
+      const tradeMessagingChannel = this.pusher.subscribe(
+        channels.tradeMessage
+      );
+      const accepTradeChannel = this.pusher.subscribe(channels.tradeAccepted);
+      const self = this;
+      if (this.currentTradeId) {
+        const event = `trade-${this.currentTradeId}`;
+        console.log("EVENT: ", event);
+        tradeMessagingChannel.bind(event, function (data) {
+          console.log("Swupp Current Message:", event, data);
+
+          if (data) {
+            self.$store.commit(types.mutations.UPDATE_TRADE_MESSAGE, {
+              id: data.tempId,
+              message: {
+                ...data.message,
+                user: self.members[data.message.userId],
+              },
+            });
+          }
+        });
+
+        accepTradeChannel.bind(event, function (data) {
+          console.log("Trade Accepted:", event, data);
+          // alert("Trade Accepted:", event, data);
+          if (data) {
+            self.$store.commit(types.mutations.SET_IS_TRADED, {
+              tradeId: data.tradeId,
+            });
+          }
+        });
+      }
+    },
+
+    pusherUnSubscribe() {
+      console.log("Unsubscribing...");
+      this.pusher.unsubscribe(channels.tradeMessage);
+      this.pusher.unsubscribe(channels.tradeAccepted);
+    },
   },
 
   updated() {
+    this.pusherUnSubscribe();
     this.scrollToEnd();
+    this.pusherSubscription();
+  },
+
+  mounted() {
+    Pusher.logToConsole = true;
+
+    this.pusher = new Pusher(process.env.PUSHER_KEY, {
+      cluster: process.env.PUSHER_CLUSTER,
+    });
+
+    this.pusherSubscription();
+  },
+
+  destroyed() {
+    this.pusherUnSubscribe();
+    this.pusher = null;
+    this.channel = null;
   },
 };
 </script>

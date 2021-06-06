@@ -101,16 +101,17 @@
         </div>
 
         <div class="card__actions px-2">
-          <checkbox-field
+          <!-- <checkbox-field
             class="mr-auto"
             :value="post.isDraft"
             @input="onChange('isDraft', $event)"
             label="Save as draft"
             id="is-draft"
-          ></checkbox-field>
+          ></checkbox-field> -->
           <button-primary
             :loading="loading"
             label="Post"
+            class="ml-auto"
             size="md"
             type="submit"
             :disabled="loading"

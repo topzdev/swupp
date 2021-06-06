@@ -13,7 +13,9 @@
 <script>
 import { mdiCamera } from "@mdi/js";
 import { types } from "@/store/types";
+
 export default {
+  middleware: "auth",
   data() {
     return {
       title: "Trade Messages",
@@ -32,6 +34,7 @@ export default {
     async fetchCurrentChat() {
       const route = this.$route;
       console.log(route.query.id);
+      console.log(this.recentChats);
       if (this.recentChats.length) {
         await this.$store.dispatch(
           types.actions.FETCH_CURRENT_CHAT,
@@ -45,6 +48,13 @@ export default {
     recentChats() {
       return this.$store.getters[types.getters.GET_RECENT_CHATS];
     },
+  },
+
+  watch: {
+    $route: "$fetch",
+    // currentTradeId: function () {
+    //   this.pusherSubscription();
+    // },
   },
 
   async fetch() {

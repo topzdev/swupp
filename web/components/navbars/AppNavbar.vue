@@ -19,6 +19,7 @@
             :username="user.username"
             :photo="profilePhoto"
             :name="profile.firstname"
+            :id="user.id"
           />
           <button-icon
             class="mx-1"

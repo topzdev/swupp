@@ -91,7 +91,7 @@
                     label="Send Offer"
                     variant="primary"
                     size="md"
-                    @click.native="submit"
+                    :disabled="loading"
                   />
                 </div>
               </form>

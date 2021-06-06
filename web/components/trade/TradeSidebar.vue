@@ -2,13 +2,15 @@
   <div class="trade-sidebar">
     <h2>Messages</h2>
 
-    <div class="trade-sidebar__list">
+    <div v-if="recentChats.length" class="trade-sidebar__list">
       <div class="row">
         <div v-for="chat in recentChats" :key="chat.id" class="col-12">
           <recent-chat-card :chat="chat" />
         </div>
       </div>
     </div>
+
+    <div class="mt-2" v-else>No Trade Offers Available</div>
   </div>
 </template>
 

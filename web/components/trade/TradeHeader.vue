@@ -26,6 +26,7 @@
         size="sm"
         label="Accept the offer"
         :icon-left="icons.handshake"
+        @click.native="acceptTrade"
       />
     </div>
   </div>
@@ -52,12 +53,16 @@ export default {
     isTraded() {
       return this.$store.getters[types.getters.IS_TRADED];
     },
+    members() {
+      return this.$store.state.trade.current.members;
+    },
     offerCreatorFullName() {
-      const { firstname, lastname } = this.header.offerCreator.profile;
+      const { firstname, lastname } =
+        this.members[this.header.offerCreatorId].profile;
       return `${firstname} ${lastname}`;
     },
     mainChatTitle() {
-      return this.user.id === this.header.offerCreator.id
+      return this.user.id === this.header.offerCreatorId
         ? "You"
         : this.offerCreatorFullName;
     },
@@ -73,6 +78,25 @@ export default {
     },
     mainPost() {
       return this.header.mainPost;
+    },
+  },
+  methods: {
+    acceptTrade() {
+      const self = this;
+      this.$store.dispatch(types.actions.SHOW_DIALOG, {
+        title: "Accept Trade",
+        message: "Are you sure to accept this trade?",
+        yesLabel: "Yes",
+        noLabel: "No",
+        yesFunction: async () => {
+          self.$store.dispatch(types.actions.ACCEPT_TRADE, {
+            tradeId: self.header.id,
+          });
+        },
+        noFunction: async () => {
+          // console.log("Hello");
+        },
+      });
     },
   },
 };
