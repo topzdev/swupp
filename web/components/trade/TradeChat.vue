@@ -10,13 +10,16 @@
 import { types } from "@/store/types";
 import debounce from "debounce";
 import Pusher from "pusher-js";
+import AuthMixin from "@/mixins/auth";
 
 const channels = {
   tradeAccepted: "swupp-trade-accepted",
   tradeMessage: "swupp-trade-message",
+  tradeCreated: "swupp-trade-created",
 };
 
 export default {
+  mixins: [AuthMixin],
   data() {
     return {
       pusher: null,
@@ -61,6 +64,7 @@ export default {
         channels.tradeMessage
       );
       const accepTradeChannel = this.pusher.subscribe(channels.tradeAccepted);
+
       const self = this;
       if (this.currentTradeId) {
         const event = `trade-${this.currentTradeId}`;
@@ -95,6 +99,7 @@ export default {
       console.log("Unsubscribing...");
       this.pusher.unsubscribe(channels.tradeMessage);
       this.pusher.unsubscribe(channels.tradeAccepted);
+      this.pusher.unsubscribe(channels.tradeCreated);
     },
   },
 
@@ -117,7 +122,6 @@ export default {
   destroyed() {
     this.pusherUnSubscribe();
     this.pusher = null;
-    this.channel = null;
   },
 };
 </script>

@@ -35,9 +35,9 @@
                     }}</span>
                   </div>
 
-                  <div class="profile-about__action">
+                  <!-- <div class="profile-about__action">
                     <button-icon size="md" :icon="icons.edit" />
-                  </div>
+                  </div> -->
                 </div>
               </template>
             </div>

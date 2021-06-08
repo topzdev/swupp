@@ -26,6 +26,13 @@ export const mutations = {
   },
   [types.mutations.SET_POSTS_COUNT](state, count) {
     state.postCount = count;
+  },
+  [types.mutations.SET_EMPTY_HOME_POSTS](state) {
+    state.homepage = {
+      items: [],
+      count: null,
+      last: false
+    };
   }
 };
 

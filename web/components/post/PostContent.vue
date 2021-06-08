@@ -6,7 +6,11 @@
       <post-content-header :post="post" />
       <post-content-count v-if="!post.isTraded" :count="post.count" />
 
-      <post-content-description :description="post.body" />
+      <post-content-description
+        :conditionId="post.conditionId"
+        :categoryId="post.categoryId"
+        :description="post.body"
+      />
 
       <!-- <post-content-location
         v-if="post.postLocation"

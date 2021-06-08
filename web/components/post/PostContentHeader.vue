@@ -18,21 +18,23 @@
       condition
     }}</badge>
 
-    <div class="post-content-offers">
-      <p class="post-content-price">{{ price }}</p>
-      <button-primary
-        v-if="$auth.loggedIn && post.user.id !== user.id"
-        size="sm"
-        label="Make a offer"
-        :icon-left="icons.offer"
-        @click.native="toggleOfferModal(true)"
+    <template v-if="!post.isTraded">
+      <div class="post-content-offers">
+        <p class="post-content-price mt-1">{{ price }}</p>
+        <button-primary
+          v-if="$auth.loggedIn && post.user.id !== user.id"
+          size="sm"
+          label="Make a offer"
+          :icon-left="icons.offer"
+          @click.native="toggleOfferModal(true)"
+        />
+      </div>
+      <make-offer-list-modal
+        v-if="$auth.loggedIn && post.user.id !== user.id && showOfferModal"
+        :postId="post.id"
+        :toggle-modal="toggleOfferModal"
       />
-    </div>
-    <make-offer-list-modal
-      v-if="$auth.loggedIn && post.user.id !== user.id && showOfferModal"
-      :postId="post.id"
-      :toggle-modal="toggleOfferModal"
-    />
+    </template>
   </div>
 </template>
 
@@ -42,6 +44,7 @@ import { mdiFacebookMessenger } from "@mdi/js";
 import { types } from "@/store/types";
 import authMixin from "@/mixins/auth";
 import tradeServices from "@/services/trades";
+import numeral from "numeral";
 export default {
   mixins: [authMixin],
   props: {
@@ -62,7 +65,9 @@ export default {
     },
     price() {
       if (!this.post.price) return;
-      return `₱ ${this.post.price}`;
+      return this.post.isPriceHidden
+        ? "$$$$"
+        : `₱ ${numeral(this.post.price).format("0,0.00")}`;
     },
     condition() {
       return CONDITIONS.filter((item) => item.id === this.post.conditionId)[0]

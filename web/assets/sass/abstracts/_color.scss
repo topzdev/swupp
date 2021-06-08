@@ -35,13 +35,13 @@
 }
 .text {
   &--primary {
-    color: var(--color-primary);
+    color: var(--color-primary) !important;
   }
 
   &--main {
-    color: var(--color-main);
+    color: var(--color-main) !important;
   }
   &--main-light {
-    color: var(--color-main-light);
+    color: var(--color-main-light) !important;
   }
 }

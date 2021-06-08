@@ -1,6 +1,6 @@
 <template>
   <div class="trade-sidebar">
-    <h2>Messages</h2>
+    <h2>Trade offers</h2>
 
     <div v-if="recentChats.length" class="trade-sidebar__list">
       <div class="row">

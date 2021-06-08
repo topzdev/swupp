@@ -4,7 +4,10 @@
       <profile-photo :url="photo" />
     </div>
     <div class="profile-icon__body">
-      <p class="profile-icon__name">{{ name }}</p>
+      <p class="profile-icon__name">
+        {{ name }}
+        <!-- ({{ id }}) -->
+      </p>
       <p v-if="caption" class="profile-icon__caption">{{ caption }}</p>
     </div>
   </div>

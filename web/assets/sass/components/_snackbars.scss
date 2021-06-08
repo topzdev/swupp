@@ -17,6 +17,8 @@
   z-index: 100;
   background-color: var(--color-background-2);
   @include transition;
+  text-decoration: none;
+  color: var(--color-main);
 
   &--show {
     visibility: visible;

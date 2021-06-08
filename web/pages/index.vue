@@ -48,6 +48,12 @@ export default {
       limit: 10,
     };
   },
+  watch: {
+    async $route() {
+      await this.$store.commit("posts/" + types.mutations.SET_EMPTY_HOME_POSTS);
+      await this.fetchPosts({ page: 1, limit: 10 });
+    },
+  },
   async fetch() {
     await this.$store.dispatch("posts/" + types.actions.FETCH_POSTS_COUNT);
     await this.fetchPosts({ page: 1, limit: this.limit });

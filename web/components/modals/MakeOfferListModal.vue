@@ -22,6 +22,13 @@
             <div class="make-offer__content">
               <div class="row">
                 <div
+                  class="col-12 mt-2 d-flex align-center"
+                  v-if="!items.length"
+                >
+                  No items to offer
+                </div>
+                <div
+                  v-else
                   class="col-12"
                   v-for="item in items"
                   :key="item.id"

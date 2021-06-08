@@ -19,14 +19,14 @@
           <span class="menu__link-text"> Account Settings </span>
         </nuxt-link>
       </li>
-      <li class="menu__item">
+      <!-- <li class="menu__item">
         <button class="btn menu__link">
           <span class="menu__link-icon">
             <app-icon :path="icons.themes" />
           </span>
           <span class="menu__link-text"> Dark Mode </span>
         </button>
-      </li>
+      </li> -->
       <li class="menu__item">
         <button class="btn menu__link" @click="$auth.logout()">
           <span class="menu__link-icon">

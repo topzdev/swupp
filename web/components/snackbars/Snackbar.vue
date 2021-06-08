@@ -1,11 +1,12 @@
 <template>
-  <div v-if="config.show" class="snackbar" :class="[showClass, typeClass]">
-    <component
-      :is="config.link ? 'nuxt-link' : 'div'"
-      :to="config.link"
-      v-if="config.image"
-      class="snackbar__icon"
-    >
+  <component
+    :is="config.link ? 'nuxt-link' : 'div'"
+    :to="config.link"
+    v-if="config.show"
+    class="snackbar"
+    :class="[showClass, typeClass]"
+  >
+    <component :is="'div'" v-if="config.image" class="snackbar__icon">
       <img :src="config.image" alt="Post" />
     </component>
     <div class="snackbar__body">
@@ -23,7 +24,7 @@
         @click.native="hide"
       />
     </div>
-  </div>
+  </component>
 </template>
 
 <script>
