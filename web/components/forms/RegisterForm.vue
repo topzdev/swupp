@@ -14,6 +14,7 @@
               <div class="row">
                 <div class="col-12 mb-2">
                   <input-field
+                    mode="lazy"
                     v-model="user.username"
                     :rules="rules.username"
                     label="Username"
@@ -203,7 +204,7 @@ export default {
         agree: "required",
       },
       bd: {
-        bdYear: CURRENT_DATE.year - 18,
+        bdYear: CURRENT_DATE.year,
         bdDay: CURRENT_DATE.day,
         bdMonth: CURRENT_DATE.month,
       },
@@ -215,7 +216,7 @@ export default {
         lastname: "",
         email: "",
         mobileNumber: "",
-        // username: "topzdev@123",
+        // username: "topzdev2@123",
         // password: "swuppdev@123",
         // confirmPassword: "swuppdev@123",
         // firstname: "Christian",
@@ -245,13 +246,28 @@ export default {
   methods: {
     async onSubmit() {
       if (this.currentStep === 2) {
-        if (this.agree) {
-          await this.register();
-        } else {
-          this.$refs.form.setErrors({
+        const { bdMonth, bdDay, bdYear } = this.bd;
+        const birthdate = dayjs(`${bdMonth}/${bdDay}/${bdYear}`).format(
+          "YYYY-MM-DD"
+        );
+        const age = dayjs(Date.now()).diff(birthdate, "year");
+        if (age < 18) {
+          return this.$store.dispatch(types.actions.SHOW_DIALOG, {
+            title: "Age Restriction",
+            message:
+              "Sorry but you should be atleast 18 years old above before we can accept you",
+            yesLabel: "Okay",
+            yesFunction: async () => {},
+          });
+        }
+
+        if (!this.agree) {
+          return this.$refs.form.setErrors({
             agree: "error",
           });
         }
+
+        await this.register();
       } else {
         this.gotoStep(this.currentStep + 1);
       }

@@ -1,14 +1,14 @@
 <template>
   <div>
     <validation-observer ref="form">
-      <dropzone
+      <!-- <dropzone
         name="photos"
         :value="post.photos"
         @input="onChange('photos', $event)"
         :rules="rules.photos"
         id="photos"
         crud="update"
-      />
+      /> -->
       <div class="card___header mt-2 px-2">
         <h2 class="heading--primary">Update Post</h2>
       </div>

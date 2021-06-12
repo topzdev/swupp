@@ -12,10 +12,10 @@
         :description="post.body"
       />
 
-      <!-- <post-content-location
+      <post-content-location
         v-if="post.postLocation"
         :location="post.postLocation"
-      /> -->
+      />
 
       <post-content-profile :profile="post.user" />
     </div>

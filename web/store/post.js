@@ -103,11 +103,11 @@ export const actions = {
       dispatch(
         types.actions.SHOW_SNACKBAR,
         {
-          title: "Post successfully posted",
+          title: "Post successfully added",
           body: post.title,
           type: "success",
           timeout: 10000,
-          link: "/update/" + result.data.id,
+          link: "/post/" + result.data.id,
           image: getters.getCoverPhoto("create")
         },
         { root: true }

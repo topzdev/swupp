@@ -52,7 +52,7 @@ exports.getProfile = async (username) => {
       "birthdate",
       [
         Sequelize.literal(
-          `(SELECT COUNT(*) FROM "post" AS postcount WHERE postcount."userId" = "user".id)`
+          `(SELECT COUNT(*) FROM "post" AS postcount WHERE postcount."userId" = "user".id AND postcount."deletedAt" IS NULL)`
         ),
         "postCount",
       ],

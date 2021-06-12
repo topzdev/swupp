@@ -3,12 +3,12 @@
     <div class="mb-2 col-12">
       <change-account-info />
     </div>
-    <div class="mb-2 col-12">
+    <!-- <div class="mb-2 col-12">
       <change-username />
-    </div>
-    <div class="mb-2 col-12">
+    </div> -->
+    <!-- <div class="mb-2 col-12">
       <change-email />
-    </div>
+    </div> -->
   </div>
 </template>
 

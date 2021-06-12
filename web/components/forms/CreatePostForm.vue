@@ -33,15 +33,15 @@
               type="number"
             ></input-field>
           </div>
-          <div class="col-12 mb-2">
+          <!-- <div class="col-12 mb-2">
             <checkbox-field
               class="mr-auto"
               :value="post.isPriceHidden"
               @input="onChange('isPriceHidden', $event)"
-              label="Hide true value only display $$$"
+              label="Hide numeral value  "
               id="is-price-hidden"
             ></checkbox-field>
-          </div>
+          </div> -->
           <div class="col-12 mb-2">
             <input-field
               :textarea="true"

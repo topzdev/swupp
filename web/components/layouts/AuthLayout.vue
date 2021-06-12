@@ -54,7 +54,7 @@ export default {
       const tradeCreatedChannel = this.pusher.subscribe(channels.tradeCreated);
       const page = this.$route.name;
       const self = this;
-      if (this.user.id) {
+      if (this.loggedIn && this.user.id) {
         tradeCreatedChannel.bind(`user-${this.user.id}`, async function (data) {
           if (page === "trade") {
             await self.$store.dispatch(types.actions.FETCH_RECENT_CHATS);
@@ -72,7 +72,6 @@ export default {
               },
               { root: true }
             );
-            alert("Notification Recived");
           }
         });
       }

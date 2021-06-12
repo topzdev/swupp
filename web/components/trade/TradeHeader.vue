@@ -21,7 +21,10 @@
         <trade-tag-item :post="mainPost" type="post" />
       </div>
     </div>
-    <div v-if="!isTraded" class="trade-header__action ml-auto">
+    <div
+      v-if="!isTraded && header.postCreatorId === user.id"
+      class="trade-header__action ml-auto"
+    >
       <button-primary
         size="sm"
         label="Accept the offer"

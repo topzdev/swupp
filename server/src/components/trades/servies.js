@@ -72,7 +72,7 @@ exports.createTrade = async ({
     const trade = await TradesModel.create(
       {
         offerCreatorId,
-        postCreatorId: 2,
+        postCreatorId: post.user.id,
         postId,
         offerId,
         message,
@@ -91,12 +91,16 @@ exports.createTrade = async ({
 
     await t.commit();
 
+    const tradeCreated = {
+      tradeId: trade.id,
+      messageId: initMessage.id,
+    };
+
+    pusher.trigger(channels.tradeCreated, `user-${post.user.id}`, tradeCreated);
+
     return {
       success: true,
-      data: {
-        tradeId: trade.id,
-        messageId: initMessage.id,
-      },
+      data: tradeCreated,
       message: "Trade room created",
     };
   } catch (error) {
@@ -120,7 +124,7 @@ exports.getCurrentUserTrades = async ({
 
   const postOption = {
     model: PostModel,
-    attributes: ["title", "id"],
+    attributes: ["title", "id", "isTraded"],
     include: [
       {
         model: PostPhotoModel,
@@ -159,6 +163,8 @@ exports.getCurrentUserTrades = async ({
         postCreatorId: userId,
       },
       isTraded: false,
+      "$mainPost.isTraded$": false,
+      "$offerPost.isTraded$": false,
     },
     include: [
       {
@@ -285,7 +291,7 @@ exports.getTradeMessages = async ({
 exports.getTradeById = async ({ tradeId }) => {
   const postOption = {
     model: PostModel,
-    attributes: ["title", "id"],
+    attributes: ["title", "id", "isTraded"],
     include: [
       {
         model: PostPhotoModel,
@@ -329,6 +335,8 @@ exports.getTradeById = async ({ tradeId }) => {
   let trade = await TradesModel.findOne({
     where: {
       id: tradeId,
+      "$mainPost.isTraded$": false,
+      "$offerPost.isTraded$": false,
     },
     plain: true,
     include: [

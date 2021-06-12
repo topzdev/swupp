@@ -3,9 +3,9 @@
     <div class="mb-2 col-12">
       <change-password />
     </div>
-    <div class="mb-2 col-12">
+    <!-- <div class="mb-2 col-12">
       <deactivate-account />
-    </div>
+    </div> -->
   </div>
 </template>
 

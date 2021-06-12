@@ -66,7 +66,7 @@ export default {
     price() {
       if (!this.post.price) return;
       return this.post.isPriceHidden
-        ? "$$$$"
+        ? "₱₱₱₱"
         : `₱ ${numeral(this.post.price).format("0,0.00")}`;
     },
     condition() {

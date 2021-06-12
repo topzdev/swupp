@@ -5,7 +5,7 @@
       <trade-chat />
       <trade-chat-bottom />
     </template>
-    <template v-if="!recentChats.length">
+    <template v-if="!chatHeader && !recentChats.length">
       <div
         class="error errors--no-post d-flex align-center"
         style="height: 100%"

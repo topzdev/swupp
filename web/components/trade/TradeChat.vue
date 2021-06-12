@@ -83,13 +83,14 @@ export default {
           }
         });
 
-        accepTradeChannel.bind(event, function (data) {
+        accepTradeChannel.bind(event, async function (data) {
           console.log("Trade Accepted:", event, data);
           // alert("Trade Accepted:", event, data);
           if (data) {
-            self.$store.commit(types.mutations.SET_IS_TRADED, {
+            await self.$store.commit(types.mutations.SET_IS_TRADED, {
               tradeId: data.tradeId,
             });
+            await self.$store.dispatch(types.actions.FETCH_RECENT_CHATS);
           }
         });
       }

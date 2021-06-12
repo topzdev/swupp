@@ -163,7 +163,7 @@ export default {
       const birth = new Date(bdate);
       return {
         day: birth.getDate(),
-        month: MONTHS[birth.getMonth() + 1],
+        month: MONTHS[birth.getMonth()],
         year: birth.getFullYear(),
       };
     },
@@ -178,6 +178,21 @@ export default {
         "Formated:" +
           dayjs(`${bdMonth} ${bdDay}, ${bdYear}`).format("YYYY-MM-DD")
       );
+
+      const birthdate = dayjs(`${bdMonth}/${bdDay}/${bdYear}`).format(
+        "YYYY-MM-DD"
+      );
+      const age = dayjs(Date.now()).diff(birthdate, "year");
+      if (age < 18) {
+        return this.$store.dispatch(types.actions.SHOW_DIALOG, {
+          title: "Age Restriction",
+          message:
+            "Sorry but you should be atleast 18 years old above before we can accept you",
+          yesLabel: "Okay",
+          yesFunction: async () => {},
+        });
+      }
+
       this.$store.dispatch(types.actions.SHOW_AUTH_MODAL, {
         show: true,
 

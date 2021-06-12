@@ -205,20 +205,23 @@ $trade-padding: 14px;
 }
 
 .trade-chat {
-  display: grid;
+  display: flex;
   max-height: calc(100% - 115px - 105px);
   height: 100%;
   padding: 0 10px 10px 10px;
   flex-direction: column;
   // justify-content: flex-end;
-  // align-items: flex-start;
+  align-items: flex-start;
   overflow: auto !important;
-  grid-template-columns: 100%;
-  align-items: flex-end;
+  // grid-template-columns: 100%;
+  // align-items: flex-end;
   &__row {
     display: flex;
     width: 100%;
     margin-top: 15px;
+    &:first-child {
+      margin-top: auto !important;
+    }
   }
 }
 

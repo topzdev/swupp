@@ -75,6 +75,7 @@ export default {
       type: String,
       // default: "Placeholder here",
     },
+    mode: String,
     leftIcon: String,
     rightIcon: String,
     name: String,
