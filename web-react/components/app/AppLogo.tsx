@@ -1,14 +1,14 @@
 import React from "react";
-import AppLink from "./AppLink";
+import AppLink, { AppLinkProps } from "./AppLink";
 import logoSmall from "@/assets/img/logo_x80.webp";
 import logoLarge from "@/assets/img/logo_x500.webp";
 import AppImage from "./AppImage";
 
-interface AppLogoProps {
+type AppLogoProps = {
   size?: "sm" | "lg";
-}
+} & AppLinkProps;
 
-const AppLogo: React.FC<AppLogoProps> = ({ size }) => {
+const AppLogo: React.FC<AppLogoProps> = ({ size, ...rest }) => {
   let logo: any;
 
   switch (size) {
@@ -22,7 +22,7 @@ const AppLogo: React.FC<AppLogoProps> = ({ size }) => {
   }
 
   return (
-    <AppLink href="/">
+    <AppLink {...rest}>
       <AppImage alt="Swupp Logo" src={logo} />
     </AppLink>
   );
@@ -30,6 +30,7 @@ const AppLogo: React.FC<AppLogoProps> = ({ size }) => {
 
 AppLogo.defaultProps = {
   size: "lg",
+  href: "/",
 };
 
 export default AppLogo;

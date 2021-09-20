@@ -15,7 +15,7 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ url }) => {
 
   return (
     <div className="profile__photo-holder">
-      <AppImage src={profileSrc} alt="Profile Photo" />
+      <AppImage legacy src={profileSrc} alt="Profile Photo" />
     </div>
   );
 };

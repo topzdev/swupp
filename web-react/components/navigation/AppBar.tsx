@@ -19,7 +19,7 @@ const AppBar: React.FC<AppBarProps> = ({ variant }) => {
   const { isLoggedIn, user } = useAuthContext();
   const [showMenu, setShowMenu] = useState(false);
 
-  const classlist = ["variant"];
+  const classlist = ["navbar"];
 
   if (variant) {
     classlist.push("navbar-post");
@@ -29,10 +29,14 @@ const AppBar: React.FC<AppBarProps> = ({ variant }) => {
     router.push("/trade");
   };
 
+  const toggleAppBarMenu = () => {
+    setShowMenu((state) => !state);
+  };
+
   return (
     <nav className={classlist.join(" ")}>
       <div className="container">
-        <AppLogo />
+        <AppLogo className="navbar__logo" href="/" />
 
         <div className="navbar__actions">
           {isLoggedIn ? (
@@ -45,13 +49,13 @@ const AppBar: React.FC<AppBarProps> = ({ variant }) => {
               />
               <ButtonIcon
                 className="mx-1"
-                icon={MessageIcon}
+                icon={<MessageIcon />}
                 onClick={gotoTradeChat}
               />
               <ButtonIcon
-                icon={ArrowDownIcon}
+                icon={<ArrowDownIcon />}
                 className="menu-icon"
-                onClick={gotoTradeChat}
+                onClick={toggleAppBarMenu}
               />
               <ClickOutside open={showMenu} setClose={setShowMenu}>
                 <AppBarMenu />

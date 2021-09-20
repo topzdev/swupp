@@ -47,7 +47,7 @@ button {
     background: var(--color-primary);
     height: 100%;
     width: 100%;
-    font-size: 18px;
+    font-size: 30px;
     color: var(--color-white);
     font-weight: 600;
 
@@ -58,11 +58,7 @@ button {
       background: var(--color-primary-dark);
     }
 
-    svg {
-      height: 35px;
-      width: 35px;
-      fill: var(--color-white);
-    }
+    color: var(--color-white);
   }
 
   &--text {
@@ -138,36 +134,24 @@ button {
   &--small {
     height: 30px;
     width: 30px;
-
-    svg {
-      height: 13px;
-    }
+    font-size: 13px;
   }
 
   &--medium {
     height: 40px;
     width: 40px;
-
-    svg {
-      height: 20px;
-    }
+    font-size: 20px;
   }
 
   &--large {
     height: 55px;
     width: 55px;
-    svg {
-      height: 30px !important;
-      width: 30px !important;
-    }
+    font-size: 30px;
   }
   &--xl {
     height: 70px;
     width: 70px;
-    svg {
-      width: 40px !important;
-      height: 40px !important;
-    }
+    font-size: 40px;
   }
 
   &--float {

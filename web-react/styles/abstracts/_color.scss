@@ -1,47 +1,41 @@
-@mixin colors($background-color, $text-color, $icon-color) {
-  background-color: var($background-color) !important;
-  fill: var($icon-color) !important;
-  color: var($text-color) !important;
+$systemColors: (
+  "main": var(--color-main),
+  "main-light": var(--color-main-light),
+  "primary": var(--color-primary),
+  "success": var(--color-success),
+  "warning": var(--color-yellow),
+  "accent": var(--color-accent),
+  "default": var(--color-gray),
+  "light-gray": var(--color-light-gray),
+);
 
-  &:hover {
-    background-color: #{rgba(var(#{$background-color}-rgb), 0.9)} !important;
+$systemTextColors: (
+  "main": var(--color-main),
+  "main-light": var(--color-main-light),
+  "primary": var(--color-primary),
+  "success": var(--color-success),
+  "warning": var(--color-yellow),
+  "accent": var(--color-accent),
+  "default": var(--color-gray),
+  "light-gray": var(--color-light-gray),
+);
+
+@mixin generateColors() {
+  .color {
+    @each $name, $color in map.merge($systemColors, $customColors) {
+      &--#{$name} {
+        background: #{$color} !important;
+      }
+    }
   }
 }
 
-.color {
-  &--primary {
-    @include colors(--color-primary, --color-white, --color-white);
-  }
-
-  &--accent {
-    @include colors(--color-accent, --color-white, --color-white);
-  }
-
-  &--success {
-    @include colors(--color-success, --color-white, --color-white);
-  }
-
-  &--warning {
-    @include colors(--color-yellow, --color-white, --color-white);
-  }
-
-  &--default {
-    @include colors(--color-gray, --color-white, --color-white);
-  }
-
-  &--light-gray {
-    @include colors(--color-light-gray, --color-white, --color-main);
-  }
-}
-.text {
-  &--primary {
-    color: var(--color-primary) !important;
-  }
-
-  &--main {
-    color: var(--color-main) !important;
-  }
-  &--main-light {
-    color: var(--color-main-light) !important;
+@mixin generateTextColors() {
+  .text {
+    @each $name, $color in map.merge($systemTextColors, $customTextColors) {
+      &--#{$name} {
+        color: #{$color} !important;
+      }
+    }
   }
 }
