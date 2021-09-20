@@ -1,0 +1,62 @@
+.heading {
+  &--primary {
+    letter-spacing: -1px;
+    color: rgba(var(--base-text-color), 0.9);
+
+    @include respond(mobile-lg) {
+      font-size: 30px;
+    }
+
+    @include respond(mobile-m) {
+      font-size: 28px;
+    }
+
+    @include respond(mobile-s) {
+      font-size: 22px;
+    }
+  }
+
+  &--secondary {
+    font-size: 17px;
+    font-family: var(--font-regular);
+    font-weight: 700;
+    opacity: 0.9;
+    color: rgba(var(--base-text-color), 1);
+
+    @include respond(mobile-lg) {
+      font-size: 15px;
+    }
+  }
+}
+
+.paragraph {
+  &--primary {
+    font-family: var(--font-regular);
+    font-size: 17px;
+    line-height: 1.6;
+    font-weight: 400;
+    opacity: 1;
+
+    @include respond(laptop) {
+      font-size: 16px;
+    }
+
+    @include respond(tab-port) {
+      font-size: 15px;
+    }
+
+    @include respond(mobile-m) {
+      font-size: 14px;
+    }
+
+    @include respond(mobile-m) {
+      font-size: 13px;
+    }
+  }
+}
+
+.overline {
+  font-weight: 500;
+  line-height: 2rem;
+  text-transform: uppercase;
+}

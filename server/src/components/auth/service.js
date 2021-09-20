@@ -107,16 +107,21 @@ class AuthServices {
       (err, emailToken) => {
         if (err) return console.log(err);
 
-        const url = `${BASE_URL}/confirmation/${emailToken}`;
-        transporter.sendMail({
-          to: user.email,
-          subject: "Confirm Email",
-          html: emailConfirmationEmai({
-            firstname: user.username,
-            email: user.email,
-            link: url,
-          }),
-        });
+        try {
+          const url = `${BASE_URL}/confirmation/${emailToken}`;
+          transporter.sendMail({
+            to: user.email,
+            subject: "Confirm Email",
+            html: emailConfirmationEmai({
+              firstname: user.username,
+              email: user.email,
+              link: url,
+            }),
+          });
+          
+        } catch (error) {
+          console.error(error)
+        }
       }
     );
 

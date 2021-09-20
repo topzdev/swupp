@@ -13,7 +13,6 @@ exports.parsePosts = (posts) => {
 
     return {
       ...item,
-      price: item.isPriceHidden ? "$$$" : 0,
       coverPhoto,
       counts: { comments: 0, views, likes, offers },
     };

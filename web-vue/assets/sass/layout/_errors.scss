@@ -1,0 +1,26 @@
+.errors {
+  &--no-post {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    width: 500px;
+    text-align: center;
+    img {
+      height: 350px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 5px;
+      color: var(--color-main-rgb);
+    }
+
+    p {
+      margin-bottom: 20px;
+      color: rgba(var(--color-main-rgb), 0.8);
+    }
+  }
+}

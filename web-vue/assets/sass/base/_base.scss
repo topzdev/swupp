@@ -1,0 +1,62 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: var(--font-regular);
+  font-weight: 400;
+  font-size: 100% !important;
+  background-color: var(--base-color);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+.main {
+  min-height: 100vh;
+}
+
+button {
+  background: none;
+  outline: none !important;
+  border: none;
+  cursor: pointer;
+}
+
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  margin: 0;
+}
+
+input,
+button,
+select,
+label {
+  font: inherit;
+  outline: none;
+}
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+img {
+  user-select: none;
+}

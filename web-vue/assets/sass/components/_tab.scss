@@ -1,0 +1,52 @@
+.tab {
+  display: flex;
+  flex-direction: column;
+
+  .nuxt-link-active {
+    color: var(--color-primary);
+    background-color: rgba(var(--color-primary-rgb), 0.2);
+    fill: var(--color-primary);
+  }
+
+  &--vertical &__list {
+    flex-direction: column;
+  }
+  &__header {
+    margin-bottom: 15px;
+  }
+  &__list {
+    display: flex;
+    list-style: none;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    color: var(--color-dark);
+    text-decoration: none;
+    padding: 10px 15px;
+    font-weight: 700;
+    border-radius: 8px;
+    @include transition;
+
+    &:hover {
+      color: rgba(var(--color-primary-rgb), 0.8);
+      background-color: rgba(var(--color-primary-rgb), 0.05);
+      fill: rgba(var(--color-primary-rgb), 0.8);
+    }
+  }
+
+  &__icon {
+    margin-right: 8px;
+
+    svg {
+      @include svg-size(28px);
+    }
+  }
+
+  &__item {
+    &:not(:last-child) {
+      margin-bottom: 5px;
+    }
+  }
+}

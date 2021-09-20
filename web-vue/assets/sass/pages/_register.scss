@@ -1,0 +1,31 @@
+.register {
+  &__form {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    justify-content: flex-end;
+  }
+
+  &__intro {
+    display: flex;
+    height: 100vh;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+
+    h1 {
+      display: block;
+      width: 80%;
+      color: var(--color-white);
+      font-size: 100px;
+      line-height: 1.4;
+    }
+
+    p {
+      font-size: 25px;
+      color: var(--color-white);
+      opacity: 0.8;
+      font-family: var(--font-heading);
+    }
+  }
+}

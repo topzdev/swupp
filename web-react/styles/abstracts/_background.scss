@@ -1,0 +1,14 @@
+.abstract-bg {
+  position: fixed;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  z-index: -1;
+  &--1 {
+    background-image: url("/img/abstract-bg.webp");
+  }
+
+  &--2 {
+    background-image: url("/img/abstract-bg-2.webp");
+  }
+}

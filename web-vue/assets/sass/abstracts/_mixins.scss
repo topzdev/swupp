@@ -1,0 +1,103 @@
+@mixin respond($screen-size) {
+  // 0 - 320px
+  @if $screen-size == mobile-s {
+    @media (max-width: 20em) {
+      @content;
+    }
+  }
+  // 320px - 375px
+  @if $screen-size == mobile-m {
+    @media (max-width: 23.4375em) {
+      @content;
+    }
+  }
+  // 375px - 600px
+  @if $screen-size == mobile-lg {
+    @media (max-width: 37.5625em) {
+      @content;
+    }
+  }
+  // 600px - 768px
+  @if $screen-size == tab-port {
+    @media (max-width: 48em) {
+      @content;
+    }
+  }
+  // 768px - 900px
+  @if $screen-size == tab-land {
+    @media (max-width: 56.25em) {
+      @content;
+    }
+  }
+  // 900px - 1264px
+  @if $screen-size == laptop {
+    @media (max-width: 79em) {
+      @content;
+    }
+  }
+  // 1264px - 1940px
+  @if $screen-size == desktop {
+    @media (max-width: 119em) {
+      @content;
+    }
+  }
+  // 1940px - upward
+  @if $screen-size == big-desktop {
+    @media (min-width: 119em) {
+      @content;
+    }
+  }
+}
+
+@mixin menu-active-state {
+  background-color: rgba(var(--color-light-gray-rgb), 0.5);
+}
+
+@mixin backdrop($alpha) {
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(var(--color-dark-rgb), $alpha);
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+  }
+}
+
+@mixin cover-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+@mixin flex-middle() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin transition() {
+  transition: all 200ms ease;
+}
+
+@mixin position-middle() {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin svg-size($size) {
+  height: $size !important;
+  width: $size !important;
+}
+
+@mixin square-size($size) {
+  height: $size;
+  min-height: $size;
+  width: $size;
+  min-width: $size;
+}

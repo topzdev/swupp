@@ -1,0 +1,47 @@
+@mixin colors($background-color, $text-color, $icon-color) {
+  background-color: var($background-color) !important;
+  fill: var($icon-color) !important;
+  color: var($text-color) !important;
+
+  &:hover {
+    background-color: #{rgba(var(#{$background-color}-rgb), 0.9)} !important;
+  }
+}
+
+.color {
+  &--primary {
+    @include colors(--color-primary, --color-white, --color-white);
+  }
+
+  &--accent {
+    @include colors(--color-accent, --color-white, --color-white);
+  }
+
+  &--success {
+    @include colors(--color-success, --color-white, --color-white);
+  }
+
+  &--warning {
+    @include colors(--color-yellow, --color-white, --color-white);
+  }
+
+  &--default {
+    @include colors(--color-gray, --color-white, --color-white);
+  }
+
+  &--light-gray {
+    @include colors(--color-light-gray, --color-white, --color-main);
+  }
+}
+.text {
+  &--primary {
+    color: var(--color-primary) !important;
+  }
+
+  &--main {
+    color: var(--color-main) !important;
+  }
+  &--main-light {
+    color: var(--color-main-light) !important;
+  }
+}

@@ -1,0 +1,241 @@
+.inp-group {
+  display: flex;
+  margin-bottom: 15px;
+  flex-direction: column;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.inp {
+  border: none;
+  background: none;
+  font: inherit;
+
+  &--primary &__field {
+    border: 1px solid rgba(var(--color-primary-rgb), 0.8);
+    width: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+  }
+
+  &--primary {
+    input,
+    select,
+    textarea {
+      width: 100%;
+
+      margin: 0;
+      background: none;
+      border: none;
+      padding: 12px 20px 12px 15px;
+    }
+
+    textarea {
+      min-width: 100%;
+      max-width: 100%;
+    }
+
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: transparent;
+      background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+      background-repeat: no-repeat;
+      background-position: 98%;
+      background-position-y: 50%;
+    }
+  }
+
+  &--search {
+    $search-height: 55px;
+    display: flex;
+    position: relative;
+    height: $search-height;
+    width: 100%;
+    &__inp {
+      background: var(--color-light-gray);
+      height: 100%;
+      width: 100%;
+      padding: 20px;
+      border-radius: 100px;
+      z-index: 10;
+    }
+
+    &__placeholder {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      color: var(--color-main);
+      pointer-events: none;
+      z-index: 10;
+      .p-default {
+        font-size: 15px;
+        font-family: var(--font-regular);
+        color: var(--color-gray);
+      }
+
+      .p-dynamic {
+        font-weight: 600;
+        font-family: var(--font-heading);
+      }
+    }
+
+    &__btn {
+      position: absolute;
+      height: 100%;
+      width: $search-height;
+      border-radius: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 0;
+      @include flex-middle();
+      @include transition();
+
+      &:hover {
+        background-color: var(--color-primary);
+      }
+    }
+
+    &__advance {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      padding: 10px;
+      padding-top: 75px;
+      background: var(--color-white);
+      display: flex;
+      width: calc(100% + 20px);
+      z-index: 9;
+      box-shadow: var(--search-bar-elevation);
+    }
+
+    &__advance-body {
+      display: flex;
+      height: 60px;
+      width: 100%;
+
+      .search-select {
+        width: 100%;
+        margin-right: 10px;
+      }
+
+      .btn--search {
+        width: 100px;
+        min-width: 100px;
+        margin-left: auto;
+      }
+    }
+    // &:focus-within &__placeholder {
+    //   opacity: 0;
+    // }
+  }
+
+  // inpout style properties
+
+  &__right-icon {
+    margin-right: 10px;
+  }
+
+  &__left-icon {
+    margin-left: 10px;
+  }
+
+  &__right-icon,
+  &__left-icon {
+    fill: var(--color-primary);
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  &__tip {
+  }
+
+  &__error {
+    color: var(--color-accent);
+    font-size: 13px;
+    margin-top: 5px;
+  }
+
+  &__field {
+    display: flex;
+    position: relative;
+  }
+
+  &--checkbox {
+    position: relative;
+    user-select: none;
+    a {
+      color: var(--color-blue);
+    }
+
+    input {
+      margin-left: 10px;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    input:checked {
+      & ~ .checkmark {
+        background-color: var(--color-primary);
+      }
+
+      & ~ .checkmark:after {
+        visibility: unset;
+        transform: translate(-50%, -50%) rotate(45deg) scale(1);
+      }
+    }
+
+    .checkmark {
+      position: absolute;
+      left: 0;
+      display: inline-block;
+      height: 22px;
+      width: 22px;
+      border-radius: 5px;
+      background-color: var(--color-light-gray);
+      transition: all 300ms ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+
+      &:after {
+        transition: all 300ms ease;
+        content: "";
+        position: absolute;
+        display: block;
+        left: 50%;
+        top: 40%;
+        visibility: hidden;
+        width: 7px;
+        height: 12px;
+        border: solid var(--color-white);
+        border-width: 0 3px 3px 0;
+        transform: translate(-50%, -50%) rotate(0) scale(0);
+      }
+    }
+  }
+
+  &__pass-toggle {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    fill: var(--color-main) !important;
+  }
+}
+
+.is-error {
+  .inp__field,
+  .checkmark {
+    border-color: var(--color-accent) !important;
+  }
+}
