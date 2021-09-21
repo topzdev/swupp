@@ -229,3 +229,5 @@ export const SAMPLE_POST_PHOTS = [
       "Small batch food truck proident quinoa, hell of farm-to-table meh XOXO readymade franzen vegan tbh green juice twee. Ethical letterpress palo santo crucifix +1 cold-pressed copper mug lo-fi neutra commodo. ",
   },
 ];
+
+export const AXIOS_BASE_URL = "http://localhost:5000";

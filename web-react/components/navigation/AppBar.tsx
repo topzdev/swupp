@@ -1,8 +1,8 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useState } from "react";
-import { ArrowDownIcon, MessageIcon } from "../../config/Icons";
-import { useAuthContext } from "../../context/AuthContent";
+import { ArrowDownIcon, MessageIcon } from "../../configs/Icons";
+import { useAuthContext } from "../../context/AuthContext";
 import AppLink from "../app/AppLink";
 import AppLogo from "../app/AppLogo";
 import ButtonIcon from "../buttons/ButtonIcon";

@@ -1,5 +1,5 @@
 import React from "react";
-import { SearchIcon } from "../../config/Icons";
+import { SearchIcon } from "../../configs/Icons";
 
 type SearchBarInputProps = {} & React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,

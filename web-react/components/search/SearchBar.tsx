@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SearchIcon } from "../../config/Icons";
+import { SearchIcon } from "../../configs/Icons";
 import { CATEGORIES, CONDITIONS } from "../../constant";
 import SearchBarInput from "./SearchBarInput";
 import SearchSelect, { SearchSelectOptions } from "./SearchSelect";

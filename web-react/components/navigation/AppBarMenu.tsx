@@ -1,6 +1,6 @@
 import React from "react";
-import { LogoutIcon, SettingsIcon } from "../../config/Icons";
-import { useAuthContext } from "../../context/AuthContent";
+import { LogoutIcon, SettingsIcon } from "../../configs/Icons";
+import { useAuthContext } from "../../context/AuthContext";
 import AppLink from "../app/AppLink";
 import ProfileIcon from "../profile/ProfileIcon";
 

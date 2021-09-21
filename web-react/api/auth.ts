@@ -1,3 +1,5 @@
+import axios from "@/configs/axiosConfig";
+
 export type User = {
   id: string;
   username: string;
@@ -26,13 +28,33 @@ export const dummyUser: User = {
     "https://res.cloudinary.com/topzdev/image/upload/f_auto,q_auto/v1/swupp-dev/covers/pxzeixmmifqteufmeupn",
 };
 
-const login = (crendentials: LoginCredentials) => {
-  const response = dummyUser;
-  return response;
-};
-
 const authAPI = {
-  login,
+  async login(crendentials: LoginCredentials) {
+    const response = dummyUser;
+    return response;
+  },
+
+  async transactVerify({ password }: LoginCredentials) {
+    const response = await axios.post("api/v1/auth/transact-verify", {
+      password,
+    });
+    return response;
+  },
+
+  async isUserExist(value: any) {
+    const response = await axios.get("api/v1/user/is-exist/" + value);
+    return response;
+  },
+
+  async register(input: any) {
+    const response = await axios.post("api/v1/auth/sign-up", input);
+    return response;
+  },
+
+  async confirmation(token: any) {
+    const response = await axios.post(`api/v1/auth/confirmation/${token}`);
+    return response;
+  },
 };
 
 export default authAPI;

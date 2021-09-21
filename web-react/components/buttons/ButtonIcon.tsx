@@ -1,9 +1,10 @@
 import { LinkProps } from "next/link";
 import React from "react";
+import { Colors } from "../../global";
 import AppLink, { AppLinkProps } from "../app/AppLink";
 
 type ButtonIconProps = {
-  color?: "primary" | "accent" | "warning" | "success" | "default" | "light";
+  color?: Colors;
   icon: React.ReactNode;
   size?: "sm" | "md" | "lg" | "xl";
   href?: LinkProps["href"];
@@ -17,15 +18,6 @@ type ButtonIconType = React.DetailedHTMLProps<
 > &
   ButtonIconProps &
   Omit<AppLinkProps, "href">;
-
-export const colorClasses = {
-  primary: "color--primary",
-  accent: "color--accent",
-  warning: "color--warning",
-  success: "color--success",
-  default: "color--default",
-  light: "color--light-gray",
-};
 
 export const buttonIconSizes = {
   sm: "btn-icon--small",
