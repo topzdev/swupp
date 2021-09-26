@@ -1,4 +1,4 @@
-import { Post } from "../types";
+import { Post } from "../global";
 import axios from "@/configs/axiosConfig";
 
 const postAPI = {

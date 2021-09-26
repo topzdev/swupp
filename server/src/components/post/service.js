@@ -306,6 +306,7 @@ exports.getPosts = async ({
   }
   // allows the user to choose if they want to delete,create or update the posts.
   const options = {
+    where,
     attributes: {
       exclude: ["updatedAt", "deletedAt"],
       include: [
@@ -326,7 +327,6 @@ exports.getPosts = async ({
     order: [["createdAt", order]],
     limit,
     offset: (page - 1) * limit,
-    where,
   };
   const count = await PostModel.count(options);
   // reading and fetching data from the database

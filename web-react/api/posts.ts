@@ -1,5 +1,12 @@
 import axios from "@/configs/axiosConfig";
-import { Post } from "../types";
+import {
+  CoverPhoto,
+  Post,
+  PostCount,
+  ProfilePhoto,
+  User,
+  UserProfile,
+} from "../global";
 
 type GetPostsParams = {
   order?: "DESC" | "ASC";
@@ -11,6 +18,16 @@ type GetPostsParams = {
   allowTraded?: string;
 };
 
+export type GetPostReturn = Post & {
+  user: Pick<User, "username" | "id"> & {
+    profile: Pick<UserProfile, "firstname" | "lastname"> & {
+      profilePhoto: ProfilePhoto;
+    };
+  };
+  coverPhoto: CoverPhoto;
+  counts: PostCount;
+};
+
 const postsAPI = {
   async getPosts({
     order = "DESC",
@@ -19,7 +36,11 @@ const postsAPI = {
     category,
     condition,
     search,
-  }: GetPostsParams) {
+  }: GetPostsParams): Promise<{
+    items: GetPostReturn[];
+    count: number;
+    last: boolean;
+  }> {
     const response = await axios.post("api/v1/post/get", {
       order,
       limit,
@@ -28,7 +49,7 @@ const postsAPI = {
       condition,
       search,
     });
-    return response.data;
+    return response.data.data;
   },
 
   async getCurrentUserPosts({

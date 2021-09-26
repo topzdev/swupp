@@ -174,7 +174,7 @@
     }
 
     &__options {
-      fill: var(--color-white);
+      color: var(--color-white);
       filter: drop-shadow(0 0 10px var(--color-black));
       margin-left: auto;
       @include flex-middle;
@@ -210,7 +210,7 @@
         font-weight: 600;
         .icons {
           margin-right: 8px;
-          fill: var(--color-main);
+          color: var(--color-main);
           width: 18px !important;
           // height: 20px !important ;
         }
@@ -220,7 +220,7 @@
           border-radius: 3px;
 
           .icons {
-            fill: var(--color-white);
+            color: var(--color-white);
           }
         }
       }

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { EditIcon } from "../../configs/Icons";
+import { EditIcon, ReportIcon } from "../../configs/Icons";
 import { useAuthContext } from "../../context/AuthContext";
 import { Post, User } from "../../global";
 
@@ -33,7 +33,10 @@ const PostCardOptionsMenu: React.FC<PostCardOptionsMenuProps> = ({
             <EditIcon className="icons" /> Edit
           </li>
         )}
-        {/* <li><app-icon class="icons" :path="icons.report"></app-icon> Report</li> */}
+        <li>
+          <ReportIcon className="icons" />
+          Report
+        </li>
       </ul>
     </div>
   );

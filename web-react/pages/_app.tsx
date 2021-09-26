@@ -5,7 +5,13 @@ import AuthContextProvider from "../context/AuthContext";
 import { QueryClientProvider, QueryClient } from "react-query";
 import axios from "axios";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

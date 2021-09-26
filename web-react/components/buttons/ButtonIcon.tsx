@@ -1,5 +1,6 @@
 import { LinkProps } from "next/link";
 import React from "react";
+import { colorClasses } from "../../configs/classStyles";
 import { Colors } from "../../global";
 import AppLink, { AppLinkProps } from "../app/AppLink";
 

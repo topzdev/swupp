@@ -17,17 +17,11 @@ import { HeartIcon, OptionsIcon, ViewsIcon } from "../../configs/Icons";
 import ClickOutside from "../utils/ClickOutside";
 import PostCardOptionsMenu from "./PostCardOptionsMenu";
 import postAPI from "../../api/post";
+import { GetPostReturn } from "../../api/posts";
+import ProfileIcon from "../profile/ProfileIcon";
 
 interface PostCardProps {
-  post: Post & {
-    counts: PostCount;
-    coverPhoto: PostPhoto;
-    user: User & {
-      profile: UserProfile & {
-        profilePhoto: ProfilePhoto;
-      };
-    };
-  };
+  post: GetPostReturn;
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
@@ -59,11 +53,13 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
  */
   const postCoverPhoto = post.coverPhoto.url;
 
-  const view = () => {
+  const view = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
     router.push(`/post/${post.id}`);
   };
 
-  const toggleMenu = () => {
+  const toggleMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     setShowMenu((state) => !state);
   };
 
@@ -79,11 +75,17 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           title={post.title}
           draggable={false}
           loading={"lazy"}
+          legacy
         />
       </div>
 
       <div className="card--post__main" onClick={view}>
         <div className="card--post__header">
+          <ProfileIcon
+            username={post.user.username}
+            name={post.user.username}
+            photo={profilePhoto}
+          />
           <button className="card--post__options" onClick={toggleMenu}>
             <OptionsIcon />
           </button>
