@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { SearchIcon } from "../../configs/Icons";
 import { CATEGORIES, CONDITIONS } from "../../constant";
@@ -7,12 +8,28 @@ import SearchSelect, { SearchSelectOptions } from "./SearchSelect";
 interface SearchBarProps {}
 
 const SearchBar: React.FC<SearchBarProps> = ({}) => {
+  const router = useRouter();
+
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [condition, setCondition] = useState("all");
   const options = {
     category: [{ id: "all", text: "All" }, ...CATEGORIES],
     condition: [{ id: "all", text: "All" }, ...CONDITIONS],
+  };
+
+  const onSearch = () => {
+    let query: any = {};
+
+    if (category !== "all") query.category = category;
+    if (condition !== "all") query.condition = condition;
+    if (search !== "") query.search = search;
+
+    console.log(query);
+    router.push({
+      query,
+      pathname: "/search",
+    });
   };
 
   return (
@@ -41,7 +58,7 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
       </div>
 
       <div className="search-bar__action">
-        <button className="btn btn--search">
+        <button className="btn btn--search" onClick={onSearch}>
           <SearchIcon />
         </button>
       </div>

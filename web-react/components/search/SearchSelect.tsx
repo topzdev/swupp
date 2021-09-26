@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ArrowDownIcon } from "../../configs/Icons";
 import ClickOutside from "../utils/ClickOutside";
 
 export interface SearchSelectOptions {
@@ -52,7 +53,9 @@ const SearchSelect: React.FC<SearchSelectProps> = ({
 
         <div className="search-select__label">{label}</div>
 
-        <div className="search-select__arrow"></div>
+        <div className="search-select__arrow">
+          <ArrowDownIcon />
+        </div>
       </div>
 
       <ul className="search-select__list">

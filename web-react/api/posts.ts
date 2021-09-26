@@ -8,7 +8,7 @@ import {
   UserProfile,
 } from "../global";
 
-type GetPostsParams = {
+export type GetPostsParams = {
   order?: "DESC" | "ASC";
   limit?: number;
   page?: number;
@@ -28,6 +28,12 @@ export type GetPostReturn = Post & {
   counts: PostCount;
 };
 
+export type GetPostResponse = {
+  items: GetPostReturn[];
+  count: number;
+  last: boolean;
+};
+
 const postsAPI = {
   async getPosts({
     order = "DESC",
@@ -36,11 +42,7 @@ const postsAPI = {
     category,
     condition,
     search,
-  }: GetPostsParams): Promise<{
-    items: GetPostReturn[];
-    count: number;
-    last: boolean;
-  }> {
+  }: GetPostsParams): Promise<GetPostResponse> {
     const response = await axios.post("api/v1/post/get", {
       order,
       limit,
@@ -58,7 +60,7 @@ const postsAPI = {
     page,
     search,
     allowTraded,
-  }: GetPostsParams) {
+  }: GetPostsParams): Promise<GetPostResponse> {
     const response = await axios.post("api/v1/post/get-user-post", {
       order,
       limit,

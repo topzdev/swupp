@@ -22,7 +22,7 @@ $systemTextColors: (
 
 @mixin generateColors() {
   .color {
-    @each $name, $color in map.merge($systemColors, $customColors) {
+    @each $name, $color in $systemColors {
       &--#{$name} {
         background: #{$color} !important;
       }
@@ -32,10 +32,13 @@ $systemTextColors: (
 
 @mixin generateTextColors() {
   .text {
-    @each $name, $color in map.merge($systemTextColors, $customTextColors) {
+    @each $name, $color in $systemTextColors {
       &--#{$name} {
         color: #{$color} !important;
       }
     }
   }
 }
+
+@include generateColors();
+@include generateTextColors();

@@ -3,14 +3,20 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import PostCard from "../../post/PostCard";
 import Loading from "../../progress/Loading";
 import { useCallback, useEffect, useState } from "react";
-import postsAPI, { GetPostReturn } from "../../../api/posts";
+import postsAPI, { GetPostResponse, GetPostReturn } from "../../../api/posts";
 import { useInfiniteQuery, useQuery } from "react-query";
 
-interface RecentlyAddedPostsProps {}
+interface RecentlyAddedPostsProps {
+  resultLimit?: number;
+  initialData: GetPostResponse;
+}
 
-const RecentlyAddedPosts: React.FC<RecentlyAddedPostsProps> = ({}) => {
+const RecentlyAddedPosts: React.FC<RecentlyAddedPostsProps> = ({
+  resultLimit,
+  initialData,
+}) => {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(resultLimit || 10);
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     "posts",
@@ -19,7 +25,13 @@ const RecentlyAddedPosts: React.FC<RecentlyAddedPostsProps> = ({}) => {
       return postsAPI.getPosts(pageParam ? pageParam : { page, limit });
     },
     {
+      initialData: {
+        pages: [initialData],
+        pageParams: [undefined],
+      },
       getNextPageParam: (lastPage) => {
+        if (!lastPage) return;
+
         if (lastPage.last) return;
 
         return {
@@ -71,5 +83,7 @@ const RecentlyAddedPosts: React.FC<RecentlyAddedPostsProps> = ({}) => {
     </>
   );
 };
+
+RecentlyAddedPosts.defaultProps = {};
 
 export default RecentlyAddedPosts;
