@@ -1,13 +1,13 @@
-export type DataTimestamp = {
+type DataTimestamp = {
   createdAt?: string;
   updatedAt?: string;
 };
 
-export type DataParanoid = {
+type DataParanoid = {
   deletedAt?: string;
 };
 
-export type User = {
+type User = {
   username?: string;
   id?: number;
   email?: string;
@@ -17,7 +17,7 @@ export type User = {
   confirmed?: boolean;
 };
 
-export type UserProfile = {
+type UserProfile = {
   firstname: string;
   lastname: string;
   birthdate?: string | null;
@@ -27,14 +27,14 @@ export type UserProfile = {
   websiteUrl?: string | null;
 };
 
-export type Photo = {
+type Photo = {
   publicId?: string;
   url?: string;
   securedUrl?: string;
   id?: number;
 };
 
-export type Trade = {
+type Trade = {
   id: number;
   isTraded?: boolean;
   postId?: string;
@@ -56,24 +56,24 @@ export type Trade = {
   };
 };
 
-export type TradeMessages = {
+type TradeMessages = {
   text?: string;
   isDeleted?: boolean;
   tradeId: Trade["id"];
   userId: User["id"];
 };
 
-export type CoverPhoto = Photo;
-export type ProfilePhoto = Photo;
+type CoverPhoto = Photo;
+type ProfilePhoto = Photo;
 
-export type PostCount = {
+type PostCount = {
   comment: number;
   views: number;
   likes: number;
   offers: number;
 };
 
-export type Post = {
+type Post = {
   id?: string;
   title?: string;
   body?: string;
@@ -88,21 +88,32 @@ export type Post = {
 } & DataTimestamp &
   DataParanoid;
 
-export type PostPhoto = {
+type PostPhoto = {
   isCover?: boolean;
   caption?: boolean;
 } & Photo;
 
-export type PostLocation = {
+type PostLocation = {
   lat?: number;
   lng?: number;
   name?: string;
 } & DataParanoid;
 
-export type Colors =
+type Colors =
   | "primary"
   | "accent"
   | "warning"
   | "success"
   | "default"
   | "light";
+
+type Size = "small" | "large" | "medium" | "xsmall";
+
+type NewColors =
+  | "success"
+  | "secondary"
+  | "primary"
+  | "danger"
+  | "warning"
+  | "info"
+  | "special";

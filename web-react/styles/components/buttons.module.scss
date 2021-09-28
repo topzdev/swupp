@@ -1,0 +1,234 @@
+@use "../abstracts/mixins";
+@use "../base/animation";
+
+.btn {
+  &__defaults {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    border-radius: var(--card-radius);
+    font-weight: 600 !important;
+    @include mixins.transition;
+    position: relative;
+    overflow: hidden;
+    &:hover {
+      opacity: 0.9;
+    }
+
+    svg {
+      // margin-right: 5px;
+    }
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    user-select: none;
+  }
+
+  &__loading {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    background-color: inherit;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    svg {
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  &:disabled {
+    background: var(--color-alpha-1) !important;
+    color: var(--color-text-light) !important;
+    cursor: default !important;
+    border-color: var(--color-alpha-1) !important;
+  }
+}
+
+.btn-icon {
+  padding: 0 !important;
+  border-radius: 100% !important;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    margin-right: 0 !important;
+  }
+
+  &.btn--xsmall {
+    min-height: 30px;
+    min-width: 30px;
+  }
+
+  &.btn--small {
+    min-height: 35px;
+    min-width: 35px;
+  }
+
+  &.btn--medium {
+    min-height: 38px;
+    min-width: 38px;
+  }
+
+  &.btn--large {
+    min-height: 45px;
+    min-width: 45px;
+  }
+}
+
+.btn--xsmall {
+  padding: 0 13px;
+  min-height: 32px;
+  font-size: 14px;
+  border-width: 2px !important;
+  svg {
+    height: 16px;
+    width: 16px;
+  }
+}
+
+.btn--small {
+  padding: 0 20px;
+  min-height: 40px;
+  font-size: 16px;
+  border-width: 2px;
+  svg {
+    height: 19px;
+    width: 19px;
+  }
+}
+
+.btn--medium {
+  padding: 0 25px;
+  min-height: 42px;
+  font-size: 17px;
+  svg {
+    height: 22px;
+    width: 22px;
+  }
+}
+
+.btn--large {
+  min-height: 50px;
+  font-size: 18px;
+  padding: 0 40px;
+  svg {
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-outlined {
+  border-style: solid;
+  border-width: 3px;
+  background: none !important;
+  font-weight: 700 !important;
+
+  &.btn--small {
+    border-width: 2px;
+  }
+
+  &.btn--xsmall {
+    border-width: 2px;
+  }
+
+  &:hover {
+    opacity: 0.8 !important;
+  }
+
+  &--secondary {
+    border-color: var(--color-secondary) !important;
+    color: var(--color-secondary) !important;
+  }
+  &--primary {
+    border-color: var(--color-primary) !important;
+    color: var(--color-primary) !important;
+  }
+
+  &--success {
+    border-color: var(--color-) !important;
+    color: var(--color-success) !important;
+  }
+
+  &--info {
+    border-color: var(--color-info) !important;
+    color: var(--color-info) !important;
+  }
+
+  &--warning {
+    border-color: var(--color-warning) !important;
+    color: var(--color-warning) !important;
+  }
+
+  &--danger {
+    border-color: var(--color-danger) !important;
+    color: var(--color-danger) !important;
+  }
+}
+
+.btn-text {
+  // background: none !important;
+  font-weight: 700 !important;
+
+  &:hover {
+    opacity: 0.8 !important;
+  }
+
+  &--secondary {
+    color: var(--color-secondary) !important;
+    &:focus {
+      background-color: var(--color-secondary-shade) !important;
+    }
+  }
+  &--primary {
+    color: var(--color-primary) !important;
+    &:focus {
+      background-color: var(--color-primary-100) !important;
+    }
+  }
+
+  &--success {
+    color: var(--color-success) !important;
+    &:focus {
+      background-color: var(--color-success-shade) !important;
+    }
+  }
+
+  &--info {
+    color: var(--color-info) !important;
+    &:focus {
+      background-color: var(--color-info-shade) !important;
+    }
+  }
+
+  &--warning {
+    color: var(--color-warning) !important;
+    &:focus {
+      background-color: var(--color-warning-shade) !important;
+    }
+  }
+
+  &--danger {
+    color: var(--color-danger) !important;
+    &:focus {
+      background-color: var(--color-danger-shade) !important;
+    }
+  }
+  &--special {
+    color: var(--color-special) !important;
+    &:focus {
+      background-color: var(--color-special-shade) !important;
+    }
+  }
+}
+
+.btn-rounded {
+  border-radius: 50px;
+}

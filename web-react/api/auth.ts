@@ -30,8 +30,13 @@ export const dummyUser: User = {
 
 const authAPI = {
   async login(crendentials: LoginCredentials) {
-    const response = dummyUser;
-    return response;
+    const response = await axios.post("api/v1/auth/sign-in", crendentials);
+    return response.data;
+  },
+
+  async me() {
+    const response = await axios.get("api/v1/auth/me");
+    return response.data;
   },
 
   async transactVerify({ password }: LoginCredentials) {

@@ -19,15 +19,62 @@ import PostCardOptionsMenu from "./PostCardOptionsMenu";
 import postAPI from "../../api/post";
 import { GetPostReturn } from "../../api/posts";
 import ProfileIcon from "../profile/ProfileIcon";
+import AppLink from "../app/AppLink";
 
 interface PostCardProps {
   post: GetPostReturn;
 }
 
+interface PostCardHeaderProps {
+  post: GetPostReturn;
+}
+
+const PostCardHeader: React.FC<PostCardHeaderProps> = ({ post }) => {
+  const [showMenu, setShowMenu] = useState(false);
+  const profilePhoto = post.user.profile.profilePhoto.url;
+  /* Post Cover Photo Cloudinary Config
+	height: 400,
+	crop: "scale",
+	quality: "auto",
+	fetch_format: "auto",
+ */
+  const toggleMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    setShowMenu((state) => !state);
+  };
+
+  const hideMenu = () => {
+    setShowMenu(false);
+  };
+
+  return (
+    <div className="card--post__header">
+      <AppLink
+        className="card--post__user"
+        href={`/profile/${post.user.username}`}
+      >
+        <ProfileIcon
+          username={post.user.username}
+          name={post.user.username}
+          photo={profilePhoto}
+        />
+      </AppLink>
+      <button className="card--post__options" onClick={toggleMenu}>
+        <OptionsIcon />
+      </button>
+
+      <ClickOutside open={showMenu} setClose={hideMenu}>
+        <PostCardOptionsMenu
+          id={post.id}
+          user={post.user}
+        ></PostCardOptionsMenu>
+      </ClickOutside>
+    </div>
+  );
+};
+
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const router = useRouter();
-
-  const [showMenu, setShowMenu] = useState(false);
 
   const truncatedTitle = truncate(post.title ? post.title : "", 64);
   const truncatedPrefered = post.prefered
@@ -44,27 +91,12 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 	quality: "auto",
 	crop: "scale",
   */
-  const profilePhoto = post.user.profile.profilePhoto.url;
-  /* Post Cover Photo Cloudinary Config
-	height: 400,
-	crop: "scale",
-	quality: "auto",
-	fetch_format: "auto",
- */
+
   const postCoverPhoto = post.coverPhoto.url;
 
   const view = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     router.push(`/post/${post.id}`);
-  };
-
-  const toggleMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
-    setShowMenu((state) => !state);
-  };
-
-  const hideMenu = () => {
-    setShowMenu(false);
   };
 
   return (
@@ -78,25 +110,8 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           legacy
         />
       </div>
-
-      <div className="card--post__main" onClick={view}>
-        <div className="card--post__header">
-          <ProfileIcon
-            username={post.user.username}
-            name={post.user.username}
-            photo={profilePhoto}
-          />
-          <button className="card--post__options" onClick={toggleMenu}>
-            <OptionsIcon />
-          </button>
-
-          <ClickOutside open={showMenu} setClose={hideMenu}>
-            <PostCardOptionsMenu
-              id={post.id}
-              user={post.user}
-            ></PostCardOptionsMenu>
-          </ClickOutside>
-        </div>
+      <PostCardHeader post={post} />
+      <AppLink href={`/post/${post.id}`} className="card--post__main">
         <div className="card--post__body">
           {!post.isTraded ? (
             <ul className="card--post__others">
@@ -129,7 +144,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             <Badge color="primary">{condition}</Badge>
           </div>
         </div>
-      </div>
+      </AppLink>
     </div>
   );
 };

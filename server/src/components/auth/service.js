@@ -106,7 +106,7 @@ class AuthServices {
       },
       (err, emailToken) => {
         if (err) return console.log(err);
-
+        console.log(emailToken);
         try {
           const url = `${BASE_URL}/confirmation/${emailToken}`;
           transporter.sendMail({
@@ -118,9 +118,8 @@ class AuthServices {
               link: url,
             }),
           });
-          
         } catch (error) {
-          console.error(error)
+          console.error(error);
         }
       }
     );

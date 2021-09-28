@@ -67,6 +67,47 @@
   --select-elevation: 0px 4px 20px rgba(0, 0, 0, 0.05),
     0px -4px 20px rgba(0, 0, 0, 0.05);
   --preview-image-elevation: 0px 0px 40px rgba(0, 0, 0, 0.5);
+
+  //New
+  // Alpha colors
+  --color-alpha-1: #eaedf0;
+  --color-alpha-2: #a6b0c3;
+  --color-alpha-3: #808a9d;
+  --color-alpha-4: #58667e;
+
+  // Input colors
+  --color-input: #f6f6f6;
+  --color-input-hint: #666666;
+
+  // Gray
+  --color-gray: #bbbbbb;
+  --color-gray-light: #dddddd;
+
+  // System colors
+  --color-success: #16c784;
+  --color-success-shade: #ebfcf5;
+  --color-success-text: #fff;
+
+  --color-warning: #ffc23f;
+  --color-warning-shade: #fff3d9;
+  --color-warning-text: #d69200;
+
+  --color-info: #3bd8f7;
+  --color-info-shade: #cdf7ff;
+  --color-info-text: #fff;
+
+  --color-danger: #ff492d;
+  --color-danger-shade: #fde9e6;
+  --color-danger-text: #fff;
+
+  --color-secondary: #3c3c3c;
+  --color-secondary-shade: #f1f1f1;
+  --color-secondary-text: #fff;
+
+  --color-special: #f9bd00;
+  --color-special-shade: #fff3d9;
+
+  --card-radius: 5px;
 }
 
 ::selection {

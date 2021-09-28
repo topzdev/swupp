@@ -97,6 +97,7 @@
 
     &__logo {
       height: 80px;
+      width: 80px;
       margin: 0 auto;
       img {
         height: 100%;
@@ -137,6 +138,9 @@
     & > * {
       position: relative;
     }
+    &__user {
+      text-decoration: none;
+    }
 
     &__traded {
       font-weight: 700;
@@ -148,11 +152,14 @@
     }
 
     &__header {
+      position: absolute;
+      top: 0;
+      left: 0;
       display: flex;
       width: 100%;
-      position: relative;
       align-items: center;
-
+      z-index: 5;
+      padding: 5px;
       .profile-icon {
         padding: 2px 10px 2px 2px;
         &__photo {
@@ -208,6 +215,7 @@
         color: var(--color-main);
         font-size: 13px;
         font-weight: 600;
+        cursor: pointer;
         .icons {
           margin-right: 8px;
           color: var(--color-main);
@@ -264,7 +272,7 @@
     &__main {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-end;
       height: 100%;
       padding: 5px;
       z-index: 3;

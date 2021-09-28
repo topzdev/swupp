@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </AuthContextProvider>
     </QueryClientProvider>
   );

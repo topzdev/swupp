@@ -15,8 +15,8 @@ const AuthContextProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(dummyUser);
   const [isLoggedIn] = useState(user ? true : false);
 
-  const login = useCallback((credentials: LoginCredentials) => {
-    const response = authAPI.login(credentials);
+  const login = useCallback(async (credentials: LoginCredentials) => {
+    const response = await authAPI.login(credentials);
     setUser(response);
   }, []);
 
