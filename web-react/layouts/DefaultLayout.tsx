@@ -1,10 +1,9 @@
 import React from "react";
 import AppBar from "../components/navigation/AppBar";
-import { useSession } from "@next-auth/react-query";
 
-interface AuthLayoutProps {}
+interface DefaultLayoutProps {}
 
-const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
+const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
     <>
       <header>
@@ -16,4 +15,4 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   );
 };
 
-export default AuthLayout;
+export default DefaultLayout;

@@ -170,6 +170,58 @@ class AuthServices {
     };
   }
 
+  async signInV2({ usernameOrEmail, password }) {
+    const rawUser = await User.findOne({
+      where: {
+        [Op.or]: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+      },
+      include: [
+        {
+          model: ProfileModel,
+          attributes: ["firstname", "lastname"],
+          as: "profile",
+          include: [
+            {
+              model: CoverPhotoModel,
+              attributes: ["url", "securedUrl", "publicId"],
+              as: "coverPhoto",
+            },
+            {
+              model: ProfilePhotoModel,
+              attributes: ["url", "securedUrl", "publicId"],
+              as: "profilePhoto",
+            },
+          ],
+        },
+      ],
+    });
+
+    const user = rawUser.get({ plain: true });
+
+    if (!user) return returnError("usernameOrEmail", "User not exist");
+
+    if (!user.confirmed)
+      return returnError("password", "User email is not yet confirmed");
+
+    //checks the if the password is mathched to the users password
+    if (!(await authHelpers.verifyPassword(password, user.password)))
+      return returnError("password", "password not match");
+
+    // console.log(user.get({ plain: true }));
+    const token = authHelpers.signToken(user.id);
+
+    delete user.password;
+
+    console.log(user);
+
+    return {
+      data: {
+        token,
+        user,
+      },
+    };
+  }
+
   async me(userId) {
     if (!userId) return null;
 

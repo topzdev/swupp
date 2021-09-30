@@ -21,8 +21,8 @@ const TextField = React.forwardRef<
     id,
   } = useInput(props);
 
-  const { value, defaultValue, style } = props;
-  console.log("Test Input Field");
+  const { value, defaultValue, style, type } = props;
+
   return (
     <div className={wrapperClassFinal.join(" ")} style={style}>
       <InputLabel />
@@ -32,11 +32,8 @@ const TextField = React.forwardRef<
 
         <div className={inputStyle.input__field}>
           {/* <InputPlaceholder /> */}
-          <input
-            type="text"
-            {...{ ...rest, id, value, defaultValue }}
-            ref={ref}
-          />
+
+          <input {...{ ...rest, id, value, defaultValue, type }} ref={ref} />
         </div>
 
         <InputIconRight />
@@ -51,6 +48,7 @@ TextField.displayName = "TextField";
 TextField.defaultProps = {
   variant: "filled",
   focusPlaceholder: true,
+  type: "text",
 };
 
 export default TextField;

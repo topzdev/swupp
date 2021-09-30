@@ -1,36 +1,44 @@
 import axios from "@/configs/axiosConfig";
 
-export type User = {
-  id: string;
-  username: string;
-  email: string;
-  profilePhoto?: string;
-  coverPhoto?: string;
-  firstname: string;
-  lastname: string;
-};
-
 export type LoginCredentials = {
   usernameOrEmail: string;
   password: string;
 };
 
 export const dummyUser: User = {
-  id: "1",
-  username: "cryptocoinclash",
-  email: "cryptocoinclash@gmail.com",
-  firstname: "Christian",
-  lastname: "Lugod",
-  profilePhoto:
-    "https://res.cloudinary.com/topzdev/image/upload/c_scale,f_auto,q_auto,w_300/v1/swupp-dev/profiles/mb4y1bqqy6tg1japlol7",
-
-  coverPhoto:
-    "https://res.cloudinary.com/topzdev/image/upload/f_auto,q_auto/v1/swupp-dev/covers/pxzeixmmifqteufmeupn",
+  id: 10,
+  recoveryEmail: null,
+  phoneNumber: "09286665903",
+  isActive: true,
+  confirmed: true,
+  createdAt: "2021-09-28T14:10:47.685Z",
+  updatedAt: "2021-09-30T08:15:15.705Z",
+  profile: {
+    firstname: "Christian",
+    lastname: "Lugod",
+    coverPhoto: {
+      url: null,
+      securedUrl:
+        "https://res.cloudinary.com/topzdev/image/upload/f_auto,q_auto/v1/swupp-dev/covers/pxzeixmmifqteufmeupn",
+      publicId: null,
+    },
+    profilePhoto: {
+      url: null,
+      securedUrl:
+        "https://res.cloudinary.com/topzdev/image/upload/c_scale,f_auto,q_auto,w_300/v1/swupp-dev/profiles/mb4y1bqqy6tg1japlol7",
+      publicId: null,
+    },
+  },
 };
 
 const authAPI = {
   async login(crendentials: LoginCredentials) {
     const response = await axios.post("api/v1/auth/sign-in", crendentials);
+    return response.data;
+  },
+
+  async signInV2(crendentials: LoginCredentials) {
+    const response = await axios.post("api/v1/auth/sign-in-v2", crendentials);
     return response.data;
   },
 

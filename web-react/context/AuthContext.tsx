@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from "react";
 import { useMemo } from "react";
-import authAPI, { dummyUser, LoginCredentials, User } from "../api/auth";
+import authAPI, { dummyUser, LoginCredentials } from "../api/auth";
 type AuthContextType = {
   user: User | null;
   isLoggedIn: boolean;

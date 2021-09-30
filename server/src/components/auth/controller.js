@@ -31,6 +31,20 @@ exports.signIn = async (req, res) => {
   }
 };
 
+exports.signInV2 = async (req, res) => {
+  try {
+    const input = req.body;
+    console.log(input);
+    const data = await authService.signInV2(input);
+
+    if (data.error) return res.status(401).json(data);
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
 exports.confirmEmail = async (req, res) => {
   try {
     const token = req.params.token;

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next-auth/react-query": "^0.0.12",
     "axios": "^0.21.4",
     "next": "11.1.2",
     "next-auth": "^4.0.0-beta.2",

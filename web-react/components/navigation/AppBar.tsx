@@ -43,9 +43,9 @@ const AppBar: React.FC<AppBarProps> = ({ variant }) => {
             <>
               <ProfileIcon
                 username={user?.username}
-                photo={user?.profilePhoto}
-                name={user?.firstname}
-                id={user?.id}
+                photo={user?.profile.profilePhoto.securedUrl}
+                name={user?.profile.firstname}
+                // id={user?.id}
               />
               <ButtonIcon
                 className="mx-1"

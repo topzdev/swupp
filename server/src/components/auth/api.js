@@ -7,6 +7,8 @@ router.get("/me", auth, authController.me);
 
 router.post("/sign-in", authController.signIn);
 
+router.post("/sign-in-v2", authController.signInV2);
+
 router.post("/sign-up", authController.signUp);
 
 router.post("/logout", authController.logout);

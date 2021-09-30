@@ -2,10 +2,11 @@ import React from "react";
 import AuthLayout from "../layouts/AuthLayout";
 import loginStyle from "@/styles/pages/login.module.scss";
 import LoginForm from "../components/forms/LoginForm";
+import { ComponentWithAuth } from "../types/auth-utils";
 
 interface LoginPageProps {}
 
-const LoginPage: React.FC<LoginPageProps> = ({}) => {
+const LoginPage: ComponentWithAuth<LoginPageProps> = ({}) => {
   return (
     <>
       <div className="abstract-bg abstract-bg--2"></div>
@@ -17,5 +18,7 @@ const LoginPage: React.FC<LoginPageProps> = ({}) => {
     </>
   );
 };
+
+LoginPage.auth = false;
 
 export default LoginPage;

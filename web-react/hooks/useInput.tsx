@@ -111,6 +111,7 @@ export function useInput<T>({
     if (func)
       return (
         <button
+          type="button"
           className={[className, inputStyle["input__icon-button"]].join(" ")}
           onClick={func}
         >
@@ -155,8 +156,6 @@ export function useInput<T>({
   const InputHint = () => {
     let hintMessage = null;
     let hintClassName = ["hint", inputStyle.input__hint];
-
-    console.log("Inpunt Hint Error", error);
 
     if (error) {
       hintMessage = error;

@@ -1,10 +1,12 @@
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { EyeOpenIcon, EyeCloseIcon } from "../../configs/Icons";
 import AppAlert from "../app/AppAlert";
 import AppLogo from "../app/AppLogo";
 import Button from "../buttons/Button";
-import TextField from "../inputs/Textfield";
+import TextField from "../inputs/TextField";
 
 interface LoginFormProps {}
 
@@ -20,15 +22,37 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
     formState: { errors, isSubmitting },
   } = useForm<LoginCredentials>({});
 
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit: SubmitHandler<LoginCredentials> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<LoginCredentials> = async (credentials) => {
+    const { ok, error } = await signIn("credentials", {
+      password: credentials.password,
+      usernameOrEmail: credentials.emailOrUsername,
+    });
+    console.log(credentials);
 
-  const onTogglePassword = () => {
-    setShowPassword((state) => !state);
+    if (error) {
+      console.error(error);
+    }
+
+    if (ok) {
+      console.log(ok);
+    }
+    console.log(credentials);
+
+    // signIn("credentials", {
+    //   password: credentials.password,
+    //   usernameOrEmail: credentials.emailOrUsername,
+    //   redirect: false,
+    // });
+    // signIn("credentials", credentials);
   };
 
-  console.log(errors);
+  const onTogglePassword = useCallback(() => {
+    setShowPassword((state) => !state);
+  }, [setShowPassword]);
+
+  console.log(errors, showPassword);
 
   return (
     <div className="card--form">

@@ -1,9 +1,15 @@
 import "../styles/main.scss";
 import "../styles/bootstrap-grid.min.css";
-import type { AppProps } from "next/app";
+import type { AppInitialProps } from "next/app";
 import AuthContextProvider from "../context/AuthContext";
 import { QueryClientProvider, QueryClient } from "react-query";
-import axios from "axios";
+import { SessionProvider, signIn } from "next-auth/react";
+import { useSession } from "@next-auth/react-query";
+import { NextComponentType, NextPageContext } from "next";
+import { Router } from "next/router";
+import { useEffect } from "react";
+import AuthMiddleware from "../middlleware/AuthMiddleware";
+import { ProtectedAppProps } from "../types/auth-utils";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -13,12 +19,23 @@ const queryClient = new QueryClient({
   },
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: ProtectedAppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthContextProvider>
-        <Component {...pageProps} />
-      </AuthContextProvider>
+      <SessionProvider session={session}>
+        <AuthContextProvider>
+          {Component.auth ? (
+            <AuthMiddleware>
+              <Component {...pageProps} />
+            </AuthMiddleware>
+          ) : (
+            <Component {...pageProps} />
+          )}
+        </AuthContextProvider>
+      </SessionProvider>
     </QueryClientProvider>
   );
 }

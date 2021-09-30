@@ -15,7 +15,11 @@ type User = {
   phoneNumber?: string | null;
   isActive?: boolean;
   confirmed?: boolean;
-};
+  profile: Pick<UserProfile, "firstname" | "lastname"> & {
+    coverPhoto: Omit<Photo, "id">;
+    profilePhoto: Omit<Photo, "id">;
+  };
+} & DataTimestamp;
 
 type UserProfile = {
   firstname: string;

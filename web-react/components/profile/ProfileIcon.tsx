@@ -7,7 +7,7 @@ type ProfileIconProps = {
   name?: string;
   caption?: string;
   photo?: string;
-  id?: number | string;
+  id?: number;
   className?: string;
 } & React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
