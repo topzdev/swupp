@@ -1,0 +1,64 @@
+@use "../utils/local-variables" as _v;
+@use "../utils/mixins" as _m;
+
+.checkbox {
+  display: flex;
+  align-items: center;
+
+  &__content {
+    position: relative;
+    height: _v.$checkbox-size;
+    width: _v.$checkbox-size;
+    min-width: _v.$checkbox-size;
+    margin-right: 5px;
+  }
+  input:checked ~ &__proxy {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+
+    [class~="checkmark"] {
+      opacity: 1;
+    }
+  }
+  input:hover ~ &__proxy {
+    opacity: 0.8;
+  }
+
+  input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  &__proxy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border-radius: var(--card-radius);
+    border: 2px solid var(--color-gray);
+    margin-right: 10px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px !important;
+    @include _m.transition();
+    [class~="checkmark"] {
+      opacity: 0;
+      color: var(--color-white);
+    }
+  }
+
+  label {
+    margin-bottom: 0 !important;
+    user-select: none;
+    cursor: pointer;
+  }
+}

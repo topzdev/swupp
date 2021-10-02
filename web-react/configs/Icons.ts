@@ -20,6 +20,7 @@ import { BsSearch } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { MdReportProblem } from "react-icons/md";
 import { GrFormClose } from "react-icons/gr";
+import { GoCheck } from "react-icons/go";
 
 export const NotificationBellIcon = BiBell;
 export const ArrowDownIcon = BiCaretDown;
@@ -41,3 +42,4 @@ export const CloseIcon = GrFormClose;
 export const EyeOpenIcon = AiOutlineEye;
 export const EyeCloseIcon = AiOutlineEyeInvisible;
 export const LoadingIcon = AiOutlineLoading3Quarters;
+export const CheckMarkIcon = GoCheck;
