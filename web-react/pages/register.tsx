@@ -1,4 +1,5 @@
 import React from "react";
+import AppLogo from "../components/app/AppLogo";
 import RegisterForm from "../components/forms/RegisterForm";
 
 interface RegisterPageProps {}
@@ -11,6 +12,9 @@ const RegisterPage: React.FC<RegisterPageProps> = ({}) => {
         <div className="row">
           <div className="col-6">
             <div className="register__intro">
+              {/* <div className="register__logo">
+                <AppLogo href="/" />
+              </div> */}
               <h1>Sign Up to Swupp</h1>
               <p>Easy barter, Easy life</p>
             </div>

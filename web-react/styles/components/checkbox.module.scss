@@ -1,9 +1,13 @@
-@use "../utils/local-variables" as _v;
-@use "../utils/mixins" as _m;
+@use "../abstracts/local-variables" as _v;
+@use "../abstracts/mixins" as _m;
 
 .checkbox {
   display: flex;
   align-items: center;
+
+  &[class~="error"] &__proxy {
+    border-color: red;
+  }
 
   &__content {
     position: relative;

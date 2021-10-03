@@ -1,8 +1,11 @@
 import React, { useCallback, useContext, useState } from "react";
 import { useMemo } from "react";
+import { useMutation } from "react-query";
+import authAPI from "../api/auth";
 
 export type CredentialsFieldType = {
   username: string;
+  email: string;
   password: string;
   confirmPassword: string;
 };
@@ -10,7 +13,6 @@ export type CredentialsFieldType = {
 export type BasicInfoFieldType = {
   firstname: string;
   lastname: string;
-  email: string;
   birthdate: string;
   agree: boolean;
 };
@@ -20,8 +22,11 @@ type RegisterContextType = {
   setCredentials: React.Dispatch<React.SetStateAction<CredentialsFieldType>>;
   basicInfo: BasicInfoFieldType;
   setBasicInfo: React.Dispatch<React.SetStateAction<BasicInfoFieldType>>;
+  step: number;
   onSubmitCrendential: (data: CredentialsFieldType) => void;
   onSubmitBasicInfo: (data: BasicInfoFieldType) => void;
+  onBackStep: () => void;
+  onNextStep: () => void;
 };
 
 export const RegisterContext = React.createContext<RegisterContextType>(
@@ -30,9 +35,11 @@ export const RegisterContext = React.createContext<RegisterContextType>(
 
 const RegisterContextProvider: React.FC = ({ children }) => {
   const [step, setStep] = useState(1);
+  const mutation = useMutation(authAPI.register);
 
   const [credentials, setCredentials] = useState<CredentialsFieldType>({
     username: "",
+    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -40,7 +47,6 @@ const RegisterContextProvider: React.FC = ({ children }) => {
   const [basicInfo, setBasicInfo] = useState<BasicInfoFieldType>({
     firstname: "",
     lastname: "",
-    email: "",
     birthdate: "",
     agree: false,
   });
@@ -53,32 +59,50 @@ const RegisterContextProvider: React.FC = ({ children }) => {
     setStep((state) => state - 1);
   }, []);
 
-  const onSubmitCrendential = useCallback((data: CredentialsFieldType) => {
-    setCredentials(data);
-    onNextStep();
-  }, []);
+  const onSubmitCrendential = useCallback(
+    (data: CredentialsFieldType) => {
+      console.log("Credentials Passed", data);
+      setCredentials(data);
+      onNextStep();
+    },
+    [onNextStep]
+  );
 
-  const onSubmitBasicInfo = useCallback((data: BasicInfoFieldType) => {
-    setBasicInfo(data);
-    onNextStep();
-  }, []);
+  const onSubmitBasicInfo = useCallback(
+    async (data: BasicInfoFieldType) => {
+      console.log("Basic Info Passed", data);
+      await mutation.mutate({ ...data, ...credentials });
+
+      console.log(data, credentials);
+
+      if (mutation.isError) throw mutation.error;
+      if (mutation.isSuccess) onNextStep();
+    },
+    [credentials, onNextStep, mutation]
+  );
 
   const providerValue = useMemo(
     () => ({
+      step,
       credentials,
       setCredentials,
       basicInfo,
       setBasicInfo,
       onSubmitCrendential,
       onSubmitBasicInfo,
+      onBackStep,
+      onNextStep,
     }),
     [
+      step,
       credentials,
       setCredentials,
       basicInfo,
       setBasicInfo,
       onSubmitCrendential,
       onSubmitBasicInfo,
+      onBackStep,
+      onNextStep,
     ]
   );
 

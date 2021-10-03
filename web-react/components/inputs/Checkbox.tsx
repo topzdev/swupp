@@ -15,14 +15,19 @@ const Checkbox = React.forwardRef<
 >((props, ref) => {
   const { wrapperClassFinal, InputLabel, InputHint, rest, id } =
     useInput(props);
+  const classlist = [checboxStyle["checkbox"]];
 
-  const { value, defaultValue, style, checked } = props;
+  const { value, defaultValue, style, checked, error } = props;
+
+  if (error) {
+    classlist.push("error");
+  }
 
   return (
     <div className={wrapperClassFinal.join(" ")} style={style}>
       <div className={inputStyle["input__main"]}>
         <div className={inputStyle["checkbox"]}>
-          <div className={checboxStyle["checkbox"]}>
+          <div className={classlist.join(" ")}>
             <div className={checboxStyle["checkbox__content"]}>
               <input
                 type="checkbox"
@@ -37,7 +42,7 @@ const Checkbox = React.forwardRef<
           </div>
         </div>
       </div>
-      <InputHint />
+      {/* <InputHint /> */}
     </div>
   );
 });

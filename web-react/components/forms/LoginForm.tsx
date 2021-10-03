@@ -4,6 +4,7 @@ import React, { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { EyeOpenIcon, EyeCloseIcon } from "../../configs/Icons";
 import AppAlert from "../app/AppAlert";
+import AppLink from "../app/AppLink";
 import AppLogo from "../app/AppLogo";
 import Button from "../buttons/Button";
 import TextField from "../inputs/TextField";
@@ -64,7 +65,7 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
         <AppAlert type="error" message="test" />
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="card--form__body mb-2">
+        <div className="card--form__body mb-1">
           <div className="row">
             <div className="col-12 mb-2">
               <TextField
@@ -91,7 +92,7 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
             </div>
           </div>
         </div>
-        <div className="card--form__action">
+        <div className="card--form__action mb-3">
           <Button
             type="submit"
             block
@@ -102,6 +103,14 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
             Login
           </Button>
         </div>
+
+        <p className="text--primary mt-2 mb-3 align-center">
+          <AppLink href={"/forgot-password"}>
+            <a className="link" style={{ marginLeft: 5 }}>
+              Forgot Password
+            </a>
+          </AppLink>
+        </p>
       </form>
     </div>
   );

@@ -7,8 +7,8 @@ import {
   WarningIcon,
 } from "../../configs/Icons";
 
-interface AppAlertProps {
-  type: "info" | "error" | "warning" | "success";
+export interface AppAlertProps {
+  type: "info" | "error" | "warning" | "success" | string;
   message: string;
   show?: boolean;
   timeout?: number;

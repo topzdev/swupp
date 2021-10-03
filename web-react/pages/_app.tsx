@@ -10,6 +10,9 @@ import { Router } from "next/router";
 import { useEffect } from "react";
 import AuthMiddleware from "../middlleware/AuthMiddleware";
 import { ProtectedAppProps } from "../types/auth-utils";
+import RegisterContextProvider, {
+  RegisterContext,
+} from "../context/RegisterContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,13 +30,15 @@ function MyApp({
     <QueryClientProvider client={queryClient}>
       <SessionProvider session={session}>
         <AuthContextProvider>
-          {Component.auth ? (
-            <AuthMiddleware>
+          <RegisterContextProvider>
+            {Component.auth ? (
+              <AuthMiddleware>
+                <Component {...pageProps} />
+              </AuthMiddleware>
+            ) : (
               <Component {...pageProps} />
-            </AuthMiddleware>
-          ) : (
-            <Component {...pageProps} />
-          )}
+            )}
+          </RegisterContextProvider>
         </AuthContextProvider>
       </SessionProvider>
     </QueryClientProvider>

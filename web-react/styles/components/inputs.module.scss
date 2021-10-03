@@ -79,6 +79,7 @@ $icon-margin-x: 10px;
   input[type="date"],
   input[type="time"],
   input[type="datetime-local"],
+  input[type="date"],
   textarea {
     font-family: inherit;
     position: relative;
@@ -118,7 +119,7 @@ $icon-margin-x: 10px;
     align-items: flex-start;
   }
   &__hint {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   &__counter {

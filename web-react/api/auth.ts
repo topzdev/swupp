@@ -51,22 +51,22 @@ const authAPI = {
     const response = await axios.post("api/v1/auth/transact-verify", {
       password,
     });
-    return response;
+    return response.data;
   },
 
-  async isUserExist(value: any) {
+  async isUserExist(value: any): Promise<boolean> {
     const response = await axios.get("api/v1/user/is-exist/" + value);
-    return response;
+    return response.data;
   },
 
   async register(input: any) {
     const response = await axios.post("api/v1/auth/sign-up", input);
-    return response;
+    return response.data;
   },
 
   async confirmation(token: any) {
     const response = await axios.post(`api/v1/auth/confirmation/${token}`);
-    return response;
+    return response.data;
   },
 };
 

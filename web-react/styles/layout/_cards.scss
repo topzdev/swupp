@@ -55,7 +55,7 @@
     display: flex;
     flex-direction: column;
     width: 500px;
-    padding: 40px 45px 60px 45px;
+    padding: 20px 30px 10px 30px;
     border-radius: 20px;
     z-index: 1;
 
@@ -77,8 +77,10 @@
 
     &::before {
       bottom: -15px;
-      right: -12px;
+      right: -10px;
       z-index: 0;
+      height: calc(100% + 15px);
+      width: calc(100% + 10px);
       background: var(--color-primary);
     }
 
@@ -96,8 +98,8 @@
     }
 
     &__logo {
-      height: 80px;
-      width: 80px;
+      height: 70px;
+      width: 70px;
       margin: 0 auto;
       img {
         height: 100%;
