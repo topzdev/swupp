@@ -1,6 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import React from "react";
-import AuthLayout from "../../../layouts/AuthLayout";
+import Profile from "../../../components/pages/profile/Profile";
+import DefaultLayout from "../../../layouts/DefaultLayout";
 
 interface ProfilePageProps {}
 
@@ -22,7 +23,11 @@ export const getServerSideProps: GetServerSideProps<{ username: string }> =
 const ProfilePage: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ username }) => {
-  return <AuthLayout>{username}</AuthLayout>;
+  return (
+    <DefaultLayout>
+      <Profile username={username} />
+    </DefaultLayout>
+  );
 };
 
 export default ProfilePage;

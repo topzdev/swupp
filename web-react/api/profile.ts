@@ -1,10 +1,11 @@
-import { CoverPhoto, ProfilePhoto, User, UserProfile } from "../global";
+// import { CoverPhoto, ProfilePhoto, User, UserProfile } from "../global";
 import axios from "@/configs/axiosConfig";
 
 type GetProfileReturn = UserProfile & {
   user: {
     username: User["username"];
   };
+  postCount: number;
   coverPhoto: CoverPhoto;
   profilePhoto: ProfilePhoto;
   username: User["username"];
@@ -22,10 +23,10 @@ type ProfilePhotoRemoveParams = {
 };
 
 const profileAPI = {
-  async getProfile(params: any) {
-    const data = await axios.get("/api/v1/profile/get/" + params.username);
+  async getProfile(username: string): Promise<GetProfileReturn> {
+    const response = await axios.get("/api/v1/profile/get/" + username);
 
-    return { ...(data as any), username: (data as any).user.username };
+    return response.data;
   },
   async getProfileAbout(params: any) {
     const data = await axios.get(
