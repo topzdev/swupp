@@ -15,7 +15,7 @@ const ProfileCoverPhoto: React.FC<ProfileCoverPhotoProps> = ({
         <AppImage src={coverPhoto.securedUrl} layout="fill" alt="Cover photo" />
       )}
 
-      <Button>Change Cover Photo</Button>
+      <Button className="profile-cover-button">Change Cover Photo</Button>
     </div>
   );
 };

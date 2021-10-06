@@ -5,6 +5,7 @@ import DefaultLayout from "../../../layouts/DefaultLayout";
 import AppLink from "../../app/AppLink";
 import ProfilePhoto from "../../pages/profile/ProfilePhoto";
 import ProfileCoverPhoto from "./ProfileCoverPhoto";
+import ProfilePhotoModal from "./ProfilePhotoModal";
 
 interface ProfileProps {
   username: string;
@@ -16,7 +17,11 @@ const Profile: React.FC<ProfileProps> = ({ username }) => {
   const profile = response.data;
 
   if (response.isLoading) {
-    return <>loading</>;
+    return (
+      <>
+        <h1>Loading...</h1>
+      </>
+    );
   }
 
   return (
@@ -30,7 +35,7 @@ const Profile: React.FC<ProfileProps> = ({ username }) => {
             <h1 className="fullname">
               {profile.firstname} {profile.lastname}
             </h1>
-            <p className="username">{{ username }}</p>
+            <p className="username">{username}</p>
           </div>
         </div>
 
@@ -51,7 +56,7 @@ const Profile: React.FC<ProfileProps> = ({ username }) => {
         </div>
       </div>
 
-      {/* <change-profile-photos-modal /> */}
+      <ProfilePhotoModal />
     </div>
   );
 };
