@@ -1,5 +1,7 @@
 import link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import profileAPI, { GetProfileReturn } from "../../../api/profile";
+import { useProfileContext } from "../../../context/ProfileContext";
 import useProfile from "../../../hooks/profile/useProfile";
 import DefaultLayout from "../../../layouts/DefaultLayout";
 import AppLink from "../../app/AppLink";
@@ -8,22 +10,20 @@ import ProfileCoverPhoto from "./ProfileCoverPhoto";
 import ProfilePhotoModal from "./ProfilePhotoModal";
 
 interface ProfileProps {
-  username: string;
+  profile: GetProfileReturn;
 }
 
-const Profile: React.FC<ProfileProps> = ({ username }) => {
-  const { links, response } = useProfile(username);
+const Profile: React.FC<ProfileProps> = ({ profile }) => {
+  const username = profile.user.username;
+  const [showChangeProfile, setShowChangeProfile] = useState(true);
 
-  const profile = response.data;
+  const links = {
+    profile: `/profile/${username}`,
+    about: `/profile/${username}/about`,
+    address: `/profile/${username}/address`,
+  };
 
-  if (response.isLoading) {
-    return (
-      <>
-        <h1>Loading...</h1>
-      </>
-    );
-  }
-
+  const pageTitle = `@${username} - Profile`;
   return (
     <div className="profile mb-4">
       <div className="container">
@@ -35,7 +35,7 @@ const Profile: React.FC<ProfileProps> = ({ username }) => {
             <h1 className="fullname">
               {profile.firstname} {profile.lastname}
             </h1>
-            <p className="username">{username}</p>
+            <p className="username">{profile.user.username}</p>
           </div>
         </div>
 
@@ -56,7 +56,12 @@ const Profile: React.FC<ProfileProps> = ({ username }) => {
         </div>
       </div>
 
-      <ProfilePhotoModal />
+      <ProfilePhotoModal
+        coverPhoto={profile.coverPhoto}
+        profilePhoto={profile.profilePhoto}
+        show={showChangeProfile}
+        setShow={setShowChangeProfile}
+      />
     </div>
   );
 };

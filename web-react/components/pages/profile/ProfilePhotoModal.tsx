@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { CloseIcon } from "../../../configs/Icons";
+import { CameraIcon, CloseIcon } from "../../../configs/Icons";
+import parseBlobToData from "../../../utils/parseBlobToData";
 import AppImage from "../../app/AppImage";
 import Button from "../../buttons/Button";
 import Card from "../../card/Card";
@@ -20,14 +21,36 @@ const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
   profilePhoto,
 }) => {
   const loading = false;
-  const [_coverPhoto, setCoverPhoto] = useState(coverPhoto);
-  const [_profilePhoto, setProfilePhoto] = useState(profilePhoto);
+  const profileFileRef = React.useRef(null);
+  const coverFileRef = React.useRef(null);
+
+  const [_coverPhoto, setCoverPhoto] = useState(coverPhoto.securedUrl);
+  const [_profilePhoto, setProfilePhoto] = useState(profilePhoto.securedUrl);
 
   const close = () => {
     setShow(false);
   };
 
-  const remove = (type: "cover" | "profile") => {};
+  const remove = (type: "cover" | "profile") => {
+    if (type) {
+    }
+  };
+
+  const onUploadPhotos = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    where: "profile" | "cover"
+  ) => {
+    const reader = new FileReader();
+    const photo = event.target.files;
+
+    if (photo.length) {
+      reader.onload = () => {
+        if (where === "profile") setProfilePhoto(reader.result as any);
+        if (where === "cover") setCoverPhoto(reader.result as any);
+      };
+      reader.readAsDataURL(photo[0]);
+    }
+  };
 
   return (
     <div className="backdrop">
@@ -42,58 +65,61 @@ const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
           <CardBody>
             <div className="change-profile">
               <div className="profile__cover">
-                {/* <img v-if="coverPhoto" :src="coverPhoto" alt="Cover photo" /> */}
-                {coverPhoto && <AppImage src={_coverPhoto.url} />}
+                {_coverPhoto && <AppImage src={_coverPhoto} layout="fill" />}
 
                 <div className="change-profile__floater">
-                  {/* <Button
-                  :icon="icons.camera"
-                  title="Edit"
-                  @click.native="$refs.coverPhoto.click()"
-                ></Button>
-                <button-icon
-                  :icon="icons.close"
-                  title="Remove"
-                  @click.native="remove('cover')"
-                /> */}
+                  <Button
+                    className="btn-change-profile"
+                    title="Edit"
+                    onClick={() => {
+                      coverFileRef.current.click();
+                    }}
+                  >
+                    <CameraIcon />
+                  </Button>
+                  <Button className="btn-change-profile" title="Close">
+                    <CloseIcon />
+                  </Button>
                 </div>
               </div>
-              {/* <input
-              type="file"
-              name=""
-              ref="profilePhoto"
-              id="profile-photo"
-              hidden
-              @change="onUploadPhotos($event, 'profilePhoto')"
-            />
-            <input
-              type="file"
-              name=""
-              ref="coverPhoto"
-              id="cover-photo"
-              hidden
-              @change="onUploadPhotos($event, 'coverPhoto')"
-            /> */}
+              <input
+                type="file"
+                name="profile"
+                ref={profileFileRef}
+                id="profile-photo"
+                accept="image/png, image/jpeg"
+                onChange={(e) => onUploadPhotos(e, "profile")}
+                hidden
+              />
+              <input
+                type="file"
+                name="cover"
+                ref={coverFileRef}
+                id="cover-photo"
+                accept="image/png, image/jpeg"
+                onChange={(e) => onUploadPhotos(e, "cover")}
+                hidden
+              />
 
               <div className="profile__body">
                 <div className="profile__photo">
                   <div className="profile__photo-holder">
-                    {/* <img
-                    v-if="profilePhoto"
-                    :src="profilePhoto"
-                    alt="Profile photo"
-                  /> */}
+                    {_profilePhoto && (
+                      <AppImage src={_profilePhoto} layout="fill" />
+                    )}
                     <div className="change-profile__floater">
-                      {/* <button-icon
-                      :icon="icons.camera"
-                      title="Edit"
-                      @click.native="$refs.profilePhoto.click()"
-                    />
-                    <button-icon
-                      :icon="icons.close"
-                      title="Remove"
-                      @click.native="remove('profile')"
-                    /> */}
+                      <Button
+                        className="btn-change-profile"
+                        title="Edit"
+                        onClick={() => {
+                          profileFileRef.current.click();
+                        }}
+                      >
+                        <CameraIcon />
+                      </Button>
+                      <Button className="btn-change-profile" title="Close">
+                        <CloseIcon />
+                      </Button>
                     </div>
                   </div>
                 </div>

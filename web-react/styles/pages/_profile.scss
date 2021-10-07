@@ -153,11 +153,9 @@
     @include flex-middle;
     z-index: 10;
     background: rgba(var(--color-dark-rgb), 0.2) !important;
-    .btn--icon {
+    .btn-change-profile {
       background: transparent !important;
-      svg {
-        fill: var(--color-white);
-      }
+      color: var(--color-white) !important;
     }
   }
 }

@@ -1,14 +1,13 @@
 // import { CoverPhoto, ProfilePhoto, User, UserProfile } from "../global";
 import axios from "@/configs/axiosConfig";
 
-type GetProfileReturn = UserProfile & {
+export type GetProfileReturn = UserProfile & {
   user: {
     username: User["username"];
   };
   postCount: number;
   coverPhoto: CoverPhoto;
   profilePhoto: ProfilePhoto;
-  username: User["username"];
 };
 
 type ProfilePhotoParams = {

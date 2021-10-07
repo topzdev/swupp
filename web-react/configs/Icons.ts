@@ -19,7 +19,7 @@ import { IoMdLogOut, IoMdSettings } from "react-icons/io";
 import { BsSearch } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { MdReportProblem } from "react-icons/md";
-import { GrFormClose } from "react-icons/gr";
+import { IoMdClose } from "react-icons/io";
 import { GoCheck } from "react-icons/go";
 import { FiCamera } from "react-icons/fi";
 
@@ -39,7 +39,7 @@ export const InfoIcon = AiOutlineInfoCircle;
 export const ErrorIcon = AiOutlineCloseCircle;
 export const WarningIcon = AiOutlineWarning;
 export const SuccessIcon = AiOutlineCheckCircle;
-export const CloseIcon = GrFormClose;
+export const CloseIcon = IoMdClose;
 export const EyeOpenIcon = AiOutlineEye;
 export const EyeCloseIcon = AiOutlineEyeInvisible;
 export const LoadingIcon = AiOutlineLoading3Quarters;
