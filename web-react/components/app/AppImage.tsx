@@ -16,10 +16,12 @@ const AppImage: React.FC<AppImageProps> = (props) => {
 
   if (legacy) return <img {...(rest as ImageHTMLTypes)} />;
 
-  return (
-    <span className={wrapperClass}>
-      <Image {...(rest as ImageProps)} />
-    </span>
+  const renderContent = () => <Image {...(rest as ImageProps)} />;
+
+  return wrapperClass ? (
+    <span className={wrapperClass}>{renderContent()}</span>
+  ) : (
+    <>{renderContent()}</>
   );
 };
 

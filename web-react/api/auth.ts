@@ -7,6 +7,8 @@ export type LoginCredentials = {
 
 export const dummyUser: User = {
   id: 10,
+  email: "kdpsnbwtcchprueuxc@wqcefp.com",
+  username: "swupdev@123",
   recoveryEmail: null,
   phoneNumber: "09286665903",
   isActive: true,
@@ -14,18 +16,16 @@ export const dummyUser: User = {
   createdAt: "2021-09-28T14:10:47.685Z",
   updatedAt: "2021-09-30T08:15:15.705Z",
   profile: {
-    firstname: "Christian",
+    firstname: "dtsgorwkjv",
     lastname: "Lugod",
     coverPhoto: {
       url: null,
-      securedUrl:
-        "https://res.cloudinary.com/topzdev/image/upload/f_auto,q_auto/v1/swupp-dev/covers/pxzeixmmifqteufmeupn",
+      securedUrl: null,
       publicId: null,
     },
     profilePhoto: {
       url: null,
-      securedUrl:
-        "https://res.cloudinary.com/topzdev/image/upload/c_scale,f_auto,q_auto,w_300/v1/swupp-dev/profiles/mb4y1bqqy6tg1japlol7",
+      securedUrl: null,
       publicId: null,
     },
   },

@@ -43,7 +43,7 @@ const AppBar: React.FC<AppBarProps> = ({ variant }) => {
             <>
               <ProfileIcon
                 username={user?.username}
-                photo={user?.profile.profilePhoto.securedUrl}
+                photo={user?.profile.profilePhoto}
                 name={user?.profile.firstname}
                 // id={user?.id}
               />

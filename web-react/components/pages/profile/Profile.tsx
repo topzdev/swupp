@@ -2,6 +2,7 @@ import link from "next/link";
 import React, { useEffect, useState } from "react";
 import profileAPI, { GetProfileReturn } from "../../../api/profile";
 import { useProfileContext } from "../../../context/ProfileContext";
+import { useSnackbarContext } from "../../../context/SnackbarContext";
 import useProfile from "../../../hooks/profile/useProfile";
 import DefaultLayout from "../../../layouts/DefaultLayout";
 import AppLink from "../../app/AppLink";
@@ -10,12 +11,14 @@ import ProfileCoverPhoto from "./ProfileCoverPhoto";
 import ProfilePhotoModal from "./ProfilePhotoModal";
 
 interface ProfileProps {
-  profile: GetProfileReturn;
+  username: string;
 }
 
-const Profile: React.FC<ProfileProps> = ({ profile }) => {
-  const username = profile.user.username;
-  const [showChangeProfile, setShowChangeProfile] = useState(true);
+const Profile: React.FC<ProfileProps> = ({ username }) => {
+  const { setShowChangeProfile, showChangeProfile, setProfile, profile } =
+    useProfileContext();
+
+  const { response } = useProfile(username);
 
   const links = {
     profile: `/profile/${username}`,
@@ -24,6 +27,13 @@ const Profile: React.FC<ProfileProps> = ({ profile }) => {
   };
 
   const pageTitle = `@${username} - Profile`;
+
+  if (response.isLoading) return <>Loading...</>;
+  if (response.isError) return <>Something went wrong</>;
+
+  // const profile = response.data;
+  setProfile(profile);
+
   return (
     <div className="profile mb-4">
       <div className="container">

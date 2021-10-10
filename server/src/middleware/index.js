@@ -2,6 +2,10 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../constants");
 
 exports.auth = (req, res, next) => {
+  // !IMPORTANT - Remove this when live
+  next();
+  return;
+
   let token = req.headers["x-access-token"] || req.headers["authorization"];
 
   if (token && token.startsWith("Bearer "))

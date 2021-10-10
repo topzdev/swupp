@@ -37,14 +37,9 @@ export const getServerSideProps: GetServerSideProps<{ username: string }> =
 const ProfilePage: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ username }) => {
-  const { response } = useProfile(username);
-
-  if (response.isLoading) return <>Loading...</>;
-  if (response.isError) return <>Something went wrong</>;
-
   return (
     <DefaultLayout>
-      <Profile profile={response.data} />
+      <Profile username={username} />
     </DefaultLayout>
   );
 };

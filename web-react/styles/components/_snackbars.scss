@@ -10,9 +10,9 @@
   overflow: hidden;
   width: 500px;
   align-items: center;
-  right: -120%;
-  opacity: 0;
-  visibility: hidden;
+  right: 20px;
+  // opacity: 0;
+  // visibility: hidden;
   border: 1px solid rgba(var(--color-main-rgb), 0.1);
   z-index: 100;
   background-color: var(--color-background-2);
@@ -82,12 +82,10 @@
     @include flex-middle;
     margin-left: auto;
 
-    .btn--icon {
+    .button {
       height: 40px;
       width: 40px;
-      svg {
-        height: 20px;
-      }
+      color: var(--color-main);
     }
   }
 }

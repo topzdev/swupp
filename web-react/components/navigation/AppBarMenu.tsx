@@ -15,8 +15,8 @@ const AppBarMenu: React.FC<AppBarMenuProps> = ({}) => {
           <ProfileIcon
             className={"menu__profile"}
             username={user?.username}
-            photo={user?.profilePhoto}
-            name={`${user?.firstname} ${user?.lastname}`}
+            photo={user?.profile.profilePhoto}
+            name={`${user?.profile.firstname} ${user?.profile.lastname}`}
             caption="Visit your profile"
           />
           <div className="separator"></div>{" "}

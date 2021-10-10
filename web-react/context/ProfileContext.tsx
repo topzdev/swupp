@@ -6,6 +6,8 @@ type ProfileContextType = {
   setProfile: React.Dispatch<React.SetStateAction<GetProfileReturn>>;
   profile: GetProfileReturn;
   changeProfilePhoto: (photo: ProfilePhoto) => void;
+  showChangeProfile: boolean;
+  setShowChangeProfile: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const ProfileContext = React.createContext<ProfileContextType>(
@@ -13,6 +15,7 @@ export const ProfileContext = React.createContext<ProfileContextType>(
 );
 
 const ProfileContextProvider: React.FC = ({ children }) => {
+  const [showChangeProfile, setShowChangeProfile] = useState(false);
   const [profile, setProfile] = useState<GetProfileReturn>(null);
 
   const changeProfilePhoto = useCallback((photo: ProfilePhoto) => {
@@ -32,8 +35,22 @@ const ProfileContextProvider: React.FC = ({ children }) => {
   }, []);
 
   const providerValue = useMemo(
-    () => ({ profile, setProfile, changeProfilePhoto, changeCoverPhoto }),
-    [profile, setProfile, changeProfilePhoto, changeCoverPhoto]
+    () => ({
+      profile,
+      setProfile,
+      changeProfilePhoto,
+      changeCoverPhoto,
+      showChangeProfile,
+      setShowChangeProfile,
+    }),
+    [
+      profile,
+      setProfile,
+      changeProfilePhoto,
+      changeCoverPhoto,
+      showChangeProfile,
+      setShowChangeProfile,
+    ]
   );
 
   return (

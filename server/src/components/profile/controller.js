@@ -37,6 +37,8 @@ exports.updateProfilePhoto = async (req, res) => {
     const photo = req.files.photo;
     const { publicId, id } = req.body;
 
+    console.log("Photo Uplodaded:", photo);
+
     const data = await profileServices.updateProfilePhoto({
       publicId,
       id,

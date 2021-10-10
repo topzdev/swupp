@@ -14,6 +14,9 @@ import RegisterContextProvider, {
   RegisterContext,
 } from "../context/RegisterContext";
 import ProfileContextProvider from "../context/ProfileContext";
+import SnackbarContextProvider, {
+  SnackbarContext,
+} from "../context/SnackbarContext";
 
 function MyApp({
   Component,
@@ -35,17 +38,19 @@ function MyApp({
       <Hydrate state={pageProps.dehydratedState}>
         <SessionProvider session={session}>
           <AuthContextProvider>
-            <RegisterContextProvider>
-              <ProfileContextProvider>
-                {Component.auth ? (
-                  <AuthMiddleware>
+            <SnackbarContextProvider>
+              <RegisterContextProvider>
+                <ProfileContextProvider>
+                  {Component.auth ? (
+                    <AuthMiddleware>
+                      <Component {...pageProps} />
+                    </AuthMiddleware>
+                  ) : (
                     <Component {...pageProps} />
-                  </AuthMiddleware>
-                ) : (
-                  <Component {...pageProps} />
-                )}
-              </ProfileContextProvider>
-            </RegisterContextProvider>
+                  )}
+                </ProfileContextProvider>
+              </RegisterContextProvider>
+            </SnackbarContextProvider>
           </AuthContextProvider>
         </SessionProvider>
       </Hydrate>

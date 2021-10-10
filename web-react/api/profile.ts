@@ -69,6 +69,7 @@ const profileAPI = {
   },
 
   async updateProfilePhoto({ id, publicId, photo }: ProfilePhotoParams) {
+    console.log("API", id, publicId, photo);
     const formData = new FormData();
 
     formData.append("id", id.toString());
@@ -90,6 +91,7 @@ const profileAPI = {
     return data.data;
   },
   async updateCoverPhoto({ id, publicId, photo }: ProfilePhotoParams) {
+    console.log("API", id, publicId, photo);
     const formData = new FormData();
 
     formData.append("id", id.toString());

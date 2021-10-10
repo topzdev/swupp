@@ -2,15 +2,15 @@ import React from "react";
 import AppImage from "../app/AppImage";
 import blankProfileImage from "@/assets/img/blank-profile.png";
 
-interface ProfilePhotoProps {
-  url?: string;
+interface MiniProfilePhotoProps {
+  photo: Photo;
 }
 
-const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ url }) => {
-  let profileSrc: any = url;
+const MiniProfilePhoto: React.FC<MiniProfilePhotoProps> = ({ photo }) => {
+  let profileSrc: any = photo.securedUrl;
 
-  if (!url) {
-    profileSrc = blankProfileImage;
+  if (!photo.securedUrl) {
+    profileSrc = blankProfileImage.src;
   }
 
   return (
@@ -20,4 +20,4 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ url }) => {
   );
 };
 
-export default ProfilePhoto;
+export default MiniProfilePhoto;

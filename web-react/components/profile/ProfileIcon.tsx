@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import React from "react";
-import ProfilePhoto from "./ProfilePhoto";
+import MiniProfilePhoto from "./MiniProfilePhoto";
 
 type ProfileIconProps = {
   username?: string;
   name?: string;
   caption?: string;
-  photo?: string;
+  photo?: Photo;
   id?: number;
   className?: string;
 } & React.DetailedHTMLProps<
@@ -31,7 +31,7 @@ const ProfileIcon: React.FC<ProfileIconProps> = ({
   return (
     <div className={classlist.join(" ")} onClick={gotoProfile}>
       <div className="profile-icon__photo">
-        <ProfilePhoto url={photo} />
+        <MiniProfilePhoto photo={photo} />
       </div>
 
       <div className="profile-icon__body">

@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CameraIcon, CloseIcon } from "../../../configs/Icons";
+import { useSnackbarContext } from "../../../context/SnackbarContext";
 import parseBlobToData from "../../../utils/parseBlobToData";
 import AppImage from "../../app/AppImage";
 import Button from "../../buttons/Button";
 import Card from "../../card/Card";
 import CardBody from "../../card/CardBody";
 import CardHeader from "../../card/CardHeader";
+import BlankProfileImage from "@/assets/img/blank-profile.png";
+import useUpdateProfileCoverPhoto, {
+  UpdateProfilePhotoDataType,
+} from "../../../hooks/profile/useUpdateProfileCoverPhoto";
+import { Mutation } from "react-query/types/core/mutation";
+import { useProfileContext } from "../../../context/ProfileContext";
 
 interface ProfilePhotoModalProps {
   show: boolean;
@@ -20,42 +27,116 @@ const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
   coverPhoto,
   profilePhoto,
 }) => {
-  const loading = false;
   const profileFileRef = React.useRef(null);
   const coverFileRef = React.useRef(null);
+  const mutation = useUpdateProfileCoverPhoto();
+  const { setShowChangeProfile } = useProfileContext();
 
-  const [_coverPhoto, setCoverPhoto] = useState(coverPhoto.securedUrl);
-  const [_profilePhoto, setProfilePhoto] = useState(profilePhoto.securedUrl);
+  const [_coverPhoto, setCoverPhoto] = useState<UpdateProfilePhotoDataType>({
+    id: coverPhoto.id,
+    publicId: coverPhoto.publicId,
+    flag: "default",
+    url: coverPhoto.securedUrl,
+    photo: null,
+  });
+  const [_profilePhoto, setProfilePhoto] = useState<UpdateProfilePhotoDataType>(
+    {
+      id: profilePhoto.id,
+      publicId: profilePhoto.publicId,
+      flag: "default",
+      url: profilePhoto.securedUrl,
+      photo: null,
+    }
+  );
+
+  const { setSnackbar } = useSnackbarContext();
 
   const close = () => {
     setShow(false);
   };
 
-  const remove = (type: "cover" | "profile") => {
-    if (type) {
+  const setPhoto = (
+    type: "cover" | "profile",
+    flag: "update" | "remove",
+    url: string,
+    photo?: any
+  ) => {
+    switch (type) {
+      case "profile":
+        setProfilePhoto((state) => ({
+          ...state,
+          flag,
+          url,
+          photo,
+        }));
+        break;
+      case "cover":
+        setCoverPhoto((state) => ({
+          ...state,
+          flag,
+          url,
+          photo,
+        }));
+        break;
     }
+  };
+
+  const onRemovePhotos = (type: "cover" | "profile") => {
+    setPhoto(type, "remove", null);
   };
 
   const onUploadPhotos = async (
     event: React.ChangeEvent<HTMLInputElement>,
-    where: "profile" | "cover"
+    type: "profile" | "cover"
   ) => {
     const reader = new FileReader();
     const photo = event.target.files;
 
     if (photo.length) {
       reader.onload = () => {
-        if (where === "profile") setProfilePhoto(reader.result as any);
-        if (where === "cover") setCoverPhoto(reader.result as any);
+        setPhoto(type, "update", reader.result as any, photo[0]);
       };
       reader.readAsDataURL(photo[0]);
     }
   };
 
+  const onSave = async () => {
+    console.log("Before Uploading", _profilePhoto, _coverPhoto);
+
+    await mutation.mutate(
+      { profile: _profilePhoto, cover: _coverPhoto },
+      {
+        onSuccess() {
+          setSnackbar({
+            show: true,
+            title: "Photo and Cover Photo",
+            body: "Photo Updated Successfully",
+            type: "success",
+            timeout: 5000,
+          });
+          setShowChangeProfile(false);
+        },
+
+        onError() {
+          setSnackbar({
+            show: true,
+            title: "Something went wrong...",
+            body: "Pleae update photos later",
+            type: "error",
+            timeout: 3000,
+          });
+          setShowChangeProfile(false);
+        },
+      }
+    );
+  };
+
+  if (!show) return <></>;
+
   return (
     <div className="backdrop">
       <div className="dialog">
-        <Card loading={loading} rounded>
+        <Card loading={mutation.isLoading} rounded>
           <CardHeader className="mb-1">
             <h2 className="mr-auto">Change Profile photo and cover</h2>
             <Button icon color="secondary" pressed size="large" onClick={close}>
@@ -65,7 +146,9 @@ const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
           <CardBody>
             <div className="change-profile">
               <div className="profile__cover">
-                {_coverPhoto && <AppImage src={_coverPhoto} layout="fill" />}
+                {_coverPhoto.url && (
+                  <AppImage src={_coverPhoto.url} layout="fill" />
+                )}
 
                 <div className="change-profile__floater">
                   <Button
@@ -77,7 +160,11 @@ const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
                   >
                     <CameraIcon />
                   </Button>
-                  <Button className="btn-change-profile" title="Close">
+                  <Button
+                    className="btn-change-profile"
+                    title="Close"
+                    onClick={() => onRemovePhotos("cover")}
+                  >
                     <CloseIcon />
                   </Button>
                 </div>
@@ -104,8 +191,8 @@ const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
               <div className="profile__body">
                 <div className="profile__photo">
                   <div className="profile__photo-holder">
-                    {_profilePhoto && (
-                      <AppImage src={_profilePhoto} layout="fill" />
+                    {_profilePhoto.url && (
+                      <AppImage src={_profilePhoto.url} layout="fill" />
                     )}
                     <div className="change-profile__floater">
                       <Button
@@ -117,7 +204,11 @@ const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
                       >
                         <CameraIcon />
                       </Button>
-                      <Button className="btn-change-profile" title="Close">
+                      <Button
+                        className="btn-change-profile"
+                        title="Close"
+                        onClick={() => onRemovePhotos("profile")}
+                      >
                         <CloseIcon />
                       </Button>
                     </div>
@@ -127,7 +218,17 @@ const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
             </div>
           </CardBody>
           <CardHeader className="mt-2">
-            <Button className="ml-auto mr-1" color="primary" size="medium">
+            <Button
+              disabled={
+                _profilePhoto.flag === "default" &&
+                _coverPhoto.flag === "default"
+              }
+              className="ml-auto mr-1"
+              color="primary"
+              size="medium"
+              onClick={onSave}
+              loading={mutation.isLoading}
+            >
               Save
             </Button>
           </CardHeader>
