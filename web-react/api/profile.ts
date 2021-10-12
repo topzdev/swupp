@@ -21,6 +21,19 @@ type ProfilePhotoRemoveParams = {
   publicId: string;
 };
 
+type ProfilePost = Post & {
+  user: Pick<User, "username" | "id">;
+  coverPhoto: PostPhoto;
+  counts: PostCount;
+};
+
+type GetProfilePostReturn = {
+  count: number;
+  cursor: null;
+  hasNext: boolean;
+  items: ProfilePost[];
+};
+
 const profileAPI = {
   async getProfile(username: string): Promise<GetProfileReturn> {
     const response = await axios.get("/api/v1/profile/get/" + username);
@@ -61,11 +74,10 @@ const profileAPI = {
     return about;
   },
 
-  async getProfilePost(params: any) {
-    console.log(params);
-    const data = await axios.get("/api/v1/profile/get/post/" + params.username);
+  async getProfilePost(username: string): Promise<GetProfilePostReturn> {
+    const response = await axios.get("/api/v1/profile/get/post/" + username);
 
-    return data;
+    return response.data;
   },
 
   async updateProfilePhoto({ id, publicId, photo }: ProfilePhotoParams) {

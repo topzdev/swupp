@@ -4,6 +4,7 @@ import {
   BiComment,
   BiDotsVerticalRounded,
   BiLike,
+  BiPlus,
 } from "react-icons/bi";
 import {
   AiOutlineCheckCircle,
@@ -45,3 +46,4 @@ export const EyeCloseIcon = AiOutlineEyeInvisible;
 export const LoadingIcon = AiOutlineLoading3Quarters;
 export const CheckMarkIcon = GoCheck;
 export const CameraIcon = FiCamera;
+export const PlusIcon = BiPlus;

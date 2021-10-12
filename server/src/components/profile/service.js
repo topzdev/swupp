@@ -101,7 +101,10 @@ exports.getPostCountByUser = async (username) => {
 // This function gets the profile post of the user.
 exports.getProfilePost = async (username) => {
   if (!username) throw returnError("username", "username not provided");
-  const posts = await PostModel.findAll({
+
+  console.log("Username ", username);
+
+  const options = {
     attributes: {
       exclude: ["updatedAt", "deletedAt"],
       include: [
@@ -110,6 +113,12 @@ exports.getProfilePost = async (username) => {
             `(SELECT COUNT(*) FROM "postLikes" AS plikes WHERE plikes."postId" = "post".id)`
           ),
           "likes",
+        ],
+        [
+          Sequelize.literal(
+            `(SELECT COUNT(*) FROM "trades" AS oTrades WHERE oTrades."offerId" = "post".id)`
+          ),
+          "offers",
         ],
       ],
     },
@@ -122,10 +131,22 @@ exports.getProfilePost = async (username) => {
       {
         model: UserModel,
         as: "user",
-        where: {
-          username,
-        },
         attributes: ["username", "id"],
+        where: { username },
+
+        include: [
+          {
+            model: ProfileModel,
+            attributes: ["firstname", "lastname"],
+            include: [
+              {
+                model: ProfilePhotoModel,
+                as: "profilePhoto",
+                attributes: ["publicId", "url", "securedUrl", "id"],
+              },
+            ],
+          },
+        ],
       },
       {
         model: PostPhotoModel,
@@ -135,13 +156,17 @@ exports.getProfilePost = async (username) => {
         },
       },
     ],
-  });
+  };
+
+  const posts = await PostModel.findAll(options);
+
+  const count = await PostModel.count(options);
 
   //break up new posts into parts or its category
   let newPost = profileHelpers.parsePosts(posts);
 
   return {
-    count: 0,
+    count,
     cursor: null,
     hasNext: false,
     items: newPost,

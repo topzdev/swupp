@@ -34,10 +34,9 @@ export const getServerSideProps: GetServerSideProps<{ username: string }> =
     };
   };
 
-const ProfilePage: React.FC<
+const ProfileAboutPage: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ username, query }) => {
-  console.log(query);
+> = ({ username }) => {
   return (
     <DefaultLayout>
       <Profile username={username} />
@@ -46,4 +45,4 @@ const ProfilePage: React.FC<
   );
 };
 
-export default ProfilePage;
+export default ProfileAboutPage;

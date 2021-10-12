@@ -15,7 +15,7 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ username }) => {
-  const { setShowChangeProfile, showChangeProfile, setProfile, profile } =
+  const { setShowChangeProfile, showChangeProfile, setProfile } =
     useProfileContext();
 
   const { response } = useProfile(username);
@@ -31,8 +31,7 @@ const Profile: React.FC<ProfileProps> = ({ username }) => {
   if (response.isLoading) return <>Loading...</>;
   if (response.isError) return <>Something went wrong</>;
 
-  // const profile = response.data;
-  setProfile(profile);
+  const profile = response.data;
 
   return (
     <div className="profile mb-4">
@@ -52,13 +51,13 @@ const Profile: React.FC<ProfileProps> = ({ username }) => {
         <div className="profile__footer">
           <ul className="profile__tab">
             <li className="profile__tab-item">
-              <AppLink href={links.profile} className="profile__tab-link">
+              <AppLink nav href={links.profile} className="profile__tab-link">
                 <span className="profile__tab-label"> Post </span>
                 {/* <span className="profile__tab-count">{{ profile.postCount }}</span> */}
               </AppLink>
             </li>
             <li className="profile__tab-item">
-              <AppLink href={links.about} className="profile__tab-link">
+              <AppLink nav href={links.about} className="profile__tab-link">
                 <span className="profile__tab-label"> About </span>
               </AppLink>
             </li>

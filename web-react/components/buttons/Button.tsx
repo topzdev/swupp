@@ -26,6 +26,7 @@ export type ButtonCustomProps = {
   icon?: Boolean;
   pressed?: Boolean;
   rounded?: Boolean;
+  fab: boolean;
 };
 
 type ButtonProps = React.DetailedHTMLProps<
@@ -49,6 +50,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       rounded,
       className,
       pressed,
+      fab,
       ...rest
     } = props;
     let buttonClass = ["button", styles.btn, styles.btn__defaults, className];
@@ -83,6 +85,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     if (rounded) {
       buttonClass.push(styles["btn-rounded"]);
     }
+
+    if (fab) {
+      buttonClass.push("btn-icon--float");
+    }
+
+    console.log("Fab", fab);
 
     const ButtonContent = () => (
       <>

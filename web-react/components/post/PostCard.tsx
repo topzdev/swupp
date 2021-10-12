@@ -31,7 +31,7 @@ interface PostCardHeaderProps {
 
 const PostCardHeader: React.FC<PostCardHeaderProps> = ({ post }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const profilePhoto = post.user.profile.profilePhoto.url;
+  const profilePhoto = post.user.profile.profilePhoto;
   /* Post Cover Photo Cloudinary Config
 	height: 400,
 	crop: "scale",

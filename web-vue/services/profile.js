@@ -40,7 +40,7 @@ export default {
     return about;
   },
 
-  async getProfilePost(params) {
+  async getProfilePost(username) {
     console.log(params);
     const data = await apiClient.$get(
       "/api/v1/profile/get/post/" + params.username
