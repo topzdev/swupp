@@ -1,10 +1,6 @@
-import link from "next/link";
-import React, { useEffect, useState } from "react";
-import profileAPI, { GetProfileReturn } from "../../../api/profile";
+import React from "react";
 import { useProfileContext } from "../../../context/ProfileContext";
-import { useSnackbarContext } from "../../../context/SnackbarContext";
 import useProfile from "../../../hooks/profile/useProfile";
-import DefaultLayout from "../../../layouts/DefaultLayout";
 import AppLink from "../../app/AppLink";
 import ProfilePhoto from "../../pages/profile/ProfilePhoto";
 import ProfileCoverPhoto from "./ProfileCoverPhoto";
@@ -51,13 +47,24 @@ const Profile: React.FC<ProfileProps> = ({ username }) => {
         <div className="profile__footer">
           <ul className="profile__tab">
             <li className="profile__tab-item">
-              <AppLink nav href={links.profile} className="profile__tab-link">
+              <AppLink
+                nav
+                href={links.profile}
+                className="profile__tab-link"
+                exact
+                scroll={false}
+              >
                 <span className="profile__tab-label"> Post </span>
                 {/* <span className="profile__tab-count">{{ profile.postCount }}</span> */}
               </AppLink>
             </li>
             <li className="profile__tab-item">
-              <AppLink nav href={links.about} className="profile__tab-link">
+              <AppLink
+                nav
+                href={links.about}
+                scroll={false}
+                className="profile__tab-link"
+              >
                 <span className="profile__tab-label"> About </span>
               </AppLink>
             </li>

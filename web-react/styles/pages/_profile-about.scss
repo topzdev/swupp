@@ -19,10 +19,8 @@
 
   &__icon {
     margin-right: 20px;
-    svg {
-      height: 26px;
-      fill: var(--color-main);
-    }
+    font-size: 26px;
+    color: var(--color-main);
   }
 
   &__text {

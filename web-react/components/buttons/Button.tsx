@@ -26,7 +26,7 @@ export type ButtonCustomProps = {
   icon?: Boolean;
   pressed?: Boolean;
   rounded?: Boolean;
-  fab: boolean;
+  fab?: boolean;
 };
 
 type ButtonProps = React.DetailedHTMLProps<

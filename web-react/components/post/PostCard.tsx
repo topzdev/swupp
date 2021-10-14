@@ -1,25 +1,16 @@
+import { useRouter } from "next/router";
+import numeral from "numeral";
 import React, { useState } from "react";
 import truncate from "truncate";
-import numeral from "numeral";
-import { CATEGORIES, CONDITIONS } from "../../constant";
-import Badge from "../badge/Badge";
-import { useRouter } from "next/router";
-import {
-  Post,
-  PostCount,
-  PostPhoto,
-  ProfilePhoto,
-  User,
-  UserProfile,
-} from "../../global";
-import AppImage from "../app/AppImage";
+import { GetPostReturn } from "../../api/posts";
 import { HeartIcon, OptionsIcon, ViewsIcon } from "../../configs/Icons";
+import { CATEGORIES, CONDITIONS } from "../../constant";
+import AppImage from "../app/AppImage";
+import AppLink from "../app/AppLink";
+import Badge from "../badge/Badge";
+import ProfileIcon from "../profile/ProfileIcon";
 import ClickOutside from "../utils/ClickOutside";
 import PostCardOptionsMenu from "./PostCardOptionsMenu";
-import postAPI from "../../api/post";
-import { GetPostReturn } from "../../api/posts";
-import ProfileIcon from "../profile/ProfileIcon";
-import AppLink from "../app/AppLink";
 
 interface PostCardProps {
   post: GetPostReturn;

@@ -1,16 +1,15 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import React from "react";
 import { dehydrate, QueryClient } from "react-query";
-import profileAPI from "../../../api/profile";
-import Profile from "../../../components/pages/profile/Profile";
-import ProfilePost from "../../../components/pages/profile/sub-pages/ProfilePost";
-import DefaultLayout from "../../../layouts/DefaultLayout";
+import profileAPI from "../../../../api/profile";
+import Profile from "../../../../components/pages/profile/Profile";
+import ProfileAbout from "../../../../components/pages/profile/sub-pages/ProfileAbout";
+import DefaultLayout from "../../../../layouts/DefaultLayout";
 
 interface ProfilePageProps {}
 
 export const getServerSideProps: GetServerSideProps<{ username: string }> =
   async ({ query }) => {
-    console.log(query);
     const queryClient = new QueryClient();
 
     const username = query.username
@@ -25,6 +24,8 @@ export const getServerSideProps: GetServerSideProps<{ username: string }> =
       profileAPI.getProfile(username)
     );
 
+    console.log(query);
+
     return {
       props: {
         username,
@@ -34,16 +35,15 @@ export const getServerSideProps: GetServerSideProps<{ username: string }> =
     };
   };
 
-const ProfilePage: React.FC<
+const ProfileAboutPage: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ username, query }) => {
-  console.log(query);
+> = ({ username }) => {
   return (
     <DefaultLayout>
       <Profile username={username} />
-      <ProfilePost username={username} />
+      <ProfileAbout username={username} />
     </DefaultLayout>
   );
 };
 
-export default ProfilePage;
+export default ProfileAboutPage;

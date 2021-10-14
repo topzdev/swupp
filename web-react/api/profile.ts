@@ -34,16 +34,42 @@ type GetProfilePostReturn = {
   items: ProfilePost[];
 };
 
+type ProfileAbout = Pick<
+  UserProfile,
+  | "birthdate"
+  | "lastname"
+  | "fbUrl"
+  | "instaUrl"
+  | "twitterUrl"
+  | "websiteUrl"
+  | "firstname"
+> &
+  DataTimestamp &
+  Pick<User, "email" | "phoneNumber" | "username" | "id"> & {
+    profilePhotoId: number;
+    coverPhotoId: number;
+    userId: User["id"];
+  };
+
+type GetProfileAboutReturn = {
+  overview: Pick<
+    ProfileAbout,
+    "email" | "phoneNumber" | "username" | "birthdate"
+  >;
+  socials: Pick<
+    ProfileAbout,
+    "fbUrl" | "instaUrl" | "websiteUrl" | "twitterUrl"
+  >;
+};
+
 const profileAPI = {
   async getProfile(username: string): Promise<GetProfileReturn> {
     const response = await axios.get("/api/v1/profile/get/" + username);
 
     return response.data;
   },
-  async getProfileAbout(params: any) {
-    const data = await axios.get(
-      "/api/v1/profile/get/about/" + params.username
-    );
+  async getProfileAbout(username: string): Promise<GetProfileAboutReturn> {
+    const response = await axios.get("/api/v1/profile/get/about/" + username);
 
     const {
       fbUrl,
@@ -53,8 +79,7 @@ const profileAPI = {
       birthdate,
       email,
       phoneNumber,
-      username,
-    } = data as any;
+    } = response.data as ProfileAbout;
 
     const about = {
       overview: {

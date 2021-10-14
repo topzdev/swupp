@@ -3,7 +3,9 @@ import profileAPI from "../../api/profile";
 import { useAuthContext } from "../../context/AuthContext";
 
 const useProfile = (username) => {
-  const response = useQuery("profile", () => profileAPI.getProfile(username));
+  const response = useQuery(`profile-${username}`, () =>
+    profileAPI.getProfile(username)
+  );
 
   return { response };
 };

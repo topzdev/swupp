@@ -1,6 +1,8 @@
 import React from "react";
 import { PlusIcon } from "../../../../configs/Icons";
+import { useAuthContext } from "../../../../context/AuthContext";
 import useProfilePost from "../../../../hooks/profile/useProfilePost";
+import AppError from "../../../app/AppError";
 import Button from "../../../buttons/Button";
 import PostCard from "../../../post/PostCard";
 
@@ -9,6 +11,8 @@ interface ProfilePostProps {
 }
 
 const ProfilePost: React.FC<ProfilePostProps> = ({ username }) => {
+  const { user } = useAuthContext();
+
   const response = useProfilePost(username);
 
   //   console.log(posts);
@@ -17,7 +21,13 @@ const ProfilePost: React.FC<ProfilePostProps> = ({ username }) => {
 
   const posts = response.data;
 
-  if (posts.count === 0) return <div>No Post Yet</div>;
+  if (posts.count === 0) {
+    if (user.username === username) {
+      return <AppError error="me-no-post" />;
+    }
+
+    return <AppError error="user-no-post" />;
+  }
 
   return (
     <div className="container mt-3 pb-5">
